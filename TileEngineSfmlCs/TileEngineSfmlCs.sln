@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileEngineSfmlCs", "TileEngineSfmlCs\TileEngineSfmlCs.csproj", "{0080DC99-6FBF-4773-9794-D5F6ABC324BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileEngineSfmlCsClient", "TileEngineSfmlCsClient\TileEngineSfmlCsClient.csproj", "{4C32190B-1EF7-4504-9EDA-82926CA6B0AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileEngineSfmlCsTests", "TileEngineSfmlCsTests\TileEngineSfmlCsTests.csproj", "{4AEA63C1-CC11-47C5-9EFB-4D7F02CEDB9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileEngineSfmlMapEditor", "TileEngineSfmlMapEditor\TileEngineSfmlMapEditor.csproj", "{C98B0EB0-1621-4346-912D-921F6770C6A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{68E6B44D-5412-4240-9A91-D7682AD02B1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{800547BF-A4E2-4D3D-9BC8-1B28FD988A8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourcesManager", "ResourcesManager\ResourcesManager.csproj", "{FB09D966-2388-4702-95CB-C034A613FAF6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0080DC99-6FBF-4773-9794-D5F6ABC324BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0080DC99-6FBF-4773-9794-D5F6ABC324BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0080DC99-6FBF-4773-9794-D5F6ABC324BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0080DC99-6FBF-4773-9794-D5F6ABC324BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C32190B-1EF7-4504-9EDA-82926CA6B0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C32190B-1EF7-4504-9EDA-82926CA6B0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C32190B-1EF7-4504-9EDA-82926CA6B0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C32190B-1EF7-4504-9EDA-82926CA6B0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEA63C1-CC11-47C5-9EFB-4D7F02CEDB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AEA63C1-CC11-47C5-9EFB-4D7F02CEDB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AEA63C1-CC11-47C5-9EFB-4D7F02CEDB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEA63C1-CC11-47C5-9EFB-4D7F02CEDB9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C98B0EB0-1621-4346-912D-921F6770C6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C98B0EB0-1621-4346-912D-921F6770C6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C98B0EB0-1621-4346-912D-921F6770C6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C98B0EB0-1621-4346-912D-921F6770C6A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB09D966-2388-4702-95CB-C034A613FAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB09D966-2388-4702-95CB-C034A613FAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB09D966-2388-4702-95CB-C034A613FAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB09D966-2388-4702-95CB-C034A613FAF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4AEA63C1-CC11-47C5-9EFB-4D7F02CEDB9A} = {68E6B44D-5412-4240-9A91-D7682AD02B1E}
+		{C98B0EB0-1621-4346-912D-921F6770C6A2} = {68E6B44D-5412-4240-9A91-D7682AD02B1E}
+		{FB09D966-2388-4702-95CB-C034A613FAF6} = {800547BF-A4E2-4D3D-9BC8-1B28FD988A8D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BF8EEBC-B1FC-431C-9A68-2118283A2A95}
+	EndGlobalSection
+EndGlobal
