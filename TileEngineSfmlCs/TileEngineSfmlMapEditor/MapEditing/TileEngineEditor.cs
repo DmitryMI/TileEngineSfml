@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using ResourcesManager;
 using ResourcesManager.ResourceTypes;
@@ -34,20 +35,49 @@ namespace TileEngineSfmlMapEditor.MapEditing
         public bool ShowGrid { get; set; }
         public float GridThickness { get; set; }
 
-        public void SelectRect(int pixelXLeft, int pixelYBottom, int width, int height)
+        private CellRect GetCellRect(int pixelXLeft, int pixelYBottom, int width, int height)
         {
+            pixelXLeft += 16;
+            pixelYBottom += 16;
+
             Vector2i pixelPosition = new Vector2i(pixelXLeft, pixelYBottom);
             Vector2f sfmlPosition = _renderReceiver.PixelToSfml(pixelPosition);
             Vector2Int cellStart = SfmlToWorld(sfmlPosition);
 
-            int widthCount = (int) Math.Ceiling(width / 32.0f);
+            int widthCount = (int)Math.Ceiling(width / 32.0f);
             int heightCount = (int)Math.Ceiling(height / 32.0f);
 
-            for (int i = 0; i < widthCount; i++)
+            return new CellRect(cellStart.X, cellStart.Y, widthCount, heightCount);
+        }
+
+        public void SelectRect(int pixelXLeft, int pixelYBottom, int width, int height)
+        {
+            CellRect cellRect = GetCellRect(pixelXLeft, pixelYBottom, width, height);
+
+            for (int i = 0; i < cellRect.Width; i++)
             {
-                for (int j = 0; j < heightCount; j++)
+                for (int j = 0; j < cellRect.Height; j++)
                 {
-                    _selectedCells.Add(new Vector2Int(cellStart.X + i, cellStart.Y + j));
+                    Vector2Int cell = new Vector2Int(cellRect.XLeft + i, cellRect.YBottom + j);
+                    if (!_selectedCells.Contains(cell))
+                    {
+                        _selectedCells.Add(cell);
+                    }
+                }
+            }
+        }
+
+        public void HighlightRect(int pixelXLeft, int pixelYBottom, int width, int height)
+        {
+            CellRect cellRect = GetCellRect(pixelXLeft, pixelYBottom, width, height);
+
+            for (int i = 0; i < cellRect.Width; i++)
+            {
+                for (int j = 0; j < cellRect.Height; j++)
+                {
+                    Vector2Int cell = new Vector2Int(cellRect.XLeft + i, cellRect.YBottom + j);
+                    Color color = new Color(0, 0, 255, 50);
+                    DrawColorRect(cell, color);
                 }
             }
         }

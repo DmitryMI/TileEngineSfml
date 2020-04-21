@@ -24,7 +24,7 @@ namespace TileEngineSfmlMapEditor
         private TreeNode<Type> _typeTreeNode;
 
         private Point? _firstSelectionPoint;
-        private Point _lastMousePosition;
+        private Point? _lastMousePosition;
 
         public MapViewForm()
         {
@@ -133,8 +133,10 @@ namespace TileEngineSfmlMapEditor
         private void MainTimer_Tick(object sender, EventArgs e)
         {
             _editor?.Update();
-            _editor?.HighlightContainingCell(_lastMousePosition.X, _lastMousePosition.Y);
+            if (_lastMousePosition != null)
+                _editor?.HighlightContainingCell(_lastMousePosition.Value.X, _lastMousePosition.Value.Y);
             RenderingCanvas?.UpdateGraphics();
+            HighlightSelectionRect();
         }
 
         private void OnMouseGrab(float dx, float dy)
@@ -214,6 +216,36 @@ namespace TileEngineSfmlMapEditor
             }
         }
 
+        private void HighlightSelectionRect()
+        {
+            if (_firstSelectionPoint != null && _lastMousePosition != null)
+            {
+                int firstX = _firstSelectionPoint.Value.X;
+                int firstY = _firstSelectionPoint.Value.Y;
+                int lastX = _lastMousePosition.Value.X;
+                int lastY = _lastMousePosition.Value.Y;
+
+                if (firstX > lastX)
+                {
+                    int t = lastX;
+                    lastX = firstX;
+                    firstX = t;
+                }
+                if (firstY > lastY)
+                {
+                    int t = lastY;
+                    lastY = firstY;
+                    firstY = t;
+                }
+
+                int deltaX = lastX - firstX;
+                int deltaY = lastY - firstY;
+
+                _editor.HighlightRect(firstX, firstY, deltaX, deltaY);
+
+            }
+        }
+
         private void RenderingCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             _lastMousePosition = new Point(e.X, e.Y);
@@ -243,14 +275,19 @@ namespace TileEngineSfmlMapEditor
             _firstSelectionPoint = new Point(e.X, e.Y);
         }
 
+        
         private void RenderingCanvas_MouseUp(object sender, MouseEventArgs e)
         {
-            if(_firstSelectionPoint == null)
+            Point? firstSelectionPoint = _firstSelectionPoint;
+
+            _firstSelectionPoint = null;
+            _lastMousePosition = null;
+
+            if (firstSelectionPoint == null)
                 return;
 
             if (e.Button == MouseButtons.Right)
             {
-                _firstSelectionPoint = null;
                 _editor.ClearSelection();
                 return;
             }
@@ -260,8 +297,8 @@ namespace TileEngineSfmlMapEditor
                 return;
             }
 
-            int firstX = _firstSelectionPoint.Value.X;
-            int firstY = _firstSelectionPoint.Value.Y;
+            int firstX = firstSelectionPoint.Value.X;
+            int firstY = firstSelectionPoint.Value.Y;
             int lastX = e.X;
             int lastY = e.Y;
 

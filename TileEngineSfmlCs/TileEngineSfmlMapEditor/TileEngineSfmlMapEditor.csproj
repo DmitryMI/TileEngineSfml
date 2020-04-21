@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MapEditing\CellRect.cs" />
     <Compile Include="MapEditing\IRenderReceiver.cs" />
     <Compile Include="MapEditing\SimpleTurf.cs" />
     <Compile Include="MapEditing\TileEngineEditor.cs" />
