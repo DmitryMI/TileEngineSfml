@@ -4,15 +4,15 @@
     {
         public int XLeft { get; set; }
         public int YBottom { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int XRight { get; set; }
+        public int YTop { get; set; }
 
-        public CellRect(int x, int y, int w, int h)
+        public CellRect(int x0, int y0, int x1, int y1)
         {
-            XLeft = x;
-            YBottom = y;
-            Width = w;
-            Height = h;
+            XLeft = x0;
+            YBottom = y0;
+            XRight = x1;
+            YTop = y1;
         }
     }
 }

@@ -223,67 +223,57 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         #region Utils
 
-        private CellRect GetCellRect(int pixelXLeft, int pixelYBottom, int width, int height)
+        private void ForeachCell(CellRect rect, Action<Vector2Int> action)
         {
-            pixelXLeft += 16;
-            pixelYBottom += 16;
-            Vector2Int cellStart = GetContainingCell(pixelXLeft, pixelYBottom);
-
-            int widthCount = (int)Math.Ceiling(width / 32.0f);
-            int heightCount = (int)Math.Ceiling(height / 32.0f);
-
-            return new CellRect(cellStart.X, cellStart.Y, widthCount, heightCount);
+            for (int x = rect.XLeft; x <= rect.XRight; x++)
+            {
+                for (int y = rect.YBottom; y <= rect.YTop; y++)
+                {
+                    action?.Invoke(new Vector2Int(x, y));
+                }
+            }
         }
-
+        
         #endregion
 
         #region CellSelecting
 
         public Color SelectionColor { get; set; }
 
+        public void SelectCell(Vector2Int cell)
+        {
+            if (!_selectedCells.Contains(cell))
+            {
+                _selectedCells.Add(cell);
+            }
+        }
+
         public void ClearSelection()
         {
             _selectedCells.Clear();
         }
 
-        public void SelectRectBySize(int pixelXLeft, int pixelYBottom, int width, int height)
+        public void HighlightRect(CellRect rect)
         {
-            CellRect cellRect = GetCellRect(pixelXLeft, pixelYBottom, width, height);
-
-            for (int i = 0; i < cellRect.Width; i++)
-            {
-                for (int j = 0; j < cellRect.Height; j++)
-                {
-                    Vector2Int cell = new Vector2Int(cellRect.XLeft + i, cellRect.YBottom + j);
-                    if (!_selectedCells.Contains(cell))
-                    {
-                        _selectedCells.Add(cell);
-                    }
-                }
-            }
+            ForeachCell(rect, HighlightCell);
         }
 
-        public void HighlightRect(int pixelXLeft, int pixelYBottom, int width, int height)
+        public void SelectRect(CellRect rect)
         {
-            CellRect cellRect = GetCellRect(pixelXLeft, pixelYBottom, width, height);
+            ForeachCell(rect, SelectCell);
+        }
 
-            for (int i = 0; i < cellRect.Width; i++)
-            {
-                for (int j = 0; j < cellRect.Height; j++)
-                {
-                    Vector2Int cell = new Vector2Int(cellRect.XLeft + i, cellRect.YBottom + j);
-                    Color color = new Color(0, 0, 255, 50);
-                    DrawColorRect(cell, color);
-                }
-            }
+        public void HighlightCell(Vector2Int cell)
+        {
+            Color color = new Color(0, 0, 255, 50);
+            DrawColorRect(cell, color);
         }
 
         public void HighlightContainingCell(int pixelX, int pixelY)
         {
-            Vector2Int cellStart = GetContainingCell(pixelX, pixelY);
+            Vector2Int cellStart = GetPosition(pixelX, pixelY);
 
-            Color color = new Color(0, 0, 255, 50);
-            DrawColorRect(cellStart, color);
+            HighlightCell(cellStart);
         }
 
         #endregion
@@ -296,7 +286,14 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         #region Transformations
 
-        public Vector2Int GetContainingCell(int pixelX, int pixelY)
+        public CellRect GetCellRect(int x0, int y0, int x1, int y1)
+        {
+            Vector2Int cell0 = GetPosition(x0, y0);
+            Vector2Int cell1 = GetPosition(x1, y1);
+            return new CellRect(cell0.X, cell0.Y, cell1.X, cell1.Y);
+        }
+
+        public Vector2Int GetPosition(int pixelX, int pixelY)
         {
             Vector2i pixelPosition = new Vector2i(pixelX, pixelY);
             Vector2f sfmlPosition = _renderReceiver.PixelToSfml(pixelPosition);

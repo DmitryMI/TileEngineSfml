@@ -245,11 +245,7 @@ namespace TileEngineSfmlMapEditor
                     lastY = firstY;
                     firstY = t;
                 }
-
-                int deltaX = lastX - firstX;
-                int deltaY = lastY - firstY;
-
-                _editor?.HighlightRect(firstX, firstY, deltaX, deltaY);
+                _editor.HighlightRect(_editor.GetCellRect(firstX, firstY, lastX, lastY));
             }
         }
 
@@ -271,8 +267,8 @@ namespace TileEngineSfmlMapEditor
             {
                 return;
             }
-            
 
+            //_editor.GetPositionWithOffset();
         }
 
         private void showGridToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -334,10 +330,7 @@ namespace TileEngineSfmlMapEditor
                 firstY = t;
             }
 
-            int deltaX = lastX - firstX;
-            int deltaY = lastY - firstY;
-
-            _editor.SelectRectBySize(firstX, firstY, deltaX, deltaY);
+            _editor.SelectRect(_editor.GetCellRect(firstX, firstY, lastX, lastY));
         }
     }
 }
