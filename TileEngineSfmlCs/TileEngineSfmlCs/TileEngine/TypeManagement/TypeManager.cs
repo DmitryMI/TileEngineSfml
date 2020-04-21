@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TileEngineSfmlMapEditor.MapEditing;
+using TileEngineSfmlCs.TileEngine.TileObjects;
 
 namespace TileEngineSfmlCs.TileEngine.TypeManagement
 {
@@ -46,15 +46,14 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
                         select assemblyType;
             _tileObjectDerivatives = types.ToArray();
 
-            TreeNode<Type> typeTree = new TreeNode<Type>(typeof(TileObject));
-            ProcessType(typeof(TileObject), typeTree);
+            TreeNode<Type> typeTree = ProcessType(typeof(TileObject));
+
             return typeTree;
         }
 
-        private void ProcessType(Type currentType, TreeNode<Type> parentNode)
+        private TreeNode<Type> ProcessType(Type currentType)
         {
             TreeNode<Type> node = new TreeNode<Type>(currentType);
-            parentNode.Add(node);
 
             var derivatives = from assemblyType in _tileObjectDerivatives
                 where assemblyType.BaseType == currentType && assemblyType != currentType
@@ -62,10 +61,12 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
 
             foreach (var derivative in derivatives)
             {
-                ProcessType(derivative, node);
+                var childNode = ProcessType(derivative);
+                node.Add(childNode);
             }
             
             node.Sort(this);
+            return node;
         }
 
         public int Compare(Type x, Type y)

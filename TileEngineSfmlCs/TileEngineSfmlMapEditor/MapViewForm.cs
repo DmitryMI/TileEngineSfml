@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using SFML.System;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
+using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlMapEditor.MapEditing;
@@ -38,7 +39,7 @@ namespace TileEngineSfmlMapEditor
                 TypeManager.Instance = new TypeManager();
             }
 
-            _typeTreeNode = TypeManager.Instance.TreeRoot[0];
+            _typeTreeNode = TypeManager.Instance.TreeRoot;
             UpdateTypeList();
         }
 
@@ -127,12 +128,12 @@ namespace TileEngineSfmlMapEditor
 
         private void UpdateImage()
         {
-            _editor?.Update();
+            _editor?.UpdateGraphics();
         }
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
-            _editor?.Update();
+            _editor?.UpdateGraphics();
             if (_lastMousePosition != null)
                 _editor?.HighlightContainingCell(_lastMousePosition.Value.X, _lastMousePosition.Value.Y);
             RenderingCanvas?.UpdateGraphics();
@@ -172,10 +173,17 @@ namespace TileEngineSfmlMapEditor
                 item.Text = type.Name;
                 TileObjectsListView.Items.Add(item);
             }
+
+            string path = TreeNode<Type>.GetPath(_typeTreeNode, t => t.Name);
+            TypePathLabel.Text = path;
         }
 
         private Type GetSelectedTileObject()
         {
+            if (TileObjectsListView.SelectedItems.Count == 0)
+            {
+                return null;
+            }
             ListViewItem activatedItem = TileObjectsListView.SelectedItems[0];
             string itemTypeName = activatedItem.Text;
 
@@ -199,7 +207,7 @@ namespace TileEngineSfmlMapEditor
                 if (_typeTreeNode.ParentNode != null)
                 {
                     _typeTreeNode = _typeTreeNode.ParentNode;
-
+                    UpdateTypeList();
                 }
 
                 return;
@@ -241,18 +249,29 @@ namespace TileEngineSfmlMapEditor
                 int deltaX = lastX - firstX;
                 int deltaY = lastY - firstY;
 
-                _editor.HighlightRect(firstX, firstY, deltaX, deltaY);
-
+                _editor?.HighlightRect(firstX, firstY, deltaX, deltaY);
             }
         }
 
         private void RenderingCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             _lastMousePosition = new Point(e.X, e.Y);
+
+            if (_editor != null)
+            {
+                _editor.GetPositionWithOffset(e.X, e.Y, out var cell, out var offset);
+                CoordinateLabel.Text = $@"({cell.X}, {cell.Y}) : ({offset.X:0.00}, {offset.Y:0.00})";
+            }
         }
 
         private void RenderingCanvas_MouseClick(object sender, MouseEventArgs e)
         {
+            Type selectedObjectType = SelectedTileObject;
+            if (selectedObjectType == null)
+            {
+                return;
+            }
+            
 
         }
 
@@ -318,7 +337,7 @@ namespace TileEngineSfmlMapEditor
             int deltaX = lastX - firstX;
             int deltaY = lastY - firstY;
 
-            _editor.SelectRect(firstX, firstY, deltaX, deltaY);
+            _editor.SelectRectBySize(firstX, firstY, deltaX, deltaY);
         }
     }
 }

@@ -1,13 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ResourcesManager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ResourcesManager.ResourceTypes;
 
-namespace ResourcesManager.Tests
+namespace TileEngineSfmlCsTests
 {
     [TestClass()]
     public class ResourcesTests

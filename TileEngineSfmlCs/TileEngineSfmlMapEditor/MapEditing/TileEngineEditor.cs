@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using ResourcesManager;
 using ResourcesManager.ResourceTypes;
 using SFML.Graphics;
 using SFML.System;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
+using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
 
@@ -23,80 +25,30 @@ namespace TileEngineSfmlMapEditor.MapEditing
         private TypeManager _typeManager;
         private List<Vector2Int> _selectedCells = new List<Vector2Int>();
 
+        #region Initialization
+
+        private Texture GetTexture(int resourceId)
+        {
+            ResourceEntry resourceEntry = ResourcesManager.GameResources.Instance.GetEntry(resourceId);
+            if (resourceEntry.LoadedValue == null)
+            {
+                FileStream fs = ResourcesManager.GameResources.Instance.GetFileStream(resourceEntry);
+                byte[] data = new byte[fs.Length];
+                fs.Read(data, 0, data.Length);
+                fs.Close();
+                fs.Dispose();
+                Texture texture = new Texture(data);
+                resourceEntry.LoadedValue = texture;
+            }
+
+            return (Texture)resourceEntry.LoadedValue;
+        }
+
         private void LoadResources()
         {
             string resourcesPath = Path.Combine(Environment.CurrentDirectory, "Resources");
             _resources = new GameResources(resourcesPath);
             GameResources.Instance = _resources;
-        }
-
-        public TreeNode<Type> TypeTreeRoot => TypeManager.Instance.TreeRoot;
-
-        public bool ShowGrid { get; set; }
-        public float GridThickness { get; set; }
-
-        private CellRect GetCellRect(int pixelXLeft, int pixelYBottom, int width, int height)
-        {
-            pixelXLeft += 16;
-            pixelYBottom += 16;
-
-            Vector2i pixelPosition = new Vector2i(pixelXLeft, pixelYBottom);
-            Vector2f sfmlPosition = _renderReceiver.PixelToSfml(pixelPosition);
-            Vector2Int cellStart = SfmlToWorld(sfmlPosition);
-
-            int widthCount = (int)Math.Ceiling(width / 32.0f);
-            int heightCount = (int)Math.Ceiling(height / 32.0f);
-
-            return new CellRect(cellStart.X, cellStart.Y, widthCount, heightCount);
-        }
-
-        public void SelectRect(int pixelXLeft, int pixelYBottom, int width, int height)
-        {
-            CellRect cellRect = GetCellRect(pixelXLeft, pixelYBottom, width, height);
-
-            for (int i = 0; i < cellRect.Width; i++)
-            {
-                for (int j = 0; j < cellRect.Height; j++)
-                {
-                    Vector2Int cell = new Vector2Int(cellRect.XLeft + i, cellRect.YBottom + j);
-                    if (!_selectedCells.Contains(cell))
-                    {
-                        _selectedCells.Add(cell);
-                    }
-                }
-            }
-        }
-
-        public void HighlightRect(int pixelXLeft, int pixelYBottom, int width, int height)
-        {
-            CellRect cellRect = GetCellRect(pixelXLeft, pixelYBottom, width, height);
-
-            for (int i = 0; i < cellRect.Width; i++)
-            {
-                for (int j = 0; j < cellRect.Height; j++)
-                {
-                    Vector2Int cell = new Vector2Int(cellRect.XLeft + i, cellRect.YBottom + j);
-                    Color color = new Color(0, 0, 255, 50);
-                    DrawColorRect(cell, color);
-                }
-            }
-        }
-
-        public void HighlightContainingCell(int pixelX, int pixelY)
-        {
-            Vector2i pixelPosition = new Vector2i(pixelX, pixelY);
-            Vector2f sfmlPosition = _renderReceiver.PixelToSfml(pixelPosition);
-            Vector2Int cellStart = SfmlToWorld(sfmlPosition);
-
-            Color color = new Color(0, 0, 255, 50);
-            DrawColorRect(cellStart, color);
-        }
-
-        public Color SelectionColor { get; set; }
-
-        public void ClearSelection()
-        {
-            _selectedCells.Clear();
         }
 
         private void InitializeFields()
@@ -123,7 +75,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
             InitializeFields();
         }
 
-        
+
 
         public TileEngineEditor(int width, int height, IRenderReceiver renderReceiver)
         {
@@ -148,67 +100,10 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
-        public void SaveScene(Stream serializationStream)
-        {
-            Serializer.SerializeScene(_scene, serializationStream);
-        }
 
-        public Vector2 CameraPosition
-        {
-            get => _cameraPosition;
-            set
-            {
-                _cameraPosition = value;
-                Update();
-            }
-        }
+        #endregion
 
-        private Texture GetTexture(int resourceId)
-        {
-            ResourceEntry resourceEntry = ResourcesManager.GameResources.Instance.GetEntry(resourceId);
-            if (resourceEntry.LoadedValue == null)
-            {
-                FileStream fs = ResourcesManager.GameResources.Instance.GetFileStream(resourceEntry);
-                byte[] data = new byte[fs.Length];
-                fs.Read(data, 0, data.Length);
-                fs.Close();
-                fs.Dispose();
-                Texture texture = new Texture(data);
-                resourceEntry.LoadedValue = texture;
-            }
-
-            return (Texture)resourceEntry.LoadedValue;
-        }
-
-        private Vector2f WorldToSfml(Vector2Int cell)
-        {
-            Vector2 shifted = cell - CameraPosition;
-            float shiftX = _renderReceiver.RenderView.Size.X / 2;
-            float shiftY = _renderReceiver.RenderView.Size.Y / 2;
-            float spriteSizeShiftX = -16;
-            float spriteSizeShiftY = -16;
-            float x = shifted.X * 32 + shiftX + spriteSizeShiftX;
-            float y = shifted.Y * 32 + shiftY + spriteSizeShiftY;
-            return new Vector2f(x, y);
-        }
-
-        private Vector2Int SfmlToWorld(Vector2f pos)
-        {
-            float shiftX = _renderReceiver.RenderView.Size.X / 2;
-            float shiftY = _renderReceiver.RenderView.Size.Y / 2;
-            //float spriteSizeShiftX = +16;
-            //float spriteSizeShiftY = +16;
-            float spriteSizeShiftX = 0;
-            float spriteSizeShiftY = 0;
-
-            float shiftedX = (pos.X - spriteSizeShiftX - shiftX) / 32;
-            float shiftedY = (pos.Y - spriteSizeShiftY - shiftY) / 32;
-            Vector2 cellFloat = new Vector2(shiftedX, shiftedY) + CameraPosition;
-
-            int xCell = (int) Math.Round(cellFloat.X);
-            int yCell = (int) Math.Round(cellFloat.Y);
-            return new Vector2Int(xCell, yCell);
-        }
+        #region Drawing
 
         private void DrawSpriteSetting(SpriteSettings spriteSettings, Vector2f position)
         {
@@ -248,13 +143,6 @@ namespace TileEngineSfmlMapEditor.MapEditing
             _renderReceiver.DrawSprite(cellShape);
         }
 
-        private Vector2Int GetViewportSize()
-        {
-            float pixelWidth = _renderReceiver.RenderView.Size.X;
-            float pixelHeight = _renderReceiver.RenderView.Size.Y;
-            return new Vector2Int((int)(pixelWidth / 32), (int)(pixelHeight / 32));
-        }
-
         private void DrawGridCell(float leftX, float bottomY, float width, float height)
         {
             Shape shape = new RectangleShape(new Vector2f(width, height));
@@ -264,6 +152,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
             shape.OutlineThickness = GridThickness;
             _renderReceiver.DrawSprite(shape);
         }
+
 
         private void DrawGrid(int minX, int maxX, int minY, int maxY)
         {
@@ -287,11 +176,11 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
-        public void Update()
+        public void UpdateGraphics()
         {
             Vector2Int viewportSize = GetViewportSize();
 
-            int minX =(int) Math.Floor(-viewportSize.X / 2.0f + _cameraPosition.X);
+            int minX = (int)Math.Floor(-viewportSize.X / 2.0f + _cameraPosition.X);
             int maxX = (int)Math.Ceiling(viewportSize.X / 2.0f + _cameraPosition.X) + 1;
             int minY = (int)Math.Floor(-viewportSize.Y / 2.0f + _cameraPosition.Y);
             int maxY = (int)Math.Ceiling(viewportSize.Y / 2.0f + _cameraPosition.Y) + 1;
@@ -318,7 +207,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
             {
                 for (int y = minY; y < maxY; y++)
                 {
-                   DrawCellObjects(new Vector2Int(x, y));
+                    DrawCellObjects(new Vector2Int(x, y));
                 }
             }
 
@@ -329,5 +218,194 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 DrawGrid(minX, maxX, minY, maxY);
             }
         }
+
+        #endregion
+
+        #region Utils
+
+        private CellRect GetCellRect(int pixelXLeft, int pixelYBottom, int width, int height)
+        {
+            pixelXLeft += 16;
+            pixelYBottom += 16;
+            Vector2Int cellStart = GetContainingCell(pixelXLeft, pixelYBottom);
+
+            int widthCount = (int)Math.Ceiling(width / 32.0f);
+            int heightCount = (int)Math.Ceiling(height / 32.0f);
+
+            return new CellRect(cellStart.X, cellStart.Y, widthCount, heightCount);
+        }
+
+        #endregion
+
+        #region CellSelecting
+
+        public Color SelectionColor { get; set; }
+
+        public void ClearSelection()
+        {
+            _selectedCells.Clear();
+        }
+
+        public void SelectRectBySize(int pixelXLeft, int pixelYBottom, int width, int height)
+        {
+            CellRect cellRect = GetCellRect(pixelXLeft, pixelYBottom, width, height);
+
+            for (int i = 0; i < cellRect.Width; i++)
+            {
+                for (int j = 0; j < cellRect.Height; j++)
+                {
+                    Vector2Int cell = new Vector2Int(cellRect.XLeft + i, cellRect.YBottom + j);
+                    if (!_selectedCells.Contains(cell))
+                    {
+                        _selectedCells.Add(cell);
+                    }
+                }
+            }
+        }
+
+        public void HighlightRect(int pixelXLeft, int pixelYBottom, int width, int height)
+        {
+            CellRect cellRect = GetCellRect(pixelXLeft, pixelYBottom, width, height);
+
+            for (int i = 0; i < cellRect.Width; i++)
+            {
+                for (int j = 0; j < cellRect.Height; j++)
+                {
+                    Vector2Int cell = new Vector2Int(cellRect.XLeft + i, cellRect.YBottom + j);
+                    Color color = new Color(0, 0, 255, 50);
+                    DrawColorRect(cell, color);
+                }
+            }
+        }
+
+        public void HighlightContainingCell(int pixelX, int pixelY)
+        {
+            Vector2Int cellStart = GetContainingCell(pixelX, pixelY);
+
+            Color color = new Color(0, 0, 255, 50);
+            DrawColorRect(cellStart, color);
+        }
+
+        #endregion
+
+        #region Grid
+        public bool ShowGrid { get; set; }
+        public float GridThickness { get; set; }
+
+        #endregion
+
+        #region Transformations
+
+        public Vector2Int GetContainingCell(int pixelX, int pixelY)
+        {
+            Vector2i pixelPosition = new Vector2i(pixelX, pixelY);
+            Vector2f sfmlPosition = _renderReceiver.PixelToSfml(pixelPosition);
+            Vector2Int cell = SfmlToWorld(sfmlPosition);
+            return cell;
+        }
+
+        public void GetPositionWithOffset(int pixelX, int pixelY, out Vector2Int cell, out Vector2 offset)
+        {
+            Vector2i pixelPosition = new Vector2i(pixelX, pixelY);
+            Vector2f sfmlPosition = _renderReceiver.PixelToSfml(pixelPosition);
+            SfmlToWorld(sfmlPosition, out cell, out offset);
+        }
+
+        private Vector2f WorldToSfml(Vector2Int cell)
+        {
+            Vector2 shifted = cell - CameraPosition;
+            float shiftX = _renderReceiver.RenderView.Size.X / 2;
+            float shiftY = _renderReceiver.RenderView.Size.Y / 2;
+            float spriteSizeShiftX = -16;
+            float spriteSizeShiftY = -16;
+            float x = shifted.X * 32 + shiftX + spriteSizeShiftX;
+            float y = shifted.Y * 32 + shiftY + spriteSizeShiftY;
+            return new Vector2f(x, y);
+        }
+
+        private Vector2Int SfmlToWorld(Vector2f pos)
+        {
+            float shiftX = _renderReceiver.RenderView.Size.X / 2;
+            float shiftY = _renderReceiver.RenderView.Size.Y / 2;
+            //float spriteSizeShiftX = +16;
+            //float spriteSizeShiftY = +16;
+            float spriteSizeShiftX = 0;
+            float spriteSizeShiftY = 0;
+
+            float shiftedX = (pos.X - spriteSizeShiftX - shiftX) / 32;
+            float shiftedY = (pos.Y - spriteSizeShiftY - shiftY) / 32;
+            Vector2 cellFloat = new Vector2(shiftedX, shiftedY) + CameraPosition;
+
+            int xCell = (int)Math.Round(cellFloat.X);
+            int yCell = (int)Math.Round(cellFloat.Y);
+            return new Vector2Int(xCell, yCell);
+        }
+
+        private void SfmlToWorld(Vector2f pos, out Vector2Int cell, out Vector2 offset)
+        {
+            float shiftX = _renderReceiver.RenderView.Size.X / 2;
+            float shiftY = _renderReceiver.RenderView.Size.Y / 2;
+            //float spriteSizeShiftX = +16;
+            //float spriteSizeShiftY = +16;
+            float spriteSizeShiftX = 0;
+            float spriteSizeShiftY = 0;
+
+            float shiftedX = (pos.X - spriteSizeShiftX - shiftX) / 32;
+            float shiftedY = (pos.Y - spriteSizeShiftY - shiftY) / 32;
+            Vector2 cellFloat = new Vector2(shiftedX, shiftedY) + CameraPosition;
+
+            int xCell = (int)Math.Round(cellFloat.X);
+            int yCell = (int)Math.Round(cellFloat.Y);
+            float xOffset = cellFloat.X - xCell;
+            float yOffset = cellFloat.Y - yCell;
+            cell = new Vector2Int(xCell, yCell);
+            offset = new Vector2(xOffset, yOffset);
+        }
+
+        private Vector2Int GetViewportSize()
+        {
+            float pixelWidth = _renderReceiver.RenderView.Size.X;
+            float pixelHeight = _renderReceiver.RenderView.Size.Y;
+            return new Vector2Int((int)(pixelWidth / 32), (int)(pixelHeight / 32));
+        }
+
+        #endregion
+
+        #region MapEditor
+
+        public TreeNode<Type> TypeTreeRoot => TypeManager.Instance.TreeRoot;
+
+        public void SaveScene(Stream serializationStream)
+        {
+            Serializer.SerializeScene(_scene, serializationStream);
+        }
+
+        public Vector2 CameraPosition
+        {
+            get => _cameraPosition;
+            set
+            {
+                _cameraPosition = value;
+                UpdateGraphics();
+            }
+        }
+
+        public void InsertTileObject(Type tileObjectType, Vector2Int cell, Vector2 offset)
+        {
+            bool isImplementation = !tileObjectType.IsAbstract;
+            bool isTileObject = tileObjectType.IsAssignableFrom(typeof(TileObject));
+            bool hasParameterlessConstructor = tileObjectType.GetConstructors().Any(c => c.GetParameters().Length == 0);
+            if (isTileObject && hasParameterlessConstructor && isImplementation)
+            {
+                TileObject instance = (TileObject)Activator.CreateInstance(tileObjectType);
+                instance.Position = cell;
+                instance.Offset = offset;
+                _scene.Instantiate(instance);
+            }
+        }
+
+        #endregion
+
+
     }
 }

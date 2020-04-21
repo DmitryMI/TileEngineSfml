@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace TileEngineSfmlMapEditor.MapEditing
+namespace TileEngineSfmlCs.TileEngine.TypeManagement
 {
     public class TreeNode<T> : IList<TreeNode<T>>
     {
@@ -134,6 +132,22 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
                 return _dataComparer.Compare(xData, yData);
             }
+        }
+
+        public static string GetPath(TreeNode<T> node, Func<T, string> stringifyFunc)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("/");
+
+            TreeNode<T> currentNode = node;
+            while (currentNode != null)
+            {
+                builder.Insert(0, stringifyFunc(currentNode.Data));
+                builder.Insert(0, '/');
+                currentNode = currentNode.ParentNode;
+            }
+
+            return builder.ToString();
         }
     }
 }

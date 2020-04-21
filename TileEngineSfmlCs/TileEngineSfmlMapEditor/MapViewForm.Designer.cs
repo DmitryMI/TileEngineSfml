@@ -41,6 +41,7 @@
             this.TileObjectsListView = new System.Windows.Forms.ListView();
             this.TileObjectsSearchBox = new System.Windows.Forms.TextBox();
             this.TypePathLabel = new System.Windows.Forms.Label();
+            this.CoordinateLabel = new System.Windows.Forms.Label();
             this.RenderingCanvas = new TileEngineSfmlMapEditor.SfmlRenderControl();
             this.MainMenyStrip.SuspendLayout();
             this.SuspendLayout();
@@ -147,6 +148,15 @@
             this.TypePathLabel.TabIndex = 5;
             this.TypePathLabel.Text = "/";
             // 
+            // CoordinateLabel
+            // 
+            this.CoordinateLabel.Location = new System.Drawing.Point(987, 9);
+            this.CoordinateLabel.Name = "CoordinateLabel";
+            this.CoordinateLabel.Size = new System.Drawing.Size(183, 13);
+            this.CoordinateLabel.TabIndex = 6;
+            this.CoordinateLabel.Text = "(X, Y) : (x, y)";
+            this.CoordinateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // RenderingCanvas
             // 
             this.RenderingCanvas.BackColor = System.Drawing.Color.White;
@@ -165,6 +175,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1182, 580);
+            this.Controls.Add(this.CoordinateLabel);
             this.Controls.Add(this.TypePathLabel);
             this.Controls.Add(this.TileObjectsSearchBox);
             this.Controls.Add(this.TileObjectsListView);
@@ -194,6 +205,7 @@
         private System.Windows.Forms.Label TypePathLabel;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showGridToolStripMenuItem;
+        private System.Windows.Forms.Label CoordinateLabel;
     }
 }
 

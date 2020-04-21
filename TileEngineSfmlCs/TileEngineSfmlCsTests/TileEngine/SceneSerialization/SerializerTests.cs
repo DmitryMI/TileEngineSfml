@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
 
 // ReSharper disable once CheckNamespace

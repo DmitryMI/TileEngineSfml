@@ -62,6 +62,7 @@
     <Compile Include="MapEditing\IRenderReceiver.cs" />
     <Compile Include="MapEditing\SimpleTurf.cs" />
     <Compile Include="MapEditing\TileEngineEditor.cs" />
+    <Compile Include="MapEditing\CannotInstantiateException.cs" />
     <Compile Include="MapViewForm.cs">
       <SubType>Form</SubType>
     </Compile>

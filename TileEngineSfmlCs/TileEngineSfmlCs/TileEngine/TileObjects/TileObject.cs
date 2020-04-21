@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.Types;
 
-namespace TileEngineSfmlCs.TileEngine
+namespace TileEngineSfmlCs.TileEngine.TileObjects
 {
     /// <summary>
     /// Base class for all in-game objects

@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using TileEngineSfmlCs.TileEngine;
+using TileEngineSfmlCs.TileEngine.TileObjects;
+using TileEngineSfmlCs.TileEngine.TileObjects.Turfs;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlMapEditor.MapEditing
 {
-    public class SimpleTurf : TileObject
+    public class SimpleTurf : Turf
     {
         private SpriteSettings[] _layerSettings;
 
