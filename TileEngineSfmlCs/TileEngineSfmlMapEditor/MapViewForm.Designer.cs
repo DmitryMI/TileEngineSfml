@@ -50,6 +50,7 @@
             this.ErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.layerVisibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RenderingCanvas = new TileEngineSfmlMapEditor.SfmlRenderControl();
+            this.layersActiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenyStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SelectedTypePreviewBox)).BeginInit();
             this.MainStatusStrip.SuspendLayout();
@@ -61,7 +62,8 @@
             this.FileMenuItem,
             this.viewToolStripMenuItem,
             this.preferencesToolStripMenuItem,
-            this.layerVisibleMenuItem});
+            this.layerVisibleMenuItem,
+            this.layersActiveToolStripMenuItem});
             this.MainMenyStrip.Location = new System.Drawing.Point(0, 0);
             this.MainMenyStrip.Name = "MainMenyStrip";
             this.MainMenyStrip.Size = new System.Drawing.Size(1182, 24);
@@ -135,7 +137,7 @@
             // 
             this.snapToCellToolStripMenuItem.CheckOnClick = true;
             this.snapToCellToolStripMenuItem.Name = "snapToCellToolStripMenuItem";
-            this.snapToCellToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.snapToCellToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.snapToCellToolStripMenuItem.Text = "Snap to cell";
             // 
             // MainTimer
@@ -239,6 +241,13 @@
             this.RenderingCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseMove);
             this.RenderingCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseUp);
             // 
+            // layersActiveToolStripMenuItem
+            // 
+            this.layersActiveToolStripMenuItem.Enabled = false;
+            this.layersActiveToolStripMenuItem.Name = "layersActiveToolStripMenuItem";
+            this.layersActiveToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.layersActiveToolStripMenuItem.Text = "Layers active";
+            // 
             // MapViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -288,6 +297,7 @@
         private System.Windows.Forms.StatusStrip MainStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel ErrorLabel;
         private System.Windows.Forms.ToolStripMenuItem layerVisibleMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem layersActiveToolStripMenuItem;
     }
 }
 

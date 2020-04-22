@@ -55,7 +55,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         public void SetLayerEnabled(int layerIndex, bool enabled)
         {
-            _layersVisibility[layerIndex] = enabled;
+            _layersEnabled[layerIndex] = enabled;
         }
 
         public int GetLayerIndex(string layerName)
@@ -536,7 +536,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
-        public void DeleteTileObjects(Vector2Int cell)
+        public void DeleteSelectedTileObjects()
         {
             void DeleteObject(TileObject to)
             {
@@ -548,7 +548,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
             void ForEach(Vector2Int forCell)
             {
-                ForEachInCell(cell, DeleteObject);
+                ForEachInCell(forCell, DeleteObject);
             }
 
             ForEachSelectedCell(ForEach);
