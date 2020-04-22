@@ -14,6 +14,7 @@ using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 using Color = SFML.Graphics.Color;
 using Icon = TileEngineSfmlCs.Types.Icon;
@@ -318,18 +319,12 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
-        public Bitmap GetEditorImage(Type tileObjectType)
+        public Bitmap GetEditorImage(EntityType tileObjectType)
         {
-            if (typeof(TileObject).IsAssignableFrom(tileObjectType))
+            if (tileObjectType.CanActivate)
             {
-                if (tileObjectType.IsAbstract)
-                    return null;
-                if (tileObjectType.GetConstructors().All(c => c.GetParameters().Length != 0))
-                {
-                    return null;
-                }
 
-                TileObject tileObject = (TileObject)Activator.CreateInstance(tileObjectType);
+                TileObject tileObject = tileObjectType.Activate();
                 Icon editorIcon = tileObject.EditorIcon;
                 if (editorIcon == null)
                     return null;
@@ -343,11 +338,6 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 int height = (int)image.Size.Y;
 
                 Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-
-                /*ColorPalette ncp = bmp.Palette;
-                for (int i = 0; i < 256; i++)
-                    ncp.Entries[i] = System.Drawing.Color.FromArgb(255, i, i, i);
-                bmp.Palette = ncp;*/
 
                 var boundsRect = new Rectangle(0, 0, width, height);
                 BitmapData bmpData = bmp.LockBits(boundsRect,
@@ -505,7 +495,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         #region MapEditor
 
-        public TreeNode<Type> TypeTreeRoot => TypeManager.Instance.TreeRoot;
+        public TreeNode<EntityType> TypeTreeRoot => TypeManager.Instance.TreeRoot;
 
         public void SaveScene(Stream serializationStream)
         {
@@ -522,14 +512,11 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
-        public void InsertTileObject(Type tileObjectType, Vector2Int cell, Vector2 offset)
+        public void InsertTileObject(EntityType tileObjectType, Vector2Int cell, Vector2 offset)
         {
-            bool isImplementation = !tileObjectType.IsAbstract;
-            bool isTileObject = typeof(TileObject).IsAssignableFrom(tileObjectType);
-            bool hasParameterlessConstructor = tileObjectType.GetConstructors().Any(c => c.GetParameters().Length == 0);
-            if (isTileObject && hasParameterlessConstructor && isImplementation)
+            if (tileObjectType.CanActivate)
             {
-                TileObject instance = (TileObject)Activator.CreateInstance(tileObjectType);
+                TileObject instance = tileObjectType.Activate();
                 instance.Position = cell;
                 instance.Offset = offset;
                 _scene.InstantiateEditor(instance);

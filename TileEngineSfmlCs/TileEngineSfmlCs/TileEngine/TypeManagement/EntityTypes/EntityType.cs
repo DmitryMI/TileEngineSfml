@@ -5,9 +5,11 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
 {
     public abstract class EntityType
     {
-        public string Name { get; set; }
+        public abstract string Name { get;}
 
         public Type BaseType { get; set; }
+
+        public abstract bool CanActivate { get; }
 
         public abstract TileObject Activate();
     }

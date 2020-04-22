@@ -15,6 +15,7 @@ using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlMapEditor.MapEditing;
 
@@ -27,12 +28,12 @@ namespace TileEngineSfmlMapEditor
 
         private TileEngineEditor _editor;
         private string _mapFilePath;
-        private TreeNode<Type> _typeTreeNode;
+        private TreeNode<EntityType> _typeTreeNode;
 
         private Point? _firstSelectionPoint;
         private Point? _lastMousePosition;
 
-        private Type _selectedType;
+        private EntityType _selectedType;
 
         #region Initialization
         public MapViewForm()
@@ -250,7 +251,7 @@ namespace TileEngineSfmlMapEditor
 
             string itemTypeName = activatedItem.Text;
 
-            TreeNode<Type> childNode = _typeTreeNode.FirstOrDefault(n => n.Data.Name == itemTypeName);
+            TreeNode<EntityType> childNode = _typeTreeNode.FirstOrDefault(n => n.Data.Name == itemTypeName);
 
             if (childNode != null && childNode.Count > 0)
             {
@@ -378,7 +379,7 @@ namespace TileEngineSfmlMapEditor
 
             foreach (var typeNode in _typeTreeNode)
             {
-                Type type = typeNode.Data;
+                EntityType type = typeNode.Data;
                 ListViewItem item = new ListViewItem();
                 item.Text = type.Name;
                 TileObjectsListView.Items.Add(item);
@@ -396,7 +397,7 @@ namespace TileEngineSfmlMapEditor
                 }
             }
 
-            string path = TreeNode<Type>.GetPath(_typeTreeNode, t => t.Name);
+            string path = TreeNode<EntityType>.GetPath(_typeTreeNode, t => t.Name);
             TypePathLabel.Text = path;
         }
 
@@ -438,7 +439,7 @@ namespace TileEngineSfmlMapEditor
             _editor.ShowGrid = gridEnabled;
         }
 
-        public Type SelectedTileObject => _selectedType;
+        public EntityType SelectedTileObject => _selectedType;
 
 
 
@@ -467,7 +468,7 @@ namespace TileEngineSfmlMapEditor
             }
         }
 
-        private Type GetSelectedTileObject()
+        private EntityType GetSelectedTileObject()
         {
             if (TileObjectsListView.SelectedItems.Count == 0)
             {
@@ -476,14 +477,14 @@ namespace TileEngineSfmlMapEditor
             ListViewItem activatedItem = TileObjectsListView.SelectedItems[0];
             string itemTypeName = activatedItem.Text;
 
-            TreeNode<Type> childNode = _typeTreeNode.FirstOrDefault(n => n.Data.Name == itemTypeName);
+            TreeNode<EntityType> childNode = _typeTreeNode.FirstOrDefault(n => n.Data.Name == itemTypeName);
             if (childNode == null)
             {
                 return null;
                 throw new InvalidOperationException("UI Exception");
             }
 
-            Type type = childNode.Data;
+            EntityType type = childNode.Data;
             if (type != null)
             {
                 SelectedTypePreviewBox.Image = _editor.GetEditorImage(type);
@@ -494,17 +495,11 @@ namespace TileEngineSfmlMapEditor
         }
         private void AttemptInsertObject(Vector2Int cell)
         {
-            Type selectedObjectType = SelectedTileObject;
-            if (selectedObjectType == null)
+            EntityType selectedObjectType = SelectedTileObject;
+            if (selectedObjectType.CanActivate)
             {
-                return;
+                _editor.InsertTileObject(selectedObjectType, cell, new Vector2(0, 0));
             }
-
-            if (selectedObjectType.IsAbstract)
-            {
-                return;
-            }
-            _editor.InsertTileObject(selectedObjectType, cell, new Vector2(0, 0));
         }
 
         private void AttemptDeleteObjects(Vector2Int cell)
@@ -515,16 +510,10 @@ namespace TileEngineSfmlMapEditor
         private void AttemptInsertObject(int x, int y)
         {
             ClearErrorMessage();
-            Type selectedObjectType = SelectedTileObject;
-            if (selectedObjectType == null)
-            {
+            EntityType selectedObjectType = SelectedTileObject;
+            
+            if(!selectedObjectType.CanActivate)
                 return;
-            }
-
-            if (selectedObjectType.IsAbstract)
-            {
-                return;
-            }
 
             _editor.GetPositionWithOffset(x, y, out var cell, out var offset);
 

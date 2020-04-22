@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using TileEngineSfmlCs.TileEngine.TileObjects;
+using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 
 namespace TileEngineSfmlCs.TileEngine.TypeManagement
 {
-    public class TypeManager : IComparer<Type>
+    public class TypeManager : IComparer<EntityType>
     {
         #region Singleton
         
@@ -19,10 +20,10 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
 
         #endregion
 
-        private TreeNode<Type> _treeRoot;
+        private TreeNode<EntityType> _treeRoot;
         private Type[] _tileObjectDerivatives;
 
-        public TreeNode<Type> TreeRoot
+        public TreeNode<EntityType> TreeRoot
         {
             get
             {
@@ -37,7 +38,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
 
         public Type[] TileObjectDerivatives => _tileObjectDerivatives;
 
-        public TreeNode<Type> GetTileObjectTree()
+        public TreeNode<EntityType> GetTileObjectTree()
         {
             var types = from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
                         from assemblyType in domainAssembly.GetTypes()
@@ -46,14 +47,15 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
                         select assemblyType;
             _tileObjectDerivatives = types.ToArray();
 
-            TreeNode<Type> typeTree = ProcessType(typeof(TileObject));
+            TreeNode<EntityType> typeTree = ProcessAssemblyType(typeof(TileObject));
 
             return typeTree;
         }
 
-        private TreeNode<Type> ProcessType(Type currentType)
+        private TreeNode<EntityType> ProcessAssemblyType(Type currentType)
         {
-            TreeNode<Type> node = new TreeNode<Type>(currentType);
+            AssemblyEntityType assemblyEntity = new AssemblyEntityType(currentType);
+            TreeNode<EntityType> node = new TreeNode<EntityType>(assemblyEntity);
 
             var derivatives = from assemblyType in _tileObjectDerivatives
                 where assemblyType.BaseType == currentType && assemblyType != currentType
@@ -61,7 +63,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
 
             foreach (var derivative in derivatives)
             {
-                var childNode = ProcessType(derivative);
+                var childNode = ProcessAssemblyType(derivative);
                 node.Add(childNode);
             }
             
@@ -69,7 +71,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
             return node;
         }
 
-        public int Compare(Type x, Type y)
+        public int Compare(EntityType x, EntityType y)
         {
             if (x == null || y == null)
                 return 0;
