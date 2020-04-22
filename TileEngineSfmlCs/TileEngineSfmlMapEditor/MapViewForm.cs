@@ -63,7 +63,7 @@ namespace TileEngineSfmlMapEditor
             OnEditorCreated();
         }
 
-        private void OnEditorCreated()
+        private void InitLayerMenuItems()
         {
             string[] layers = _editor.GetLayerNames();
             layerVisibleMenuItem.DropDownItems.Clear();
@@ -78,21 +78,39 @@ namespace TileEngineSfmlMapEditor
                 bool activated = layersEnabled[index];
 
                 ToolStripMenuItem layerVisibleItem = new ToolStripMenuItem(layers[i]);
-                
-                layerVisibleItem.CheckOnClick = true;
-                layerVisibleItem.Checked = visibility;
-                layerVisibleItem.Click += LayerVisibilityItemClick;
+                //layerVisibleItem.CheckOnClick = true;
+                layerVisibleItem.MouseUp += LayerVisibilityItemMouseUp;
                 layerVisibleMenuItem.DropDownItems.Add(layerVisibleItem);
 
                 ToolStripMenuItem layerActiveItem = new ToolStripMenuItem(layers[i]);
-                layerActiveItem.CheckOnClick = true;
-                layerActiveItem.Checked = visibility;
-                layerActiveItem.Click += LayerActivateItemClick;
+                //layerActiveItem.CheckOnClick = true;
+                layerActiveItem.MouseUp += LayerActivateItemMouseUp;
                 layersActiveToolStripMenuItem.DropDownItems.Add(layerActiveItem);
             }
 
             layerVisibleMenuItem.Enabled = true;
             layersActiveToolStripMenuItem.Enabled = true;
+
+            UpdateLayerMenuItems();
+        }
+
+        private void UpdateLayerMenuItems()
+        {
+            bool[] layersVisible = _editor.GetLayersVisibility();
+            bool[] layersEnabled = _editor.GetLayersEnabled();
+            for (int i = 0; i < layerVisibleMenuItem.DropDownItems.Count; i++)
+            {
+                var visibilityItem = (ToolStripMenuItem)layerVisibleMenuItem.DropDownItems[i];
+                visibilityItem.Checked = layersVisible[i];
+
+                var activationItem = (ToolStripMenuItem)layersActiveToolStripMenuItem.DropDownItems[i];
+                activationItem.Checked = layersEnabled[i];
+            }
+        }
+
+        private void OnEditorCreated()
+        {
+            InitLayerMenuItems();
         }
 
 
@@ -177,24 +195,66 @@ namespace TileEngineSfmlMapEditor
         {
 
         }
+        
 
-        private void LayerVisibilityItemClick(object sender, EventArgs args)
+        private void LayerVisibilityItemMouseUp(object sender, MouseEventArgs args)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             string layerName = item.Text;
             int index = _editor.GetLayerIndex(layerName);
-            _editor.SetLayerVisibility(index, item.Checked);
+
+            item.Checked = !item.Checked;
+
+            if ((args.Button & MouseButtons.Left) != 0)
+            {
+                _editor.SetLayerVisibility(index, item.Checked);
+            }
+            else if((args.Button & MouseButtons.Right) != 0)
+            {
+                bool[] visible = _editor.GetLayersVisibility();
+
+                if (IsOnlySelected(visible, index))
+                {
+                    DeselectOnly(visible, index);
+                }
+                else
+                {
+                    SelectOnly(visible, index);
+                }
+                
+                _editor.SetLayersVisibility(visible);
+            }
+            UpdateLayerMenuItems();
             layerVisibleMenuItem.ShowDropDown();
         }
 
-        private void LayerActivateItemClick(object sender, EventArgs args)
+        private void LayerActivateItemMouseUp(object sender, MouseEventArgs args)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             string layerName = item.Text;
             int index = _editor.GetLayerIndex(layerName);
-            _editor.SetLayerEnabled(index, item.Checked);
+            item.Checked = !item.Checked;
+            if ((args.Button & MouseButtons.Left) != 0)
+            {
+                _editor.SetLayerEnabled(index, item.Checked);
+            }
+            else if((args.Button & MouseButtons.Right) != 0)
+            {
+                bool[] enabled = _editor.GetLayersEnabled();
+                if (IsOnlySelected(enabled, index))
+                {
+                    DeselectOnly(enabled, index);
+                }
+                else
+                {
+                    SelectOnly(enabled, index);
+                }
+                _editor.SetLayersEnabled(enabled);
+            }
+            UpdateLayerMenuItems();
             layersActiveToolStripMenuItem.ShowDropDown();
         }
+       
 
         private void openMapToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -355,6 +415,56 @@ namespace TileEngineSfmlMapEditor
 
         #endregion
 
+        #region Utils
+
+        private void SelectOnly(bool[] values, int onlyIndex)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (i == onlyIndex)
+                {
+                    values[i] = true;
+                }
+                else
+                {
+                    values[i] = false;
+                }
+            }
+        }
+
+        private bool IsOnlySelected(bool[] values, int index)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (i == index && !values[i])
+                {
+                    return false;
+                }
+
+                if (i != index && values[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        private void DeselectOnly(bool[] values, int index)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (i == index)
+                {
+                    values[i] = false;
+                }
+                else
+                {
+                    values[i] = true;
+                }
+            }
+        }
+
+        #endregion
+
         #region UiUpdate
 
         private void UpdateImage()
@@ -402,7 +512,6 @@ namespace TileEngineSfmlMapEditor
         }
 
         #endregion
-
 
         #region ILogger implementation
 

@@ -49,6 +49,24 @@ namespace TileEngineSfmlMapEditor.MapEditing
             return _layersEnabled;
         }
 
+        public void SetLayersVisibility(bool[] visibility)
+        {
+            if (_layersVisibility.Length != visibility.Length)
+            {
+                throw new ArgumentException();
+            }
+            Array.Copy(visibility, _layersVisibility, visibility.Length);
+        }
+
+        public void SetLayersEnabled(bool[] enabled)
+        {
+            if (_layersVisibility.Length != enabled.Length)
+            {
+                throw new ArgumentException();
+            }
+            Array.Copy(enabled, _layersEnabled, enabled.Length);
+        }
+
         public void SetLayerVisibility(int layerIndex, bool visible)
         {
             _layersVisibility[layerIndex] = visible;
