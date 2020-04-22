@@ -188,6 +188,8 @@ namespace TileEngineSfmlMapEditor
             {
                 _editor.GetPositionWithOffset(e.X, e.Y, out var cell, out var offset);
                 CoordinateLabel.Text = $@"({cell.X}, {cell.Y}) : ({offset.X:0.00}, {offset.Y:0.00})";
+                TileObject underCursor = _editor.GetObjectUnderPoint(e.X, e.Y);
+                UnderCursorLabel.Text = underCursor != null ? underCursor.VisibleName : String.Empty;
             }
         }
 
@@ -517,7 +519,7 @@ namespace TileEngineSfmlMapEditor
 
         public void Log(string message)
         {
-
+            ErrorLabel.Text = message;
         }
 
         public void LogError(string message)
@@ -605,7 +607,7 @@ namespace TileEngineSfmlMapEditor
         private void AttemptInsertObject(Vector2Int cell)
         {
             EntityType selectedObjectType = SelectedTileObject;
-            if (selectedObjectType.CanActivate)
+            if (selectedObjectType != null && selectedObjectType.CanActivate)
             {
                 _editor.InsertTileObject(selectedObjectType, cell, new Vector2(0, 0));
             }

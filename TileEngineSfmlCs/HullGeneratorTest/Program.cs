@@ -22,7 +22,7 @@ namespace HullGeneratorTest
         {
             int width = 640;
             int height = 380;
-            string image = "Images\\LaserGun.png";
+            string image = "Images\\MultipleFracture.png";
 
             VideoMode videoMode = new VideoMode((uint)width, (uint)height);
             RenderWindow renderWindow = new RenderWindow(videoMode, "Hull generator test");
@@ -74,28 +74,10 @@ namespace HullGeneratorTest
                 var pointA = polygon[i];
                 var pointB = polygon[i - 1];
 
-                Vector2f pointAf = new Vector2f(pointA.X, pointA.Y);
-                Vector2f pointBf = new Vector2f(pointB.X, pointB.Y);
+                Vector2f pointAf = new Vector2f(pointA.X + 0.5f, pointA.Y + 0.5f);
+                Vector2f pointBf = new Vector2f(pointB.X + 0.5f, pointB.Y + 0.5f);
 
-                if (pointA.X > polygon.MiddlePoint.X)
-                {
-                    pointAf.X += 1;
-                }
-
-                if (pointA.Y > polygon.MiddlePoint.Y)
-                {
-                    pointAf.Y += 1;
-                }
-
-                if (pointB.X > polygon.MiddlePoint.X)
-                {
-                    pointBf.X += 1;
-                }
-
-                if (pointB.Y > polygon.MiddlePoint.Y)
-                {
-                    pointBf.Y += 1;
-                }
+                
 
                 DrawLine(renderWindow, pointAf, pointBf);
             }
@@ -103,28 +85,8 @@ namespace HullGeneratorTest
             Vector2i start = polygon[0];
             Vector2i end = polygon.Last();
 
-            Vector2f startF = new Vector2f(start.X, start.Y);
-            Vector2f endF = new Vector2f(end.X, end.Y);
-
-            if (start.X > polygon.MiddlePoint.X)
-            {
-                startF.X += 1;
-            }
-
-            if (start.Y > polygon.MiddlePoint.Y)
-            {
-                startF.Y += 1;
-            }
-
-            if (end.X > polygon.MiddlePoint.X)
-            {
-                endF.X += 1;
-            }
-
-            if (end.Y > polygon.MiddlePoint.Y)
-            {
-                endF.Y += 1;
-            }
+            Vector2f startF = new Vector2f(start.X + 0.5f, start.Y + 0.5f);
+            Vector2f endF = new Vector2f(end.X + 0.5f, end.Y + 0.5f);
 
             DrawLine(renderWindow, startF, endF);
         }

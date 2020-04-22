@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapEditing\CellRect.cs" />
+    <Compile Include="MapEditing\EditorItem.cs" />
     <Compile Include="MapEditing\EditorWall.cs" />
     <Compile Include="MapEditing\IRenderReceiver.cs" />
     <Compile Include="MapEditing\EditorFloor.cs" />
@@ -143,6 +144,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\EditorWall.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\LaserGun.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

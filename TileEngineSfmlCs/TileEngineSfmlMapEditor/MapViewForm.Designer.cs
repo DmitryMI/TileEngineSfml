@@ -39,6 +39,8 @@
             this.showGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.snapToCellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.layerVisibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.layersActiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainTimer = new System.Windows.Forms.Timer(this.components);
             this.TileObjectsListView = new System.Windows.Forms.ListView();
             this.TileObjectsSearchBox = new System.Windows.Forms.TextBox();
@@ -48,9 +50,8 @@
             this.SelectedTypeNameBox = new System.Windows.Forms.Label();
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.ErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.layerVisibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UnderCursorLabel = new System.Windows.Forms.Label();
             this.RenderingCanvas = new TileEngineSfmlMapEditor.SfmlRenderControl();
-            this.layersActiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenyStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SelectedTypePreviewBox)).BeginInit();
             this.MainStatusStrip.SuspendLayout();
@@ -135,10 +136,26 @@
             // 
             // snapToCellToolStripMenuItem
             // 
+            this.snapToCellToolStripMenuItem.Checked = true;
             this.snapToCellToolStripMenuItem.CheckOnClick = true;
+            this.snapToCellToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.snapToCellToolStripMenuItem.Name = "snapToCellToolStripMenuItem";
-            this.snapToCellToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.snapToCellToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.snapToCellToolStripMenuItem.Text = "Snap to cell";
+            // 
+            // layerVisibleMenuItem
+            // 
+            this.layerVisibleMenuItem.Enabled = false;
+            this.layerVisibleMenuItem.Name = "layerVisibleMenuItem";
+            this.layerVisibleMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.layerVisibleMenuItem.Text = "Layers visible";
+            // 
+            // layersActiveToolStripMenuItem
+            // 
+            this.layersActiveToolStripMenuItem.Enabled = false;
+            this.layersActiveToolStripMenuItem.Name = "layersActiveToolStripMenuItem";
+            this.layersActiveToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.layersActiveToolStripMenuItem.Text = "Layers active";
             // 
             // MainTimer
             // 
@@ -220,12 +237,14 @@
             this.ErrorLabel.Size = new System.Drawing.Size(23, 17);
             this.ErrorLabel.Text = "OK";
             // 
-            // layerVisibleMenuItem
+            // UnderCursorLabel
             // 
-            this.layerVisibleMenuItem.Enabled = false;
-            this.layerVisibleMenuItem.Name = "layerVisibleMenuItem";
-            this.layerVisibleMenuItem.Size = new System.Drawing.Size(88, 20);
-            this.layerVisibleMenuItem.Text = "Layers visible";
+            this.UnderCursorLabel.Location = new System.Drawing.Point(801, 9);
+            this.UnderCursorLabel.Name = "UnderCursorLabel";
+            this.UnderCursorLabel.Size = new System.Drawing.Size(180, 13);
+            this.UnderCursorLabel.TabIndex = 10;
+            this.UnderCursorLabel.Text = "N/A";
+            this.UnderCursorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // RenderingCanvas
             // 
@@ -241,18 +260,12 @@
             this.RenderingCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseMove);
             this.RenderingCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseUp);
             // 
-            // layersActiveToolStripMenuItem
-            // 
-            this.layersActiveToolStripMenuItem.Enabled = false;
-            this.layersActiveToolStripMenuItem.Name = "layersActiveToolStripMenuItem";
-            this.layersActiveToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
-            this.layersActiveToolStripMenuItem.Text = "Layers active";
-            // 
             // MapViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1182, 594);
+            this.Controls.Add(this.UnderCursorLabel);
             this.Controls.Add(this.MainStatusStrip);
             this.Controls.Add(this.SelectedTypeNameBox);
             this.Controls.Add(this.SelectedTypePreviewBox);
@@ -298,6 +311,7 @@
         private System.Windows.Forms.ToolStripStatusLabel ErrorLabel;
         private System.Windows.Forms.ToolStripMenuItem layerVisibleMenuItem;
         private System.Windows.Forms.ToolStripMenuItem layersActiveToolStripMenuItem;
+        private System.Windows.Forms.Label UnderCursorLabel;
     }
 }
 

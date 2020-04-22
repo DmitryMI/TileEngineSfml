@@ -11,6 +11,7 @@ using ResourcesManager.ResourceTypes;
 using SFML.Graphics;
 using SFML.System;
 using TileEngineSfmlCs.TileEngine;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
@@ -187,12 +188,13 @@ namespace TileEngineSfmlMapEditor.MapEditing
         private void DrawCellObjects(Vector2Int cell)
         {
             TileObject[] objects = _scene.GetObjects(cell);
-            Vector2f sfmlPosition = WorldToSfml(cell);
+           
             foreach (var obj in objects)
             {
                 Icon icon = obj.Icon;
                 if (_layersVisibility[(int) obj.Layer])
                 {
+                    Vector2f sfmlPosition = WorldToSfml(cell, obj.Offset);
                     for (int i = 0; i < icon.SpritesCount; i++)
                     {
                         DrawSpriteResource(icon, i, sfmlPosition);
@@ -303,6 +305,20 @@ namespace TileEngineSfmlMapEditor.MapEditing
         #endregion
 
         #region Utils
+
+        public List<TileObject> GetObjectsInRect(CellRect rect)
+        {
+            List<TileObject> result = new List<TileObject>();
+
+            void AddObjects(Vector2Int cell)
+            {
+                TileObject[] obj = _scene.GetObjects(cell);
+                result.AddRange(obj);
+            }
+
+            ForeachCell(rect, AddObjects);
+            return result;
+        }
 
         private void DestroyTileObject(TileObject tileObject)
         {
@@ -463,6 +479,18 @@ namespace TileEngineSfmlMapEditor.MapEditing
             return new Vector2f(x, y);
         }
 
+        private Vector2f WorldToSfml(Vector2Int cell, Vector2 cellOffset)
+        {
+            Vector2 shifted = cell - CameraPosition + cellOffset;
+            float shiftX = _renderReceiver.RenderView.Size.X / 2;
+            float shiftY = _renderReceiver.RenderView.Size.Y / 2;
+            float spriteSizeShiftX = -16;
+            float spriteSizeShiftY = -16;
+            float x = shifted.X * PixelsPerUnit + shiftX + spriteSizeShiftX;
+            float y = shifted.Y * PixelsPerUnit + shiftY + spriteSizeShiftY;
+            return new Vector2f(x, y);
+        }
+
         private Vector2Int SfmlToWorld(Vector2f pos)
         {
             float shiftX = _renderReceiver.RenderView.Size.X / 2;
@@ -565,10 +593,69 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         #region Object data manipulation
 
+        private bool IsUnderCursor(TileObject to, Vector2f cursorProjection)
+        {
+            if (!_layersVisibility[(int) to.Layer])
+                return false;
+            for (int i = 0; i < to.Icon.SpritesCount; i++)
+            {
+                Texture texture = GetTexture(to.Icon.GetResourceId(i));
+                Image image = texture.CopyToImage();
+                Vector2f sfmlCursor = cursorProjection;
+                Vector2f sfmlObject = WorldToSfml(to.Position, to.Offset);
+                float imageX = sfmlCursor.X - sfmlObject.X;
+                float imageY = sfmlCursor.Y - sfmlObject.Y;
+                if (imageX < 0 || imageY < 0)
+                    continue;
+
+                uint imageXInt = (uint) Math.Round(imageX);
+                uint imageYInt = (uint) Math.Round(imageY);
+                if (image.GetPixel(imageXInt, imageYInt).A > 0)
+                    return true;
+            }
+
+            return false;
+        }
+
         public TileObject GetObjectUnderPoint(int x, int y)
         {
             GetPositionWithOffset(x, y, out Vector2Int cell, out Vector2 offset);
-            return null;
+
+            
+            TileObject result = null;
+
+            var cursorProjection = _renderReceiver.PixelToSfml(new Vector2i(x, y));
+
+            for (int i = cell.X - 1; i <= cell.X + 1; i++)
+            {
+                for (int j = cell.Y - 1; j <= cell.Y + 1; j++)
+                {
+                    TileObject[] objectsNearby = _scene.GetObjects(new Vector2Int(i, j));
+                    foreach (var obj in objectsNearby)
+                    {
+                        if (IsUnderCursor(obj, cursorProjection))
+                        {
+                            if (result == null)
+                            {
+                                result = obj;
+                            }
+                            else if ((int)result.Layer < (int)obj.Layer)
+                            {
+                                result = obj;
+                            }
+                            else if ((int)result.Layer == (int)obj.Layer)
+                            {
+                                if (result.LayerOrder <= obj.LayerOrder)
+                                {
+                                    result = obj;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
         #endregion

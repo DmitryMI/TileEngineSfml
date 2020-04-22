@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using ResourcesManager;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
 
 namespace TileEngineSfmlCs.Types
@@ -22,6 +23,11 @@ namespace TileEngineSfmlCs.Types
             for (int i = 0; i < images.Length; i++)
             {
                 int resourceId = GameResources.Instance.GetResourceId(images[i]);
+                if (resourceId == -1)
+                {
+                    LogManager.EditorLogger.LogError($"Resource {images[i]} not found!");
+                    LogManager.RuntimeLogger.LogError($"Resource {images[i]} not found!");
+                }
                 _resourceIds.Add(resourceId);
                 _colors.Add(ColorB.White);
                 _scales.Add(1);

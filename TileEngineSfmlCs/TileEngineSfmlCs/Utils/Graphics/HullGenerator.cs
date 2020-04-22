@@ -71,6 +71,19 @@ namespace TileEngineSfmlCs.Utils.Graphics
 
                 if (x < image.Size.X)
                 {
+                    if (polygon.Points.Count > 0)
+                    {
+                        int prevX = polygon.Points.Last().X;
+                        if (x - prevX > 1) // Current is more right
+                        {
+                            polygon.Points.Add(new Vector2i(x, scanLine - 1));
+                        }
+                        else if (x - prevX < 1)
+                        {
+                            polygon.Points.Add(new Vector2i(prevX, scanLine));
+                        }
+                    }
+
                     polygon.Points.Add(new Vector2i(x, scanLine));
                 }
 
@@ -88,15 +101,33 @@ namespace TileEngineSfmlCs.Utils.Graphics
 
                 if (x >= 0)
                 {
+                    if (rightSidePoints.Count > 0)
+                    {
+                        int prevX = rightSidePoints.Last().X;
+                        if (x - prevX > 1) // Current is more right
+                        {
+                            rightSidePoints.Add(new Vector2i(prevX, scanLine));
+                        }
+                        else if (x - prevX < 1)
+                        {
+                            rightSidePoints.Add(new Vector2i(x, scanLine - 1));
+                        }
+                    }
+
                     rightSidePoints.Add(new Vector2i(x, scanLine));
                 }
 
                 scanLine++;
             }
 
-            for(int i = rightSidePoints.Count - 1; i>= 0; i--)
+            for(int i = rightSidePoints.Count - 1; i > 0; i--)
             {
                 polygon.Points.Add(rightSidePoints[i]);
+            }
+
+            if (polygon.Points[0] != rightSidePoints[0])
+            {
+                polygon.Add(rightSidePoints[0]);
             }
 
             return polygon;
