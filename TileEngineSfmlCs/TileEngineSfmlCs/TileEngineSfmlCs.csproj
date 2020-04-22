@@ -63,6 +63,8 @@
     <Compile Include="TileEngine\TimeManagement\ITimeProvider.cs" />
     <Compile Include="TileEngine\TimeManagement\TimerTimeProvider.cs" />
     <Compile Include="TileEngine\TileObjects\Turfs\Turf.cs" />
+    <Compile Include="TileEngine\TypeManagement\EntityTypes\AssemblyEntityType.cs" />
+    <Compile Include="TileEngine\TypeManagement\EntityTypes\EntityType.cs" />
     <Compile Include="TileEngine\TypeManagement\IgnoranceReason.cs" />
     <Compile Include="TileEngine\TypeManagement\TreeNode.cs" />
     <Compile Include="TileEngine\TypeManagement\TypeManager.cs" />
