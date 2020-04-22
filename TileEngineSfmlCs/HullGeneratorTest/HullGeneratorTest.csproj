@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0080DC99-6FBF-4773-9794-D5F6ABC324BE}</ProjectGuid>
+    <ProjectGuid>{2FAA9BE7-1184-41BC-AFBA-29881FE466A2}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TileEngineSfmlCs</RootNamespace>
-    <AssemblyName>TileEngineSfmlCs</AssemblyName>
+    <RootNamespace>HullGeneratorTest</RootNamespace>
+    <AssemblyName>HullGeneratorTest</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -57,57 +57,37 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TileEngine\Logging\DebugLogger.cs" />
-    <Compile Include="TileEngine\Logging\ILogger.cs" />
-    <Compile Include="TileEngine\Logging\LogManager.cs" />
-    <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
-    <Compile Include="TileEngine\Scene.cs" />
-    <Compile Include="TileEngine\SceneManager.cs" />
-    <Compile Include="TileEngine\SceneSerialization\IFieldSerializer.cs" />
-    <Compile Include="TileEngine\SceneSerialization\SerializationUtils.cs" />
-    <Compile Include="TileEngine\SceneSerialization\Serializer.cs" />
-    <Compile Include="TileEngine\Subsystem.cs" />
-    <Compile Include="TileEngine\TileEngineServer.cs" />
-    <Compile Include="TileEngine\TileObjects\Objs\Items\Item.cs" />
-    <Compile Include="TileEngine\TileObjects\Objs\Obj.cs" />
-    <Compile Include="TileEngine\TileObjects\Objs\Structures\Structure.cs" />
-    <Compile Include="TileEngine\TileObjects\TileObject.cs" />
-    <Compile Include="TileEngine\TimeManagement\ITimeProvider.cs" />
-    <Compile Include="TileEngine\TimeManagement\TimerTimeProvider.cs" />
-    <Compile Include="TileEngine\TileObjects\Turfs\Turf.cs" />
-    <Compile Include="TileEngine\TypeManagement\EntityTypes\AssemblyEntityType.cs" />
-    <Compile Include="TileEngine\TypeManagement\EntityTypes\EntityType.cs" />
-    <Compile Include="TileEngine\TypeManagement\IgnoranceReason.cs" />
-    <Compile Include="TileEngine\TypeManagement\TreeNode.cs" />
-    <Compile Include="TileEngine\TypeManagement\TypeManager.cs" />
-    <Compile Include="TileEngine\TypeManagement\TypeManagerIgnoreAttribute.cs" />
-    <Compile Include="Utils\GraphicsUtils.cs" />
-    <Compile Include="Types\ColorB.cs" />
-    <Compile Include="Types\Icon.cs" />
-    <Compile Include="Types\Layers.cs" />
-    <Compile Include="Types\Vector2.cs" />
-    <Compile Include="Types\Vector2Int.cs" />
-    <Compile Include="Utils\CollectionUtils.cs" />
-    <Compile Include="Utils\FuncComparer.cs" />
-    <Compile Include="Utils\Graphics\HullGenerator.cs" />
-    <Compile Include="Utils\Graphics\Polygon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ResourcesManager\ResourcesManager.csproj">
-      <Project>{FB09D966-2388-4702-95CB-C034A613FAF6}</Project>
-      <Name>ResourcesManager</Name>
-    </ProjectReference>
+    <Content Include="csfml-audio.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="csfml-graphics.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="csfml-network.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="csfml-system.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="csfml-window.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="csfml-audio.dll" />
-    <Content Include="csfml-graphics.dll" />
-    <Content Include="csfml-network.dll" />
-    <Content Include="csfml-system.dll" />
-    <Content Include="csfml-window.dll" />
+    <ProjectReference Include="..\ResourcesManager\ResourcesManager.csproj">
+      <Project>{fb09d966-2388-4702-95cb-c034a613faf6}</Project>
+      <Name>ResourcesManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TileEngineSfmlCs\TileEngineSfmlCs.csproj">
+      <Project>{0080DC99-6FBF-4773-9794-D5F6ABC324BE}</Project>
+      <Name>TileEngineSfmlCs</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -559,7 +559,17 @@ namespace TileEngineSfmlMapEditor.MapEditing
             ForEachSelectedCell(ForEach);
         }
 
-        
+
+
+        #endregion
+
+        #region Object data manipulation
+
+        public TileObject GetObjectUnderPoint(int x, int y)
+        {
+            GetPositionWithOffset(x, y, out Vector2Int cell, out Vector2 offset);
+            return null;
+        }
 
         #endregion
     }

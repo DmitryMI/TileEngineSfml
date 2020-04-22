@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ResourcesManager;
+using ResourcesManager.ResourceTypes;
+using SFML.Graphics;
+using SFML.System;
+using TileEngineSfmlCs.Types;
+
+namespace TileEngineSfmlCs.Utils.Graphics
+{
+    public static class HullGenerator
+    {
+        public const byte AlphaThreshold = 0;
+
+        public static List<Polygon> GetConvexHulls(Icon icon)
+        {
+            List<Polygon> polygons = new List<Polygon>(icon.SpritesCount);
+            for (int i = 0; i < icon.SpritesCount; i++)
+            {
+                polygons.Add(GetPolygon(icon, i));
+            }
+
+            return polygons;
+        }
+
+        private static Polygon GetPolygon(Icon icon, int spriteIndex)
+        {
+            ResourcesManager.ResourceTypes.ResourceEntry resourceEntry =
+                GameResources.Instance.GetEntry(icon.GetResourceId(spriteIndex));
+          
+            if (resourceEntry.LoadedValue == null)
+            {
+                FileStream fs = ResourcesManager.GameResources.Instance.GetFileStream(resourceEntry);
+                byte[] data = new byte[fs.Length];
+                fs.Read(data, 0, data.Length);
+                fs.Close();
+                fs.Dispose();
+                Texture texture = new Texture(data);
+                resourceEntry.LoadedValue = texture;
+            }
+
+            Image image = ((Texture) (resourceEntry.LoadedValue)).CopyToImage();
+
+            return GetPolygon(image);
+        }
+
+        private static Polygon GetPolygon(Image image)
+        {
+            Polygon polygon = new Polygon();
+           
+            List<Vector2i> rightSidePoints = new List<Vector2i>();
+
+            int scanLine = 0;
+            while (scanLine < image.Size.Y)
+            {
+                int x = 0;
+                while (x < image.Size.X)
+                {
+                    Color pixel = image.GetPixel((uint) x, (uint) scanLine);
+                    if (pixel.A > AlphaThreshold)
+                    {
+                        break;
+                    }
+
+                    x++;
+                }
+
+                if (x < image.Size.X)
+                {
+                    polygon.Points.Add(new Vector2i(x, scanLine));
+                }
+
+                x = (int)(image.Size.X - 1);
+                while (x >= 0)
+                {
+                    Color pixel = image.GetPixel((uint)x, (uint)scanLine);
+                    if (pixel.A > AlphaThreshold)
+                    {
+                        break;
+                    }
+
+                    x--;
+                }
+
+                if (x >= 0)
+                {
+                    rightSidePoints.Add(new Vector2i(x, scanLine));
+                }
+
+                scanLine++;
+            }
+
+            for(int i = rightSidePoints.Count - 1; i>= 0; i--)
+            {
+                polygon.Points.Add(rightSidePoints[i]);
+            }
+
+            return polygon;
+        }
+    }
+}

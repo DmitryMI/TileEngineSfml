@@ -69,6 +69,9 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
 
         public abstract TileLayer Layer { get; }
 
+        public abstract string VisibleName { get; }
+        public abstract string ExamineDescription { get; }
+
         /// <summary>
         /// Defines if mob can walk through the object
         /// </summary>
