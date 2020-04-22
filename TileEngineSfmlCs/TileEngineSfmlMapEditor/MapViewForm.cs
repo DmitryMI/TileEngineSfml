@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SFML.System;
 using TileEngineSfmlCs.TileEngine;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
@@ -18,8 +20,11 @@ using TileEngineSfmlMapEditor.MapEditing;
 
 namespace TileEngineSfmlMapEditor
 {
-    public partial class MapViewForm : Form
+    public partial class MapViewForm : Form, ILogger
     {
+        public const int MouseGrabThreshold = 2;
+        public const int ListIconDefaultSize = 16;
+
         private TileEngineEditor _editor;
         private string _mapFilePath;
         private TreeNode<Type> _typeTreeNode;
@@ -27,9 +32,13 @@ namespace TileEngineSfmlMapEditor
         private Point? _firstSelectionPoint;
         private Point? _lastMousePosition;
 
+        private Type _selectedType;
+
         public MapViewForm()
         {
             InitializeComponent();
+
+            LogManager.EditorLogger = this;
 
             RenderingCanvas.Initialize();
             RenderingCanvas.OnMouseGrabEvent = OnMouseGrab;
@@ -40,7 +49,6 @@ namespace TileEngineSfmlMapEditor
             }
 
             _typeTreeNode = TypeManager.Instance.TreeRoot;
-            UpdateTypeList();
         }
 
         private void LoadMap(string fileName)
@@ -50,6 +58,25 @@ namespace TileEngineSfmlMapEditor
             fs.Close();
             fs.Dispose();
             _mapFilePath = fileName;
+            OnEditorCreated();
+        }
+
+        private void OnEditorCreated()
+        {
+            string[] layers = _editor.GetLayerNames();
+            layerVisibleMenuItem.DropDownItems.Clear();
+            for (int i = 0; i < layers.Length; i++)
+            {
+                int index = _editor.GetLayerIndex(layers[i]);
+                bool visibility = _editor.GetLayersVisibility()[index];
+                ToolStripMenuItem layerItem = new ToolStripMenuItem(layers[i]);
+                layerItem.CheckOnClick = true;
+                layerItem.Checked = visibility;
+                layerItem.Click += LayerVisibilityItemClick;
+                layerVisibleMenuItem.DropDownItems.Add(layerItem);
+            }
+
+            layerVisibleMenuItem.Enabled = true;
         }
 
         private void CreateNewMap()
@@ -60,6 +87,8 @@ namespace TileEngineSfmlMapEditor
             {
                 _editor = new TileEngineEditor(newMapForm.ResultWidth, newMapForm.ResultHeight, RenderingCanvas);
             }
+
+            OnEditorCreated();
         }
 
         private void SaveMap(string path)
@@ -112,12 +141,14 @@ namespace TileEngineSfmlMapEditor
         {
             OpenMapFile();
             UpdateImage();
+            UpdateTypeList();
         }
         
         private void newMapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateNewMap();
             UpdateImage();
+            UpdateTypeList();
         }
 
         private void saveMapToolStripMenuItem_Click(object sender, EventArgs e)
@@ -158,6 +189,11 @@ namespace TileEngineSfmlMapEditor
 
         private void UpdateTypeList()
         {
+            if (_editor == null)
+            {
+                return;
+            }
+
             TileObjectsListView.Items.Clear();
 
             ListViewItem upItem = new ListViewItem();
@@ -172,6 +208,18 @@ namespace TileEngineSfmlMapEditor
                 ListViewItem item = new ListViewItem();
                 item.Text = type.Name;
                 TileObjectsListView.Items.Add(item);
+
+                Image image = _editor.GetEditorImage(type);
+                if (image != null)
+                {
+                    if (TileObjectsListView.SmallImageList == null)
+                    {
+                        TileObjectsListView.SmallImageList = new ImageList();
+                        TileObjectsListView.SmallImageList.ImageSize = new Size(ListIconDefaultSize, ListIconDefaultSize);
+                    }
+                    TileObjectsListView.SmallImageList.Images.Add(image);
+                    item.ImageIndex = TileObjectsListView.SmallImageList.Images.Count - 1;
+                }
             }
 
             string path = TreeNode<Type>.GetPath(_typeTreeNode, t => t.Name);
@@ -190,13 +238,21 @@ namespace TileEngineSfmlMapEditor
             TreeNode<Type> childNode = _typeTreeNode.FirstOrDefault(n => n.Data.Name == itemTypeName);
             if (childNode == null)
             {
+                return null;
                 throw new InvalidOperationException("UI Exception");
             }
 
-            return childNode.Data;
+            Type type = childNode.Data;
+            if (type != null)
+            {
+                SelectedTypePreviewBox.Image = _editor.GetEditorImage(type);
+                SelectedTypeNameBox.Text = type.Name;
+            }
+
+            return type;
         }
 
-        public Type SelectedTileObject => GetSelectedTileObject();
+        public Type SelectedTileObject => _selectedType;
 
         private void TileObjectsListView_ItemActivate(object sender, EventArgs e)
         {
@@ -245,7 +301,7 @@ namespace TileEngineSfmlMapEditor
                     lastY = firstY;
                     firstY = t;
                 }
-                _editor.HighlightRect(_editor.GetCellRect(firstX, firstY, lastX, lastY));
+                _editor?.HighlightRect(_editor.GetCellRect(firstX, firstY, lastX, lastY));
             }
         }
 
@@ -262,13 +318,51 @@ namespace TileEngineSfmlMapEditor
 
         private void RenderingCanvas_MouseClick(object sender, MouseEventArgs e)
         {
+            
+        }
+
+        private void AttemptInsertObject(Vector2Int cell)
+        {
             Type selectedObjectType = SelectedTileObject;
             if (selectedObjectType == null)
             {
                 return;
             }
 
-            //_editor.GetPositionWithOffset();
+            if (selectedObjectType.IsAbstract)
+            {
+                return;
+            }
+            _editor.InsertTileObject(selectedObjectType, cell, new Vector2(0, 0));
+        }
+
+        private void AttemptDeleteObjects(Vector2Int cell)
+        {
+
+        }
+
+        private void AttemptInsertObject(int x, int y)
+        {
+            ClearErrorMessage();
+            Type selectedObjectType = SelectedTileObject;
+            if (selectedObjectType == null)
+            {
+                return;
+            }
+
+            if (selectedObjectType.IsAbstract)
+            {
+                return;
+            }
+
+            _editor.GetPositionWithOffset(x, y, out var cell, out var offset);
+
+            if (snapToCellToolStripMenuItem.Checked)
+            {
+                offset = new Vector2(0, 0);
+            }
+
+            _editor.InsertTileObject(selectedObjectType, cell, offset);
         }
 
         private void showGridToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -330,7 +424,61 @@ namespace TileEngineSfmlMapEditor
                 firstY = t;
             }
 
-            _editor.SelectRect(_editor.GetCellRect(firstX, firstY, lastX, lastY));
+            int delta = lastX - firstX + lastY - firstY;
+            if (delta > MouseGrabThreshold)
+            {
+                _editor?.SelectRect(_editor.GetCellRect(firstX, firstY, lastX, lastY));
+            }
+            else
+            {
+                AttemptInsertObject(lastX, lastY);
+            }
+        }
+
+        private void TileObjectsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(TileObjectsListView.SelectedItems.Count != 1)
+                return;
+            _selectedType = GetSelectedTileObject();
+        }
+
+        private void RenderingCanvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            ClearErrorMessage();
+            if (e.KeyCode == Keys.Insert)
+            {
+                _editor.ForEachSelectedCell(AttemptInsertObject);
+                _editor.ClearSelection();
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+
+            }
+        }
+
+        public void Log(string message)
+        {
+            
+        }
+
+        public void LogError(string message)
+        {
+            ErrorLabel.Text = message;
+            ErrorLabel.ForeColor = Color.Red;
+        }
+
+        private void ClearErrorMessage()
+        {
+            ErrorLabel.Text = "OK";
+            ErrorLabel.ForeColor = Color.Black;
+        }
+
+        private void LayerVisibilityItemClick(object sender, EventArgs args)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem) sender;
+            string layerName = item.Text;
+            int index = _editor.GetLayerIndex(layerName);
+            _editor.SetLayerVisibility(index, item.Checked);
         }
     }
 }

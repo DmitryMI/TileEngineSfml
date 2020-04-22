@@ -37,20 +37,31 @@
             this.openMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.snapToCellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainTimer = new System.Windows.Forms.Timer(this.components);
             this.TileObjectsListView = new System.Windows.Forms.ListView();
             this.TileObjectsSearchBox = new System.Windows.Forms.TextBox();
             this.TypePathLabel = new System.Windows.Forms.Label();
             this.CoordinateLabel = new System.Windows.Forms.Label();
+            this.SelectedTypePreviewBox = new System.Windows.Forms.PictureBox();
+            this.SelectedTypeNameBox = new System.Windows.Forms.Label();
+            this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.ErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.layerVisibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RenderingCanvas = new TileEngineSfmlMapEditor.SfmlRenderControl();
             this.MainMenyStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SelectedTypePreviewBox)).BeginInit();
+            this.MainStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainMenyStrip
             // 
             this.MainMenyStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenuItem,
-            this.viewToolStripMenuItem});
+            this.viewToolStripMenuItem,
+            this.preferencesToolStripMenuItem,
+            this.layerVisibleMenuItem});
             this.MainMenyStrip.Location = new System.Drawing.Point(0, 0);
             this.MainMenyStrip.Name = "MainMenyStrip";
             this.MainMenyStrip.Size = new System.Drawing.Size(1182, 24);
@@ -112,6 +123,21 @@
             this.showGridToolStripMenuItem.Text = "Show grid";
             this.showGridToolStripMenuItem.CheckedChanged += new System.EventHandler(this.showGridToolStripMenuItem_CheckedChanged);
             // 
+            // preferencesToolStripMenuItem
+            // 
+            this.preferencesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.snapToCellToolStripMenuItem});
+            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.preferencesToolStripMenuItem.Text = "Preferences";
+            // 
+            // snapToCellToolStripMenuItem
+            // 
+            this.snapToCellToolStripMenuItem.CheckOnClick = true;
+            this.snapToCellToolStripMenuItem.Name = "snapToCellToolStripMenuItem";
+            this.snapToCellToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.snapToCellToolStripMenuItem.Text = "Snap to cell";
+            // 
             // MainTimer
             // 
             this.MainTimer.Enabled = true;
@@ -126,11 +152,12 @@
             this.TileObjectsListView.MultiSelect = false;
             this.TileObjectsListView.Name = "TileObjectsListView";
             this.TileObjectsListView.ShowGroups = false;
-            this.TileObjectsListView.Size = new System.Drawing.Size(220, 494);
+            this.TileObjectsListView.Size = new System.Drawing.Size(220, 456);
             this.TileObjectsListView.TabIndex = 3;
             this.TileObjectsListView.UseCompatibleStateImageBehavior = false;
             this.TileObjectsListView.View = System.Windows.Forms.View.List;
             this.TileObjectsListView.ItemActivate += new System.EventHandler(this.TileObjectsListView_ItemActivate);
+            this.TileObjectsListView.SelectedIndexChanged += new System.EventHandler(this.TileObjectsListView_SelectedIndexChanged);
             // 
             // TileObjectsSearchBox
             // 
@@ -157,6 +184,47 @@
             this.CoordinateLabel.Text = "(X, Y) : (x, y)";
             this.CoordinateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // SelectedTypePreviewBox
+            // 
+            this.SelectedTypePreviewBox.Location = new System.Drawing.Point(12, 536);
+            this.SelectedTypePreviewBox.Name = "SelectedTypePreviewBox";
+            this.SelectedTypePreviewBox.Size = new System.Drawing.Size(32, 32);
+            this.SelectedTypePreviewBox.TabIndex = 7;
+            this.SelectedTypePreviewBox.TabStop = false;
+            // 
+            // SelectedTypeNameBox
+            // 
+            this.SelectedTypeNameBox.AutoSize = true;
+            this.SelectedTypeNameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SelectedTypeNameBox.Location = new System.Drawing.Point(47, 543);
+            this.SelectedTypeNameBox.Name = "SelectedTypeNameBox";
+            this.SelectedTypeNameBox.Size = new System.Drawing.Size(35, 20);
+            this.SelectedTypeNameBox.TabIndex = 8;
+            this.SelectedTypeNameBox.Text = "N/A";
+            // 
+            // MainStatusStrip
+            // 
+            this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ErrorLabel});
+            this.MainStatusStrip.Location = new System.Drawing.Point(0, 572);
+            this.MainStatusStrip.Name = "MainStatusStrip";
+            this.MainStatusStrip.Size = new System.Drawing.Size(1182, 22);
+            this.MainStatusStrip.TabIndex = 9;
+            this.MainStatusStrip.Text = "statusStrip1";
+            // 
+            // ErrorLabel
+            // 
+            this.ErrorLabel.Name = "ErrorLabel";
+            this.ErrorLabel.Size = new System.Drawing.Size(23, 17);
+            this.ErrorLabel.Text = "OK";
+            // 
+            // layerVisibleMenuItem
+            // 
+            this.layerVisibleMenuItem.Enabled = false;
+            this.layerVisibleMenuItem.Name = "layerVisibleMenuItem";
+            this.layerVisibleMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.layerVisibleMenuItem.Text = "Layers visible";
+            // 
             // RenderingCanvas
             // 
             this.RenderingCanvas.BackColor = System.Drawing.Color.White;
@@ -165,6 +233,7 @@
             this.RenderingCanvas.OnMouseGrabEvent = null;
             this.RenderingCanvas.Size = new System.Drawing.Size(932, 541);
             this.RenderingCanvas.TabIndex = 2;
+            this.RenderingCanvas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RenderingCanvas_KeyDown);
             this.RenderingCanvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseClick);
             this.RenderingCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseDown);
             this.RenderingCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseMove);
@@ -174,7 +243,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1182, 580);
+            this.ClientSize = new System.Drawing.Size(1182, 594);
+            this.Controls.Add(this.MainStatusStrip);
+            this.Controls.Add(this.SelectedTypeNameBox);
+            this.Controls.Add(this.SelectedTypePreviewBox);
             this.Controls.Add(this.CoordinateLabel);
             this.Controls.Add(this.TypePathLabel);
             this.Controls.Add(this.TileObjectsSearchBox);
@@ -186,6 +258,9 @@
             this.Text = "Map view";
             this.MainMenyStrip.ResumeLayout(false);
             this.MainMenyStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SelectedTypePreviewBox)).EndInit();
+            this.MainStatusStrip.ResumeLayout(false);
+            this.MainStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,6 +281,13 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showGridToolStripMenuItem;
         private System.Windows.Forms.Label CoordinateLabel;
+        private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem snapToCellToolStripMenuItem;
+        private System.Windows.Forms.PictureBox SelectedTypePreviewBox;
+        private System.Windows.Forms.Label SelectedTypeNameBox;
+        private System.Windows.Forms.StatusStrip MainStatusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel ErrorLabel;
+        private System.Windows.Forms.ToolStripMenuItem layerVisibleMenuItem;
     }
 }
 

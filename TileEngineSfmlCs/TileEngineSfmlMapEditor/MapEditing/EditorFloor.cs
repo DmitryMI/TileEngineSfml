@@ -12,12 +12,12 @@ using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlMapEditor.MapEditing
 {
-    public class SimpleTurf : Turf
+    public class EditorFloor : Turf
     {
-        private SpriteSettings[] _layerSettings;
 
-        public override SpriteSettings[] SpritesSettings => _layerSettings;
-
+        public override Icon Icon { get; } = new Icon("Images\\EditorFloor.png");
+        public override Icon EditorIcon { get; } = new Icon("Images\\EditorFloor.png");
+        public override TileLayer Layer => TileLayer.Floor;
         public override bool IsPassable => true;
         public override bool IsLightTransparent => true;
         public override bool IsGasTransparent => true;
@@ -33,15 +33,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
         }
 
         
-        public SimpleTurf()
+        public EditorFloor()
         {
-            var settings = new SpriteSettings[1];
-            SpriteSettings sprite = new SpriteSettings();
-            sprite.Scale = new Vector2(1, 1);
-            sprite.Color = new ColorB(255, 255, 255, 255);
-            sprite.ResourceId = ResourcesManager.GameResources.Instance.GetResourceId("Images\\SimpleTurf.png");
-            settings[0] = sprite;
-            _layerSettings = settings;
+            
         }
     }
 }

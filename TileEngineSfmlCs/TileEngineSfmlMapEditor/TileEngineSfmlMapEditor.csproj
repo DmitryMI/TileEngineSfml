@@ -59,8 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapEditing\CellRect.cs" />
+    <Compile Include="MapEditing\EditorWall.cs" />
     <Compile Include="MapEditing\IRenderReceiver.cs" />
-    <Compile Include="MapEditing\SimpleTurf.cs" />
+    <Compile Include="MapEditing\EditorFloor.cs" />
     <Compile Include="MapEditing\TileEngineEditor.cs" />
     <Compile Include="MapEditing\CannotInstantiateException.cs" />
     <Compile Include="MapViewForm.cs">
@@ -138,7 +139,10 @@
     <Content Include="csfml-window.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\SimpleTurf.png">
+    <Content Include="Resources\Images\EditorFloor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\EditorWall.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

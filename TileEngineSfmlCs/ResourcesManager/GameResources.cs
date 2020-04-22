@@ -81,7 +81,6 @@ namespace ResourcesManager
             }
             while (fragmentIndex < pathFragments.Length)
             {
-                Debug.WriteLine($"{currentEntry.Path}");
                 currentEntry = currentEntry.FirstOrDefault(n => n.Name.Equals(pathFragments[fragmentIndex]));
                 if (currentEntry == null)
                     return null;

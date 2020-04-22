@@ -45,6 +45,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TileEngine\Logging\DebugLogger.cs" />
+    <Compile Include="TileEngine\Logging\ILogger.cs" />
+    <Compile Include="TileEngine\Logging\LogManager.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />
@@ -65,12 +68,22 @@
     <Compile Include="TileEngine\TypeManagement\TypeManager.cs" />
     <Compile Include="TileEngine\TypeManagement\TypeManagerIgnoreAttribute.cs" />
     <Compile Include="Types\ColorB.cs" />
+    <Compile Include="Types\Icon.cs" />
+    <Compile Include="Types\Layers.cs" />
     <Compile Include="Types\SpriteSettings.cs" />
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector2Int.cs" />
+    <Compile Include="Utils\CollectionUtils.cs" />
+    <Compile Include="Utils\FuncComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ResourcesManager\ResourcesManager.csproj">
+      <Project>{FB09D966-2388-4702-95CB-C034A613FAF6}</Project>
+      <Name>ResourcesManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,6 +9,8 @@ using TileEngineSfmlCs.TileEngine.SceneSerialization;
 
 namespace TileEngineSfmlCs.Types
 {
+
+    [Obsolete]
     public struct SpriteSettings : IFieldSerializer
     {
         public int ResourceId { get; set; }

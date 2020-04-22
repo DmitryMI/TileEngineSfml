@@ -30,6 +30,36 @@ namespace TileEngineSfmlCs.TileEngine.SceneSerialization
             parent.AppendChild(arrayElement);
         }
 
+        public static void WriteParseables<T>(T[] parseables, string arrayName, XmlElement parent)
+        {
+            XmlDocument document = parent.OwnerDocument;
+            if (document == null)
+                return;
+            XmlElement arrayElement = document.CreateElement(arrayName);
+
+            for (var i = 0; i < parseables.Length; i++)
+            {
+                WriteParseable(parseables[i], arrayName + i, arrayElement);
+            }
+
+            parent.AppendChild(arrayElement);
+        }
+
+        public static T[] ReadParseables<T>(string arrayName, XmlElement parent)
+        {
+            XmlElement node = (XmlElement)parent.GetElementsByTagName(arrayName)[0];
+
+            T[] result = new T[node.ChildNodes.Count];
+
+            for (int i = 0; i < node.ChildNodes.Count; i++)
+            {
+                T serializer = ReadParseable<T>(arrayName + i, node);
+                result[i] = serializer;
+            }
+
+            return result;
+        }
+
         public static void Write(IFieldSerializer fieldSerializer, string name, XmlElement parent)
         {
             XmlDocument document = parent.OwnerDocument;

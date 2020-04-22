@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
+using TileEngineSfmlCs.Utils;
 
 namespace TileEngineSfmlCs.TileEngine
 {
@@ -132,6 +133,20 @@ namespace TileEngineSfmlCs.TileEngine
             return result.ToArray();
         }
 
+        public TileObject[] GetObjectsOnLayer(Vector2Int cell, TileLayer layer)
+        {
+            List<TileObject> result = new List<TileObject>();
+            foreach (var obj in ObjectMatrix[cell.X, cell.Y])
+            {
+                if (obj.Layer == layer)
+                {
+                    result.Add(obj);
+                }
+            }
+
+            return result.ToArray();
+        }
+
         public bool IsPassable(Vector2Int cell)
         {
             foreach (var obj in ObjectMatrix[cell.X, cell.Y])
@@ -168,7 +183,9 @@ namespace TileEngineSfmlCs.TileEngine
 
         public void RegisterPosition(TileObject obj)
         {
-            ObjectMatrix[obj.Position.X, obj.Position.Y].Add(obj);
+            List<TileObject> list = ObjectMatrix[obj.Position.X, obj.Position.Y];
+            
+            list.InsertSortedDescending(obj, new FuncComparer<TileObject>((a,b) => ((int)(b.Layer)) - ((int)a.Layer)));
         }
 
         public void UnregisterPosition(TileObject obj)
@@ -179,7 +196,7 @@ namespace TileEngineSfmlCs.TileEngine
         public void ChangePosition(TileObject obj, Vector2Int prevPosition)
         {
             ObjectMatrix[prevPosition.X, prevPosition.Y].Remove(obj);
-            ObjectMatrix[obj.Position.X, obj.Position.Y].Add(obj);
+            RegisterPosition(obj);
         }
 
         public void Instantiate(TileObject tileObject)
@@ -191,11 +208,36 @@ namespace TileEngineSfmlCs.TileEngine
             tileObject.OnCreate();
         }
 
+        public void InstantiateEditor(TileObject tileObject)
+        {
+            RegisterPosition(tileObject);
+            tileObject.SetScene(this);
+            tileObject.InstanceId = _instanceCounter;
+            _instanceCounter++;
+            tileObject.OnEditorCreate();
+        }
+
+        public void DestroyEditor(TileObject tileObject)
+        {
+            UnregisterPosition(tileObject);
+            tileObject.SetScene(null);
+
+            if (tileObject.InstanceId == _instanceCounter - 1)
+            {
+                _instanceCounter--;
+            }
+        }
+
         public void Destroy(TileObject tileObject)
         {
             UnregisterPosition(tileObject);
             tileObject.SetScene(null);
             tileObject.OnDestroy();
+
+            if (tileObject.InstanceId == _instanceCounter + 1)
+            {
+                _instanceCounter--;
+            }
         }
         #endregion
     }

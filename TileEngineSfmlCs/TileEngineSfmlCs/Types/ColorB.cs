@@ -5,6 +5,8 @@ namespace TileEngineSfmlCs.Types
 {
     public struct ColorB : IFieldSerializer
     {
+        public static ColorB White { get; } = new ColorB(255, 255, 255, 255);
+
         public byte R { get; set; }
         public byte G { get; set; }
         public byte B { get; set; }

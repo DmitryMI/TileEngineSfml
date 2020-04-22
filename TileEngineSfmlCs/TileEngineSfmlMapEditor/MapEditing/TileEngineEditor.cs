@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using ResourcesManager;
 using ResourcesManager.ResourceTypes;
 using SFML.Graphics;
@@ -12,11 +15,16 @@ using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
+using Color = SFML.Graphics.Color;
+using Icon = TileEngineSfmlCs.Types.Icon;
+using Image = SFML.Graphics.Image;
 
 namespace TileEngineSfmlMapEditor.MapEditing
 {
     public class TileEngineEditor
     {
+        public int PixelsPerUnit = 32;
+
         private Scene _scene;
         private IRenderReceiver _renderReceiver;
         private Vector2 _cameraPosition;
@@ -24,8 +32,57 @@ namespace TileEngineSfmlMapEditor.MapEditing
         private Random _rnd = new Random();
         private TypeManager _typeManager;
         private List<Vector2Int> _selectedCells = new List<Vector2Int>();
+        private List<Vector2Int> _highlightedCellsTemp = new List<Vector2Int>();
+        private bool[] _layersVisibility;
+        private bool[] _layersEnabled;
+
+        #region Layers
+
+        public bool[] GetLayersVisibility()
+        {
+            return _layersVisibility;
+        }
+
+        public bool[] GetLayersEnabled()
+        {
+            return _layersEnabled;
+        }
+
+        public void SetLayerVisibility(int layerIndex, bool visible)
+        {
+            _layersVisibility[layerIndex] = visible;
+        }
+
+        public void SetLayerEnabled(int layerIndex, bool enabled)
+        {
+            _layersVisibility[layerIndex] = enabled;
+        }
+
+        public int GetLayerIndex(string layerName)
+        {
+            TileLayer layer = (TileLayer)Enum.Parse(typeof(TileLayer), layerName);
+            return (int) layer;
+        }
+
+        public string[] GetLayerNames()
+        {
+            return Enum.GetNames(typeof(TileLayer));
+        }
+
+        #endregion
 
         #region Initialization
+        private void InitLayers()
+        {
+            Array layers = Enum.GetValues(typeof(TileLayer));
+            _layersVisibility = new bool[layers.Length];
+            _layersEnabled = new bool[layers.Length];
+            for (int i = 0; i < _layersVisibility.Length ; i++)
+            {
+                _layersVisibility[i] = true;
+                _layersEnabled[i] = true;
+            }
+        }
 
         private Texture GetTexture(int resourceId)
         {
@@ -65,6 +122,8 @@ namespace TileEngineSfmlMapEditor.MapEditing
             Color color = Color.Green;
             color.A = 50;
             SelectionColor = color;
+
+            InitLayers();
         }
 
         public TileEngineEditor(Stream mapStream, IRenderReceiver renderReceiver)
@@ -74,8 +133,6 @@ namespace TileEngineSfmlMapEditor.MapEditing
             _scene = Serializer.DeserializeScene(mapStream);
             InitializeFields();
         }
-
-
 
         public TileEngineEditor(int width, int height, IRenderReceiver renderReceiver)
         {
@@ -88,16 +145,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         private void ProcessNewScene()
         {
-            for (int i = 0; i < 5; i++)
-            {
-                SimpleTurf simpleTurf = new SimpleTurf();
-                int shiftX = _rnd.Next(-5, 5);
-                int shiftY = _rnd.Next(-5, 5);
-                //int shiftX = 0;
-                //int shiftY = 0;
-                simpleTurf.Position = new Vector2Int(_scene.Width / 2 + shiftX, _scene.Width / 2 + shiftY);
-                _scene.Instantiate(simpleTurf);
-            }
+            
         }
 
 
@@ -105,14 +153,13 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         #region Drawing
 
-        private void DrawSpriteSetting(SpriteSettings spriteSettings, Vector2f position)
+        private void DrawSpriteResource(Icon icon, int orderIndex, Vector2f position)
         {
-            int resourceId = spriteSettings.ResourceId;
+            int resourceId = icon.GetResourceId(orderIndex);
             Texture texture = GetTexture(resourceId);
             Sprite sprite = new Sprite(texture);
-            sprite.Color = new Color(spriteSettings.Color.R, spriteSettings.Color.G, spriteSettings.Color.B, spriteSettings.Color.A);
-            sprite.Rotation = spriteSettings.Rotation;
-            sprite.Scale = new Vector2f(spriteSettings.Scale.X, spriteSettings.Scale.Y);
+            ColorB color = icon.GetColor(orderIndex);
+            sprite.Color = new Color(color.R, color.G, color.B, color.A);
 
             sprite.Position = position;
             _renderReceiver.DrawSprite(sprite);
@@ -124,17 +171,20 @@ namespace TileEngineSfmlMapEditor.MapEditing
             Vector2f sfmlPosition = WorldToSfml(cell);
             foreach (var obj in objects)
             {
-                SpriteSettings[] spriteSettings = obj.SpritesSettings;
-                foreach (var spriteSetting in spriteSettings)
+                Icon icon = obj.Icon;
+                if (_layersVisibility[(int) obj.Layer])
                 {
-                    DrawSpriteSetting(spriteSetting, sfmlPosition);
+                    for (int i = 0; i < icon.SpritesCount; i++)
+                    {
+                        DrawSpriteResource(icon, i, sfmlPosition);
+                    }
                 }
             }
         }
 
         private void DrawColorRect(Vector2Int cell, Color color)
         {
-            Shape cellShape = new RectangleShape(new Vector2f(32, 32));
+            Shape cellShape = new RectangleShape(new Vector2f(PixelsPerUnit, PixelsPerUnit));
             cellShape.FillColor = color;
 
             Vector2f position = WorldToSfml(cell);
@@ -161,19 +211,29 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 for (int y = minY; y < maxY; y++)
                 {
                     Vector2f cellPos = WorldToSfml(new Vector2Int(x, y));
-                    //cellPos.X = 32;
-                    //cellPos.Y -= 32;
-                    DrawGridCell(cellPos.X, cellPos.Y, 32, 32);
+                    //cellPos.X = PixelsPerUnit;
+                    //cellPos.Y -= PixelsPerUnit;
+                    DrawGridCell(cellPos.X, cellPos.Y, PixelsPerUnit, PixelsPerUnit);
                 }
             }
         }
 
-        private void HighlightSelectedCells()
+        private void DrawSelectedCells()
         {
             foreach (var cell in _selectedCells)
             {
+                //_highlightedCellsTemp.Add(cell);
                 DrawColorRect(cell, SelectionColor);
             }
+        }
+
+        private void HighlightTempCells()
+        {
+            foreach (var cell in _highlightedCellsTemp)
+            {
+                HighlightCell(cell);
+            }
+            _highlightedCellsTemp.Clear();
         }
 
         public void UpdateGraphics()
@@ -210,18 +270,42 @@ namespace TileEngineSfmlMapEditor.MapEditing
                     DrawCellObjects(new Vector2Int(x, y));
                 }
             }
-
-            HighlightSelectedCells();
+            
+            DrawSelectedCells();
 
             if (ShowGrid)
             {
                 DrawGrid(minX, maxX, minY, maxY);
             }
+
+            HighlightTempCells();
         }
 
         #endregion
 
         #region Utils
+
+        private void DestroyTileObject(TileObject tileObject)
+        {
+            _scene.DestroyEditor(tileObject);
+        }
+
+        public void ForEachSelectedCell(Action<Vector2Int> action)
+        {
+            foreach (var cell in _selectedCells)
+            {
+                action(cell);
+            }
+        }
+
+        public void ForEachInCell(Vector2Int cell, Action<TileObject> action)
+        {
+            var objs = _scene.GetObjects(cell);
+            foreach (var obj in objs)
+            {
+                action(obj);
+            }
+        }
 
         private void ForeachCell(CellRect rect, Action<Vector2Int> action)
         {
@@ -232,6 +316,57 @@ namespace TileEngineSfmlMapEditor.MapEditing
                     action?.Invoke(new Vector2Int(x, y));
                 }
             }
+        }
+
+        public Bitmap GetEditorImage(Type tileObjectType)
+        {
+            if (typeof(TileObject).IsAssignableFrom(tileObjectType))
+            {
+                if (tileObjectType.IsAbstract)
+                    return null;
+                if (tileObjectType.GetConstructors().All(c => c.GetParameters().Length != 0))
+                {
+                    return null;
+                }
+
+                TileObject tileObject = (TileObject)Activator.CreateInstance(tileObjectType);
+                Icon editorIcon = tileObject.EditorIcon;
+                if (editorIcon == null)
+                    return null;
+
+                Texture texture = GetTexture(editorIcon.GetResourceId(0));
+                Image image = texture.CopyToImage();
+                
+                byte[] pixels = image.Pixels;
+
+                int width = (int)image.Size.X;
+                int height = (int)image.Size.Y;
+
+                Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+                /*ColorPalette ncp = bmp.Palette;
+                for (int i = 0; i < 256; i++)
+                    ncp.Entries[i] = System.Drawing.Color.FromArgb(255, i, i, i);
+                bmp.Palette = ncp;*/
+
+                var boundsRect = new Rectangle(0, 0, width, height);
+                BitmapData bmpData = bmp.LockBits(boundsRect,
+                    ImageLockMode.WriteOnly,
+                    bmp.PixelFormat);
+
+                IntPtr ptr = bmpData.Scan0;
+
+                int bytes = bmpData.Stride * bmp.Height;
+                var rgbValues = new byte[bytes];
+                
+                Array.Copy(pixels, 0, rgbValues, 0, pixels.Length);
+
+                Marshal.Copy(rgbValues, 0, ptr, bytes);
+                bmp.UnlockBits(bmpData);
+                return bmp;
+            }
+
+            return null;
         }
         
         #endregion
@@ -255,7 +390,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         public void HighlightRect(CellRect rect)
         {
-            ForeachCell(rect, HighlightCell);
+            ForeachCell(rect, _highlightedCellsTemp.Add);
         }
 
         public void SelectRect(CellRect rect)
@@ -315,8 +450,8 @@ namespace TileEngineSfmlMapEditor.MapEditing
             float shiftY = _renderReceiver.RenderView.Size.Y / 2;
             float spriteSizeShiftX = -16;
             float spriteSizeShiftY = -16;
-            float x = shifted.X * 32 + shiftX + spriteSizeShiftX;
-            float y = shifted.Y * 32 + shiftY + spriteSizeShiftY;
+            float x = shifted.X * PixelsPerUnit + shiftX + spriteSizeShiftX;
+            float y = shifted.Y * PixelsPerUnit + shiftY + spriteSizeShiftY;
             return new Vector2f(x, y);
         }
 
@@ -329,8 +464,8 @@ namespace TileEngineSfmlMapEditor.MapEditing
             float spriteSizeShiftX = 0;
             float spriteSizeShiftY = 0;
 
-            float shiftedX = (pos.X - spriteSizeShiftX - shiftX) / 32;
-            float shiftedY = (pos.Y - spriteSizeShiftY - shiftY) / 32;
+            float shiftedX = (pos.X - spriteSizeShiftX - shiftX) / PixelsPerUnit;
+            float shiftedY = (pos.Y - spriteSizeShiftY - shiftY) / PixelsPerUnit;
             Vector2 cellFloat = new Vector2(shiftedX, shiftedY) + CameraPosition;
 
             int xCell = (int)Math.Round(cellFloat.X);
@@ -347,8 +482,8 @@ namespace TileEngineSfmlMapEditor.MapEditing
             float spriteSizeShiftX = 0;
             float spriteSizeShiftY = 0;
 
-            float shiftedX = (pos.X - spriteSizeShiftX - shiftX) / 32;
-            float shiftedY = (pos.Y - spriteSizeShiftY - shiftY) / 32;
+            float shiftedX = (pos.X - spriteSizeShiftX - shiftX) / PixelsPerUnit;
+            float shiftedY = (pos.Y - spriteSizeShiftY - shiftY) / PixelsPerUnit;
             Vector2 cellFloat = new Vector2(shiftedX, shiftedY) + CameraPosition;
 
             int xCell = (int)Math.Round(cellFloat.X);
@@ -363,7 +498,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
         {
             float pixelWidth = _renderReceiver.RenderView.Size.X;
             float pixelHeight = _renderReceiver.RenderView.Size.Y;
-            return new Vector2Int((int)(pixelWidth / 32), (int)(pixelHeight / 32));
+            return new Vector2Int((int)(pixelWidth / PixelsPerUnit), (int)(pixelHeight / PixelsPerUnit));
         }
 
         #endregion
@@ -390,19 +525,37 @@ namespace TileEngineSfmlMapEditor.MapEditing
         public void InsertTileObject(Type tileObjectType, Vector2Int cell, Vector2 offset)
         {
             bool isImplementation = !tileObjectType.IsAbstract;
-            bool isTileObject = tileObjectType.IsAssignableFrom(typeof(TileObject));
+            bool isTileObject = typeof(TileObject).IsAssignableFrom(tileObjectType);
             bool hasParameterlessConstructor = tileObjectType.GetConstructors().Any(c => c.GetParameters().Length == 0);
             if (isTileObject && hasParameterlessConstructor && isImplementation)
             {
                 TileObject instance = (TileObject)Activator.CreateInstance(tileObjectType);
                 instance.Position = cell;
                 instance.Offset = offset;
-                _scene.Instantiate(instance);
+                _scene.InstantiateEditor(instance);
             }
         }
 
+        public void DeleteTileObjects(Vector2Int cell)
+        {
+            void DeleteObject(TileObject to)
+            {
+                if (_layersEnabled[(int) to.Layer])
+                {
+                    _scene.Destroy(to);
+                }
+            }
+
+            void ForEach(Vector2Int forCell)
+            {
+                ForEachInCell(cell, DeleteObject);
+            }
+
+            ForEachSelectedCell(ForEach);
+        }
+
+        
+
         #endregion
-
-
     }
 }

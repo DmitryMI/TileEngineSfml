@@ -12,8 +12,13 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         private Vector2Int _position;
         private Vector2 _offset;
         private Scene _scene;
+
+
+        protected int LayerOrderInternal { get; set; }
+        protected float RotationInternal { get; set; }
+
+
         internal int InstanceId;
-        
 
         public int GetInstanceId() => InstanceId;
 
@@ -50,7 +55,19 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
             }
         }
 
-        public abstract SpriteSettings[] SpritesSettings { get; }
+        public int LayerOrder
+        {
+            get => LayerOrderInternal;
+            set => LayerOrderInternal = value;
+        }
+
+        public float Rotation => RotationInternal;
+
+        public abstract Icon Icon { get; }
+
+        public abstract Icon EditorIcon { get; }
+
+        public abstract TileLayer Layer { get; }
 
         /// <summary>
         /// Defines if mob can walk through the object
@@ -95,7 +112,15 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         #endregion
 
         /// <summary>
-        /// Invoked during next frame after creation
+        /// Invoked just after creation in editor
+        /// </summary>
+        internal virtual void OnEditorCreate()
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked during in the same frame after creation
         /// </summary>
         internal virtual void OnCreate()
         {
