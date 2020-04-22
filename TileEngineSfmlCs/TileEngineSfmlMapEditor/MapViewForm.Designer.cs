@@ -52,9 +52,12 @@
             this.ErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.UnderCursorLabel = new System.Windows.Forms.Label();
             this.RenderingCanvas = new TileEngineSfmlMapEditor.SfmlRenderControl();
+            this.MapEditorMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.makeShitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenyStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SelectedTypePreviewBox)).BeginInit();
             this.MainStatusStrip.SuspendLayout();
+            this.MapEditorMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainMenyStrip
@@ -260,6 +263,19 @@
             this.RenderingCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseMove);
             this.RenderingCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseUp);
             // 
+            // MapEditorMenuStrip
+            // 
+            this.MapEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.makeShitToolStripMenuItem});
+            this.MapEditorMenuStrip.Name = "MapEditorMenuStrip";
+            this.MapEditorMenuStrip.Size = new System.Drawing.Size(126, 26);
+            // 
+            // makeShitToolStripMenuItem
+            // 
+            this.makeShitToolStripMenuItem.Name = "makeShitToolStripMenuItem";
+            this.makeShitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.makeShitToolStripMenuItem.Text = "Make shit";
+            // 
             // MapViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,6 +299,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.SelectedTypePreviewBox)).EndInit();
             this.MainStatusStrip.ResumeLayout(false);
             this.MainStatusStrip.PerformLayout();
+            this.MapEditorMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,6 +329,8 @@
         private System.Windows.Forms.ToolStripMenuItem layerVisibleMenuItem;
         private System.Windows.Forms.ToolStripMenuItem layersActiveToolStripMenuItem;
         private System.Windows.Forms.Label UnderCursorLabel;
+        private System.Windows.Forms.ContextMenuStrip MapEditorMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem makeShitToolStripMenuItem;
     }
 }
 

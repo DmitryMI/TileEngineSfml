@@ -122,8 +122,8 @@ namespace TileEngineSfmlCs.TileEngine.SceneSerialization
 
             XmlElement scenePreferences = (XmlElement)root.GetElementsByTagName("ScenePreferences")[0];
 
-            int width = SerializationUtils.ReadInt("Width", scenePreferences);
-            int height = SerializationUtils.ReadInt("Height", scenePreferences);
+            int width = SerializationUtils.ReadInt("Width", scenePreferences, 50);
+            int height = SerializationUtils.ReadInt("Height", scenePreferences, 50);
 
             Scene scene = new Scene(width, height);
 

@@ -92,8 +92,8 @@ namespace TileEngineSfmlCs.Types
 
         public void ReadFields(XmlElement parentElement)
         {
-            X = SerializationUtils.ReadFloat(nameof(X), parentElement);
-            Y = SerializationUtils.ReadFloat(nameof(Y), parentElement);
+            X = SerializationUtils.ReadFloat(nameof(X), parentElement, X);
+            Y = SerializationUtils.ReadFloat(nameof(Y), parentElement, Y);
         }
     }
 }

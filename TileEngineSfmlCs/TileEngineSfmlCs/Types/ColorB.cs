@@ -39,10 +39,10 @@ namespace TileEngineSfmlCs.Types
 
         public void ReadFields(XmlElement parentElement)
         {
-            R = (byte)SerializationUtils.ReadInt(nameof(R), parentElement);
-            G = (byte)SerializationUtils.ReadInt(nameof(G), parentElement);
-            B = (byte)SerializationUtils.ReadInt(nameof(B), parentElement);
-            A = (byte)SerializationUtils.ReadInt(nameof(A), parentElement);
+            R = (byte)SerializationUtils.ReadInt(nameof(R), parentElement, R);
+            G = (byte)SerializationUtils.ReadInt(nameof(G), parentElement, G);
+            B = (byte)SerializationUtils.ReadInt(nameof(B), parentElement, B);
+            A = (byte)SerializationUtils.ReadInt(nameof(A), parentElement, A);
         }
     }
 }

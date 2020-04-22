@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.SceneSerialization
@@ -45,15 +46,21 @@ namespace TileEngineSfmlCs.TileEngine.SceneSerialization
             parent.AppendChild(arrayElement);
         }
 
-        public static T[] ReadParseables<T>(string arrayName, XmlElement parent)
+        public static T[] ReadParseables<T>(string arrayName, XmlElement parent, T[] defaultValue)
         {
-            XmlElement node = (XmlElement)parent.GetElementsByTagName(arrayName)[0];
+            var nodeList = parent.GetElementsByTagName(arrayName);
+            if (nodeList.Count == 0)
+            {
+                LogManager.EditorLogger.LogError("[Serialization] Array not found. Map may be created in older version of TileEngine");
+                return defaultValue;
+            }
+            XmlElement node = (XmlElement)nodeList[0];
 
             T[] result = new T[node.ChildNodes.Count];
 
             for (int i = 0; i < node.ChildNodes.Count; i++)
             {
-                T serializer = ReadParseable<T>(arrayName + i, node);
+                T serializer = ReadParseable<T>(arrayName + i, node, defaultValue[i]);
                 result[i] = serializer;
             }
 
@@ -130,24 +137,42 @@ namespace TileEngineSfmlCs.TileEngine.SceneSerialization
         public static string GetNodeText(string nodeName, XmlElement parentElement)
         {
             XmlNode node = parentElement.GetElementsByTagName(nodeName)[0];
+            if (node == null)
+            {
+                LogManager.EditorLogger.LogError(
+                    "[Serialization] Key not found. Map may be created in other version of TileEngine");
+                return null;
+            }
             return node.InnerText;
         }
 
-        public static int ReadInt(string name, XmlElement parentElement)
+        public static int ReadInt(string name, XmlElement parentElement, int defaultValue)
         {
             string value = GetNodeText(name, parentElement);
+            if (value == null)
+            {
+                return defaultValue;
+            }
             return int.Parse(value);
         }
 
-        public static float ReadFloat(string name, XmlElement parentElement)
+        public static float ReadFloat(string name, XmlElement parentElement, float defaultValue)
         {
             string value = GetNodeText(name, parentElement);
+            if (value == null)
+            {
+                return defaultValue;
+            }
             return float.Parse(value, CultureInfo.InvariantCulture);
         }
 
-        public static T ReadParseable<T>(string name, XmlElement parentElement)
+        public static T ReadParseable<T>(string name, XmlElement parentElement, T defaultValue)
         {
             string strValue = GetNodeText(name, parentElement);
+            if (strValue == null)
+            {
+                return defaultValue;
+            }
 
             Type type = typeof(T);
             var parser = type.GetMethods(BindingFlags.Static | BindingFlags.Public)
@@ -167,23 +192,34 @@ namespace TileEngineSfmlCs.TileEngine.SceneSerialization
             return serializer;
         }
 
-        public static T ReadFieldSerializer<T>(string name, XmlElement parentElement) where T : IFieldSerializer
+        public static T ReadFieldSerializer<T>(string name, XmlElement parentElement, T defaultValue) where T : IFieldSerializer
         {
-            XmlElement node = (XmlElement)parentElement.GetElementsByTagName(name)[0];
+            var nodeList = parentElement.GetElementsByTagName(name);
+            if (nodeList.Count == 0)
+            {
+                LogManager.EditorLogger.LogError("[Serialization] Key not found. Map may be created in older version of TileEngine");
+                return defaultValue;
+            }
+            XmlElement node = (XmlElement)nodeList[0];
             T serializer = (T)Activator.CreateInstance(typeof(T));
             serializer.ReadFields(node);
             return serializer;
         }
 
-        public static T[] ReadFieldSerializers<T>(string arrayName, XmlElement parentElement) where T : IFieldSerializer
+        public static T[] ReadFieldSerializers<T>(string arrayName, XmlElement parentElement, T[] defaultValue) where T : IFieldSerializer
         {
-            XmlElement node = (XmlElement)parentElement.GetElementsByTagName(arrayName)[0];
-
+            var nodeList = parentElement.GetElementsByTagName(arrayName);
+            if (nodeList.Count == 0)
+            {
+                LogManager.EditorLogger.LogError("[Serialization] Array not found. Map may be created in older version of TileEngine");
+                return defaultValue;
+            }
+            XmlElement node = (XmlElement)nodeList[0];
             T[] serializers = new T[node.ChildNodes.Count];
 
             for (int i = 0; i < node.ChildNodes.Count; i++)
             {
-                T serializer = ReadFieldSerializer<T>(arrayName + i, node);
+                T serializer = ReadFieldSerializer<T>(arrayName + i, node, defaultValue[i]);
                 serializers[i] = serializer;
             }
 

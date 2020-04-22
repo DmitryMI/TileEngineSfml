@@ -306,6 +306,78 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         #region Utils
 
+        private bool IsUnderCursor(TileObject to, Vector2f cursorProjection)
+        {
+            if (!_layersVisibility[(int) to.Layer])
+                return false;
+            for (int i = 0; i < to.Icon.SpritesCount; i++)
+            {
+                Texture texture = GetTexture(to.Icon.GetResourceId(i));
+                Image image = texture.CopyToImage();
+                Vector2f sfmlCursor = cursorProjection;
+                Vector2f sfmlObject = WorldToSfml(to.Position, to.Offset);
+                float imageX = sfmlCursor.X - sfmlObject.X;
+                float imageY = sfmlCursor.Y - sfmlObject.Y;
+                if (imageX < 0 || imageY < 0 || imageX >= PixelsPerUnit || imageY >= PixelsPerUnit)
+                    continue;
+
+                uint imageXInt = (uint) Math.Round(imageX);
+                uint imageYInt = (uint) Math.Round(imageY);
+
+                if (image.GetPixel(imageXInt, imageYInt).A > 0)
+                    return true;
+
+            }
+
+            return false;
+        }
+
+        public TileObject[] GetObjectsInCell(Vector2Int cell)
+        {
+            return _scene.GetObjects(cell);
+        }
+
+        public TileObject GetObjectUnderPoint(int x, int y)
+        {
+            GetPositionWithOffset(x, y, out Vector2Int cell, out Vector2 offset);
+
+
+            TileObject result = null;
+
+            var cursorProjection = _renderReceiver.PixelToSfml(new Vector2i(x, y));
+
+            for (int i = cell.X - 1; i <= cell.X + 1; i++)
+            {
+                for (int j = cell.Y - 1; j <= cell.Y + 1; j++)
+                {
+                    TileObject[] objectsNearby = _scene.GetObjects(new Vector2Int(i, j));
+                    foreach (var obj in objectsNearby)
+                    {
+                        if (IsUnderCursor(obj, cursorProjection))
+                        {
+                            if (result == null)
+                            {
+                                result = obj;
+                            }
+                            else if ((int)result.Layer < (int)obj.Layer)
+                            {
+                                result = obj;
+                            }
+                            else if ((int)result.Layer == (int)obj.Layer)
+                            {
+                                if (result.LayerOrder <= obj.LayerOrder)
+                                {
+                                    result = obj;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public List<TileObject> GetObjectsInRect(CellRect rect)
         {
             List<TileObject> result = new List<TileObject>();
@@ -353,41 +425,45 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
+        public Bitmap GetEditorImage(TileObject instance)
+        {
+            Icon editorIcon = instance.EditorIcon;
+            if (editorIcon == null)
+                return null;
+
+            Texture texture = GetTexture(editorIcon.GetResourceId(0));
+            Image image = texture.CopyToImage();
+
+            byte[] pixels = image.Pixels;
+
+            int width = (int)image.Size.X;
+            int height = (int)image.Size.Y;
+
+            Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+            var boundsRect = new Rectangle(0, 0, width, height);
+            BitmapData bmpData = bmp.LockBits(boundsRect,
+                ImageLockMode.WriteOnly,
+                bmp.PixelFormat);
+
+            IntPtr ptr = bmpData.Scan0;
+
+            int bytes = bmpData.Stride * bmp.Height;
+            var rgbValues = new byte[bytes];
+
+            Array.Copy(pixels, 0, rgbValues, 0, pixels.Length);
+
+            Marshal.Copy(rgbValues, 0, ptr, bytes);
+            bmp.UnlockBits(bmpData);
+            return bmp;
+        }
+
         public Bitmap GetEditorImage(EntityType tileObjectType)
         {
             if (tileObjectType.CanActivate)
             {
-
                 TileObject tileObject = tileObjectType.Activate();
-                Icon editorIcon = tileObject.EditorIcon;
-                if (editorIcon == null)
-                    return null;
-
-                Texture texture = GetTexture(editorIcon.GetResourceId(0));
-                Image image = texture.CopyToImage();
-                
-                byte[] pixels = image.Pixels;
-
-                int width = (int)image.Size.X;
-                int height = (int)image.Size.Y;
-
-                Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-
-                var boundsRect = new Rectangle(0, 0, width, height);
-                BitmapData bmpData = bmp.LockBits(boundsRect,
-                    ImageLockMode.WriteOnly,
-                    bmp.PixelFormat);
-
-                IntPtr ptr = bmpData.Scan0;
-
-                int bytes = bmpData.Stride * bmp.Height;
-                var rgbValues = new byte[bytes];
-                
-                Array.Copy(pixels, 0, rgbValues, 0, pixels.Length);
-
-                Marshal.Copy(rgbValues, 0, ptr, bytes);
-                bmp.UnlockBits(bmpData);
-                return bmp;
+                return GetEditorImage(tileObject);
             }
 
             return null;
@@ -398,6 +474,8 @@ namespace TileEngineSfmlMapEditor.MapEditing
         #region CellSelecting
 
         public Color SelectionColor { get; set; }
+
+        public Vector2Int[] SelectedCells => _selectedCells.ToArray();
 
         public void SelectCell(Vector2Int cell)
         {
@@ -569,13 +647,18 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
+        public void DeleteTileObject(TileObject tileObject)
+        {
+            _scene.DestroyEditor(tileObject);
+        }
+
         public void DeleteSelectedTileObjects()
         {
             void DeleteObject(TileObject to)
             {
                 if (_layersEnabled[(int) to.Layer])
                 {
-                    _scene.Destroy(to);
+                    _scene.DestroyEditor(to);
                 }
             }
 
@@ -587,76 +670,16 @@ namespace TileEngineSfmlMapEditor.MapEditing
             ForEachSelectedCell(ForEach);
         }
 
-
-
         #endregion
 
         #region Object data manipulation
 
-        private bool IsUnderCursor(TileObject to, Vector2f cursorProjection)
+        public FieldDescriptor[] GetFieldDescriptors(TileObject tileObject)
         {
-            if (!_layersVisibility[(int) to.Layer])
-                return false;
-            for (int i = 0; i < to.Icon.SpritesCount; i++)
-            {
-                Texture texture = GetTexture(to.Icon.GetResourceId(i));
-                Image image = texture.CopyToImage();
-                Vector2f sfmlCursor = cursorProjection;
-                Vector2f sfmlObject = WorldToSfml(to.Position, to.Offset);
-                float imageX = sfmlCursor.X - sfmlObject.X;
-                float imageY = sfmlCursor.Y - sfmlObject.Y;
-                if (imageX < 0 || imageY < 0)
-                    continue;
-
-                uint imageXInt = (uint) Math.Round(imageX);
-                uint imageYInt = (uint) Math.Round(imageY);
-                if (image.GetPixel(imageXInt, imageYInt).A > 0)
-                    return true;
-            }
-
-            return false;
+            return tileObject.GetEntityType().GetFieldDescriptors();
         }
 
-        public TileObject GetObjectUnderPoint(int x, int y)
-        {
-            GetPositionWithOffset(x, y, out Vector2Int cell, out Vector2 offset);
 
-            
-            TileObject result = null;
-
-            var cursorProjection = _renderReceiver.PixelToSfml(new Vector2i(x, y));
-
-            for (int i = cell.X - 1; i <= cell.X + 1; i++)
-            {
-                for (int j = cell.Y - 1; j <= cell.Y + 1; j++)
-                {
-                    TileObject[] objectsNearby = _scene.GetObjects(new Vector2Int(i, j));
-                    foreach (var obj in objectsNearby)
-                    {
-                        if (IsUnderCursor(obj, cursorProjection))
-                        {
-                            if (result == null)
-                            {
-                                result = obj;
-                            }
-                            else if ((int)result.Layer < (int)obj.Layer)
-                            {
-                                result = obj;
-                            }
-                            else if ((int)result.Layer == (int)obj.Layer)
-                            {
-                                if (result.LayerOrder <= obj.LayerOrder)
-                                {
-                                    result = obj;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
 
         #endregion
     }

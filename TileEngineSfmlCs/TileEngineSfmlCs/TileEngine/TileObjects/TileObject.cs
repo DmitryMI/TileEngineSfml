@@ -1,5 +1,7 @@
 ﻿using System.Xml;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
+using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects
@@ -9,18 +11,27 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
     /// </summary>
     public abstract class TileObject : IFieldSerializer
     {
+        [FieldEditorReadOnly("Use special replacing tool instead")]
         private Vector2Int _position;
+
         private Vector2 _offset;
+
         private Scene _scene;
 
 
         protected int LayerOrderInternal { get; set; }
         protected float RotationInternal { get; set; }
 
+        [FieldEditorReadOnly("Auto set only")]
+        private int _instanceId;
 
-        internal int InstanceId;
-
-        public int GetInstanceId() => InstanceId;
+        public int GetInstanceId() => _instanceId;
+        
+        /// <summary>
+        /// Never invoke this method! Internal usage only
+        /// </summary>
+        /// <param name="instanceId"></param>
+        public void SetInstanceId(int instanceId) => _instanceId = instanceId;
 
         internal void SetScene(Scene scene)
         {
@@ -63,6 +74,11 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
 
         public float Rotation => RotationInternal;
 
+        public virtual EntityType GetEntityType()
+        {
+            return new AssemblyEntityType(GetType());
+        }
+
         public abstract Icon Icon { get; }
 
         public abstract Icon EditorIcon { get; }
@@ -95,7 +111,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
             if(document == null)
                 return;
 
-            SerializationUtils.Write(InstanceId, nameof(InstanceId), parentElement);
+            SerializationUtils.Write(_instanceId, nameof(_instanceId), parentElement);
             SerializationUtils.Write(Position, nameof(Position), parentElement);
             SerializationUtils.Write(Offset, nameof(Offset), parentElement);
             AppendUserFields(parentElement);
@@ -103,9 +119,9 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
 
         public void ReadFields(XmlElement element)
         {
-            InstanceId = SerializationUtils.ReadInt(nameof(InstanceId), element);
-            Position = SerializationUtils.ReadFieldSerializer<Vector2Int>(nameof(Position), element);
-            Offset = SerializationUtils.ReadFieldSerializer<Vector2>(nameof(Offset), element);
+            _instanceId = SerializationUtils.ReadInt(nameof(_instanceId), element, _instanceId);
+            Position = SerializationUtils.ReadFieldSerializer<Vector2Int>(nameof(Position), element,  Position);
+            Offset = SerializationUtils.ReadFieldSerializer<Vector2>(nameof(Offset), element, Offset);
 
             ReadUserFields(element);
         }

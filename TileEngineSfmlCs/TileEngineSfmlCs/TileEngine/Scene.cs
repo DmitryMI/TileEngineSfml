@@ -203,7 +203,7 @@ namespace TileEngineSfmlCs.TileEngine
         {
             RegisterPosition(tileObject);
             tileObject.SetScene(this);
-            tileObject.InstanceId = _instanceCounter;
+            tileObject.SetInstanceId(_instanceCounter);
             _instanceCounter++;
             tileObject.OnCreate();
         }
@@ -212,7 +212,7 @@ namespace TileEngineSfmlCs.TileEngine
         {
             RegisterPosition(tileObject);
             tileObject.SetScene(this);
-            tileObject.InstanceId = _instanceCounter;
+            tileObject.SetInstanceId(_instanceCounter);
             _instanceCounter++;
             tileObject.OnEditorCreate();
         }
@@ -222,7 +222,7 @@ namespace TileEngineSfmlCs.TileEngine
             UnregisterPosition(tileObject);
             tileObject.SetScene(null);
 
-            if (tileObject.InstanceId == _instanceCounter - 1)
+            if (tileObject.GetInstanceId() == _instanceCounter - 1)
             {
                 _instanceCounter--;
             }
@@ -234,7 +234,7 @@ namespace TileEngineSfmlCs.TileEngine
             tileObject.SetScene(null);
             tileObject.OnDestroy();
 
-            if (tileObject.InstanceId == _instanceCounter + 1)
+            if (tileObject.GetInstanceId() == _instanceCounter + 1)
             {
                 _instanceCounter--;
             }

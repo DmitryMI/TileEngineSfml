@@ -12,5 +12,8 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
         public abstract bool CanActivate { get; }
 
         public abstract TileObject Activate();
+
+        public abstract FieldDescriptor[] GetFieldDescriptors(bool ignoreTrash = true);
+        
     }
 }

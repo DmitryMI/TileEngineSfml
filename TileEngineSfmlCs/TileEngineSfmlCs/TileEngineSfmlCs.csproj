@@ -77,7 +77,10 @@
     <Compile Include="TileEngine\TileObjects\Turfs\Turf.cs" />
     <Compile Include="TileEngine\TypeManagement\EntityTypes\AssemblyEntityType.cs" />
     <Compile Include="TileEngine\TypeManagement\EntityTypes\EntityType.cs" />
+    <Compile Include="TileEngine\TypeManagement\FieldDescriptor.cs" />
+    <Compile Include="TileEngine\TypeManagement\FieldEditorReadOnlyAttribute.cs" />
     <Compile Include="TileEngine\TypeManagement\IgnoranceReason.cs" />
+    <Compile Include="TileEngine\TypeManagement\RuntimeFieldAccessRestrictedException.cs" />
     <Compile Include="TileEngine\TypeManagement\TreeNode.cs" />
     <Compile Include="TileEngine\TypeManagement\TypeManager.cs" />
     <Compile Include="TileEngine\TypeManagement\TypeManagerIgnoreAttribute.cs" />

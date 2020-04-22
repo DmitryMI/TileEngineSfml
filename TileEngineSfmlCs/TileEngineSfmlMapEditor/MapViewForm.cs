@@ -65,6 +65,10 @@ namespace TileEngineSfmlMapEditor
 
         private void InitLayerMenuItems()
         {
+            if (_editor == null)
+            {
+                return;
+            }
             string[] layers = _editor.GetLayerNames();
             layerVisibleMenuItem.DropDownItems.Clear();
             layersActiveToolStripMenuItem.DropDownItems.Clear();
@@ -336,14 +340,64 @@ namespace TileEngineSfmlMapEditor
             }
         }
 
+        private void OnDeleteTileObjectMenuClick(object sender, EventArgs args)
+        {
+            ToolStripMenuItem deleteOption = (ToolStripMenuItem) sender;
+            TileObject tag = (TileObject)deleteOption.Tag;
+            _editor.DeleteTileObject(tag);
+        }
+
+        private void OnEditTileObjectMenuClick(object sender, EventArgs args)
+        {
+            ToolStripMenuItem deleteOption = (ToolStripMenuItem)sender;
+            TileObject tag = (TileObject)deleteOption.Tag;
+            FieldEditorForm editorForm = new FieldEditorForm(_editor, tag);
+            editorForm.Show();
+        }
+
         private void RenderingCanvas_MouseDown(object sender, MouseEventArgs e)
         {
+            if (_editor == null)
+            {
+                return;
+            }
             _firstSelectionPoint = new Point(e.X, e.Y);
+        }
+
+        private void CreateContextMenuOptions(ToolStripMenuItem item, TileObject tileObject)
+        {
+            ToolStripMenuItem deleteOption = new ToolStripMenuItem("Delete");
+            deleteOption.Tag = tileObject;
+            deleteOption.Click += OnDeleteTileObjectMenuClick;
+            ToolStripMenuItem editOption = new ToolStripMenuItem("Edit");
+            editOption.Tag = tileObject;
+            editOption.Click += OnEditTileObjectMenuClick;
+            item.DropDownItems.Add(deleteOption);
+            item.DropDownItems.Add(editOption);
+        }
+
+        private void ShowContextMenu(int x, int y)
+        {
+            Vector2Int cell = _editor.GetPosition(x, y);
+            TileObject[] objects = _editor.GetObjectsInCell(cell);
+            MapEditorMenuStrip.Items.Clear();
+            foreach (var obj in objects)
+            {
+                Image image = _editor.GetEditorImage(obj);
+                ToolStripMenuItem item = new ToolStripMenuItem(obj.VisibleName, image);
+                CreateContextMenuOptions(item, obj);
+                MapEditorMenuStrip.Items.Add(item);
+            }
+            MapEditorMenuStrip.Show(RenderingCanvas, new Point(x, y));
         }
 
 
         private void RenderingCanvas_MouseUp(object sender, MouseEventArgs e)
         {
+            if (_editor == null)
+            {
+                return;
+            }
             Point? firstSelectionPoint = _firstSelectionPoint;
 
             _firstSelectionPoint = null;
@@ -354,7 +408,15 @@ namespace TileEngineSfmlMapEditor
 
             if (e.Button == MouseButtons.Right)
             {
-                _editor.ClearSelection();
+                if (_editor.SelectedCells.Length > 0)
+                {
+                    _editor?.ClearSelection();
+                }
+                else
+                {
+                    ShowContextMenu(e.X, e.Y);
+                }
+
                 return;
             }
 
@@ -384,7 +446,7 @@ namespace TileEngineSfmlMapEditor
             int delta = lastX - firstX + lastY - firstY;
             if (delta > MouseGrabThreshold)
             {
-                _editor?.SelectRect(_editor.GetCellRect(firstX, firstY, lastX, lastY));
+                _editor.SelectRect(_editor.GetCellRect(firstX, firstY, lastX, lastY));
             }
             else
             {
@@ -592,7 +654,6 @@ namespace TileEngineSfmlMapEditor
             if (childNode == null)
             {
                 return null;
-                throw new InvalidOperationException("UI Exception");
             }
 
             EntityType type = childNode.Data;
@@ -613,17 +674,12 @@ namespace TileEngineSfmlMapEditor
             }
         }
 
-        private void AttemptDeleteObjects(Vector2Int cell)
-        {
-
-        }
-
         private void AttemptInsertObject(int x, int y)
         {
             ClearErrorMessage();
             EntityType selectedObjectType = SelectedTileObject;
             
-            if(!selectedObjectType.CanActivate)
+            if(selectedObjectType == null || !selectedObjectType.CanActivate)
                 return;
 
             _editor.GetPositionWithOffset(x, y, out var cell, out var offset);
@@ -638,7 +694,5 @@ namespace TileEngineSfmlMapEditor
 
 
         #endregion
-
-
     }
 }

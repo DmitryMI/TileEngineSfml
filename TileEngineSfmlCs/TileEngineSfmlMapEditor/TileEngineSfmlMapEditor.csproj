@@ -82,6 +82,12 @@
     <Compile Include="SfmlRenderControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="FieldEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FieldEditorForm.Designer.cs">
+      <DependentUpon>FieldEditorForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MapViewForm.resx">
       <DependentUpon>MapViewForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -99,6 +105,9 @@
     </Compile>
     <EmbeddedResource Include="SfmlRenderControl.resx">
       <DependentUpon>SfmlRenderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FieldEditorForm.resx">
+      <DependentUpon>FieldEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

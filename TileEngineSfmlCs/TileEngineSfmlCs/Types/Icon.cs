@@ -43,14 +43,13 @@ namespace TileEngineSfmlCs.Types
 
         public void ReadFields(XmlElement parentElement)
         {
-            int[] resources = SerializationUtils.ReadParseables<int>(nameof(_resourceIds), parentElement);
+            int[] resources = SerializationUtils.ReadParseables<int>(nameof(_resourceIds), parentElement, null);
             _resourceIds.AddRange(resources);
 
-            float[] scales = SerializationUtils.ReadParseables<float>(nameof(_scales), parentElement);
+            float[] scales = SerializationUtils.ReadParseables<float>(nameof(_scales), parentElement, null);
             _scales.AddRange(scales);
 
-            SerializationUtils.ReadFieldSerializers<ColorB>(nameof(_colors), parentElement);
-
+            SerializationUtils.ReadFieldSerializers<ColorB>(nameof(_colors), parentElement, null);
         }
 
         public int[] ResourceIds => _resourceIds.ToArray();

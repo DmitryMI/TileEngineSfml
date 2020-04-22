@@ -46,7 +46,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs
             if (!ValidatePlacement(Scene, Position))
             {
                 Scene.DestroyEditor(this);
-                LogManager.EditorLogger.LogError($"Turf [{GetType().Name}]({InstanceId}) - placement invalid");
+                LogManager.EditorLogger.LogError($"Turf [{GetType().Name}]({GetInstanceId()}) - placement invalid");
             }
         }
     }
