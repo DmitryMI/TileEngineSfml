@@ -2,6 +2,8 @@
 {
     public enum TileLayer
     {
+        Ground,
+        Plating,
         UnderFloor,
         Floor,
         OnFloor,
