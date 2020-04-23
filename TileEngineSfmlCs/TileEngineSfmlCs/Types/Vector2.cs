@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Xml;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
 
@@ -94,6 +96,32 @@ namespace TileEngineSfmlCs.Types
         {
             X = SerializationUtils.ReadFloat(nameof(X), parentElement, X);
             Y = SerializationUtils.ReadFloat(nameof(Y), parentElement, Y);
+        }
+
+        public override string ToString()
+        {
+            return $"({X:0.00}; {Y:0.00})";
+        }
+
+        public static Vector2 Parse(string text)
+        {
+            text = text.Replace(',', '.');
+            if (text[0] == '(' && text.Last() == ')')
+            {
+                text = text.Remove(0, 1);
+                text = text.Remove(text.Length - 1, 1);
+            }
+            string[] words = text.Split(new char[] { ' ', ';' });
+            if (words.Length > 1)
+            {
+                float x = float.Parse(words[0], CultureInfo.InvariantCulture);
+                float y = float.Parse(words.Last(), CultureInfo.InvariantCulture);
+                return new Vector2(x, y);
+            }
+            else
+            {
+                throw new FormatException("Splitting failed");
+            }
         }
     }
 }

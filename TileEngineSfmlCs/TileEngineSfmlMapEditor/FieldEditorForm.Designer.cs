@@ -50,6 +50,8 @@
             this.TileObjectFieldsView.Name = "TileObjectFieldsView";
             this.TileObjectFieldsView.Size = new System.Drawing.Size(608, 459);
             this.TileObjectFieldsView.TabIndex = 0;
+            this.TileObjectFieldsView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditValueClick);
+            this.TileObjectFieldsView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.TileObjectFieldsView_CellValueChanged);
             // 
             // NameColumn
             // 

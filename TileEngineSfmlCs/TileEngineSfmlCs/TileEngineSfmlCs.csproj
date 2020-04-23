@@ -94,6 +94,7 @@
     <Compile Include="Utils\FuncComparer.cs" />
     <Compile Include="Utils\Graphics\HullGenerator.cs" />
     <Compile Include="Utils\Graphics\Polygon.cs" />
+    <Compile Include="Utils\ParsingUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

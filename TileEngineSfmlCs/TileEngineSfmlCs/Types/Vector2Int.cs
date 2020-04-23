@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Xml;
 using TileEngineSfmlCs.TileEngine.SceneSerialization;
@@ -86,6 +87,27 @@ namespace TileEngineSfmlCs.Types
         {
             X = SerializationUtils.ReadInt(nameof(X), parentElement, X);
             Y = SerializationUtils.ReadInt(nameof(Y), parentElement, Y);
+        }
+
+        public override string ToString()
+        {
+            return $"({X}; {Y})";
+        }
+
+        public static Vector2Int Parse(string text)
+        {
+            if (text[0] == '(' && text.Last() == ')')
+            {
+                text = text.Remove(0, 1).Remove(text.Length - 1, 1);
+            }
+            string[] words = text.Split(new char[] {' ', ';', ','});
+            if (words.Length == 2)
+            {
+                int x = int.Parse(words[0]);
+                int y = int.Parse(words[1]);
+                return new Vector2Int(x, y);
+            }
+            throw new FormatException();
         }
     }
 }

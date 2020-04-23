@@ -16,6 +16,8 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
         public virtual string ReadOnlyMessage => "[Read Only]";
         public abstract void SetValue(object instance, object value);
         public abstract object GetValue(object instance);
+        public abstract bool IsStringParseable { get; }
+        public abstract void ParseAndSet(object instance, string text);
 
         public static bool IsRuntimeType(Type type)
         {

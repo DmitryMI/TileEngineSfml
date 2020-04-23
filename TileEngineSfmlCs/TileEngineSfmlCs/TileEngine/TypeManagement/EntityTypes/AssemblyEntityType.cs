@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TileEngineSfmlCs.TileEngine.TileObjects;
+using TileEngineSfmlCs.Utils;
 
 namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
 {
@@ -13,6 +14,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
         public class AssemblyFieldDescriptor : FieldDescriptor
         {
             private readonly System.Reflection.FieldInfo _fieldInfo;
+            private bool _isParseable;
 
             public override string ReadOnlyMessage
             {
@@ -35,6 +37,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
             public AssemblyFieldDescriptor(FieldInfo fieldInfo)
             {
                 _fieldInfo = fieldInfo;
+                _isParseable = ParsingUtils.IsTextParseable(fieldInfo.FieldType);
             }
 
             public override string Name => _fieldInfo.Name;
@@ -52,6 +55,18 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
             public override object GetValue(object instance)
             {
                 return _fieldInfo.GetValue(instance);
+            }
+
+            public override bool IsStringParseable => _isParseable;
+            public override void ParseAndSet(object instance, string text)
+            {
+                if (!_isParseable)
+                {
+                    throw new InvalidOperationException("Field does not support text input");
+                }
+
+                object value = ParsingUtils.Parse(_fieldInfo.FieldType, text);
+                SetValue(instance, value);
             }
         }
 

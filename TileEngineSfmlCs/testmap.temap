@@ -5,7 +5,7 @@
   </ScenePreferences>
   <TileObjects>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>1</InstanceId>
+      <_instanceId>1</_instanceId>
       <Position>
         <X>16</X>
         <Y>20</Y>
@@ -16,7 +16,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>2</InstanceId>
+      <_instanceId>2</_instanceId>
       <Position>
         <X>16</X>
         <Y>20</Y>
@@ -27,7 +27,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>3</InstanceId>
+      <_instanceId>3</_instanceId>
       <Position>
         <X>16</X>
         <Y>21</Y>
@@ -38,7 +38,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>4</InstanceId>
+      <_instanceId>4</_instanceId>
       <Position>
         <X>16</X>
         <Y>21</Y>
@@ -49,7 +49,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>5</InstanceId>
+      <_instanceId>5</_instanceId>
       <Position>
         <X>16</X>
         <Y>22</Y>
@@ -60,7 +60,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>6</InstanceId>
+      <_instanceId>6</_instanceId>
       <Position>
         <X>16</X>
         <Y>22</Y>
@@ -71,7 +71,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>7</InstanceId>
+      <_instanceId>7</_instanceId>
       <Position>
         <X>16</X>
         <Y>23</Y>
@@ -82,7 +82,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>8</InstanceId>
+      <_instanceId>8</_instanceId>
       <Position>
         <X>16</X>
         <Y>23</Y>
@@ -93,7 +93,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>9</InstanceId>
+      <_instanceId>9</_instanceId>
       <Position>
         <X>16</X>
         <Y>24</Y>
@@ -104,7 +104,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>10</InstanceId>
+      <_instanceId>10</_instanceId>
       <Position>
         <X>16</X>
         <Y>24</Y>
@@ -115,7 +115,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>11</InstanceId>
+      <_instanceId>11</_instanceId>
       <Position>
         <X>16</X>
         <Y>25</Y>
@@ -126,7 +126,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>12</InstanceId>
+      <_instanceId>12</_instanceId>
       <Position>
         <X>16</X>
         <Y>25</Y>
@@ -137,7 +137,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>13</InstanceId>
+      <_instanceId>13</_instanceId>
       <Position>
         <X>16</X>
         <Y>26</Y>
@@ -148,7 +148,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>14</InstanceId>
+      <_instanceId>14</_instanceId>
       <Position>
         <X>16</X>
         <Y>26</Y>
@@ -159,7 +159,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>15</InstanceId>
+      <_instanceId>15</_instanceId>
       <Position>
         <X>16</X>
         <Y>27</Y>
@@ -170,7 +170,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>16</InstanceId>
+      <_instanceId>16</_instanceId>
       <Position>
         <X>16</X>
         <Y>27</Y>
@@ -181,7 +181,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>17</InstanceId>
+      <_instanceId>17</_instanceId>
       <Position>
         <X>16</X>
         <Y>28</Y>
@@ -192,7 +192,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>18</InstanceId>
+      <_instanceId>18</_instanceId>
       <Position>
         <X>16</X>
         <Y>28</Y>
@@ -203,7 +203,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>19</InstanceId>
+      <_instanceId>19</_instanceId>
       <Position>
         <X>16</X>
         <Y>29</Y>
@@ -214,7 +214,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>20</InstanceId>
+      <_instanceId>20</_instanceId>
       <Position>
         <X>16</X>
         <Y>29</Y>
@@ -225,7 +225,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>21</InstanceId>
+      <_instanceId>21</_instanceId>
       <Position>
         <X>16</X>
         <Y>30</Y>
@@ -236,7 +236,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>22</InstanceId>
+      <_instanceId>22</_instanceId>
       <Position>
         <X>16</X>
         <Y>30</Y>
@@ -247,7 +247,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>23</InstanceId>
+      <_instanceId>23</_instanceId>
       <Position>
         <X>17</X>
         <Y>20</Y>
@@ -258,7 +258,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>24</InstanceId>
+      <_instanceId>24</_instanceId>
       <Position>
         <X>17</X>
         <Y>20</Y>
@@ -269,7 +269,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>25</InstanceId>
+      <_instanceId>25</_instanceId>
       <Position>
         <X>17</X>
         <Y>21</Y>
@@ -280,7 +280,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>26</InstanceId>
+      <_instanceId>26</_instanceId>
       <Position>
         <X>17</X>
         <Y>22</Y>
@@ -291,7 +291,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>27</InstanceId>
+      <_instanceId>27</_instanceId>
       <Position>
         <X>17</X>
         <Y>23</Y>
@@ -302,7 +302,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>28</InstanceId>
+      <_instanceId>28</_instanceId>
       <Position>
         <X>17</X>
         <Y>24</Y>
@@ -313,7 +313,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>29</InstanceId>
+      <_instanceId>29</_instanceId>
       <Position>
         <X>17</X>
         <Y>25</Y>
@@ -324,7 +324,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>30</InstanceId>
+      <_instanceId>30</_instanceId>
       <Position>
         <X>17</X>
         <Y>26</Y>
@@ -335,7 +335,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>31</InstanceId>
+      <_instanceId>31</_instanceId>
       <Position>
         <X>17</X>
         <Y>27</Y>
@@ -346,7 +346,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>32</InstanceId>
+      <_instanceId>32</_instanceId>
       <Position>
         <X>17</X>
         <Y>28</Y>
@@ -357,7 +357,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>33</InstanceId>
+      <_instanceId>33</_instanceId>
       <Position>
         <X>17</X>
         <Y>29</Y>
@@ -368,7 +368,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>34</InstanceId>
+      <_instanceId>34</_instanceId>
       <Position>
         <X>17</X>
         <Y>30</Y>
@@ -379,7 +379,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>35</InstanceId>
+      <_instanceId>35</_instanceId>
       <Position>
         <X>17</X>
         <Y>30</Y>
@@ -390,7 +390,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>36</InstanceId>
+      <_instanceId>36</_instanceId>
       <Position>
         <X>18</X>
         <Y>20</Y>
@@ -401,7 +401,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>37</InstanceId>
+      <_instanceId>37</_instanceId>
       <Position>
         <X>18</X>
         <Y>20</Y>
@@ -412,7 +412,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>38</InstanceId>
+      <_instanceId>38</_instanceId>
       <Position>
         <X>18</X>
         <Y>21</Y>
@@ -423,7 +423,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>39</InstanceId>
+      <_instanceId>39</_instanceId>
       <Position>
         <X>18</X>
         <Y>22</Y>
@@ -434,7 +434,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>40</InstanceId>
+      <_instanceId>40</_instanceId>
       <Position>
         <X>18</X>
         <Y>23</Y>
@@ -445,7 +445,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>41</InstanceId>
+      <_instanceId>41</_instanceId>
       <Position>
         <X>18</X>
         <Y>24</Y>
@@ -456,7 +456,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>42</InstanceId>
+      <_instanceId>42</_instanceId>
       <Position>
         <X>18</X>
         <Y>25</Y>
@@ -467,7 +467,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>43</InstanceId>
+      <_instanceId>43</_instanceId>
       <Position>
         <X>18</X>
         <Y>26</Y>
@@ -478,7 +478,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>44</InstanceId>
+      <_instanceId>44</_instanceId>
       <Position>
         <X>18</X>
         <Y>27</Y>
@@ -489,7 +489,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>45</InstanceId>
+      <_instanceId>45</_instanceId>
       <Position>
         <X>18</X>
         <Y>28</Y>
@@ -500,7 +500,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>46</InstanceId>
+      <_instanceId>46</_instanceId>
       <Position>
         <X>18</X>
         <Y>29</Y>
@@ -511,7 +511,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>47</InstanceId>
+      <_instanceId>47</_instanceId>
       <Position>
         <X>18</X>
         <Y>30</Y>
@@ -522,7 +522,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>48</InstanceId>
+      <_instanceId>48</_instanceId>
       <Position>
         <X>18</X>
         <Y>30</Y>
@@ -533,7 +533,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>49</InstanceId>
+      <_instanceId>49</_instanceId>
       <Position>
         <X>19</X>
         <Y>20</Y>
@@ -544,7 +544,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>50</InstanceId>
+      <_instanceId>50</_instanceId>
       <Position>
         <X>19</X>
         <Y>20</Y>
@@ -555,7 +555,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>51</InstanceId>
+      <_instanceId>51</_instanceId>
       <Position>
         <X>19</X>
         <Y>21</Y>
@@ -566,7 +566,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>52</InstanceId>
+      <_instanceId>52</_instanceId>
       <Position>
         <X>19</X>
         <Y>22</Y>
@@ -577,7 +577,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>53</InstanceId>
+      <_instanceId>53</_instanceId>
       <Position>
         <X>19</X>
         <Y>23</Y>
@@ -588,7 +588,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>54</InstanceId>
+      <_instanceId>54</_instanceId>
       <Position>
         <X>19</X>
         <Y>24</Y>
@@ -599,7 +599,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>55</InstanceId>
+      <_instanceId>55</_instanceId>
       <Position>
         <X>19</X>
         <Y>25</Y>
@@ -610,7 +610,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>56</InstanceId>
+      <_instanceId>56</_instanceId>
       <Position>
         <X>19</X>
         <Y>26</Y>
@@ -621,7 +621,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>57</InstanceId>
+      <_instanceId>57</_instanceId>
       <Position>
         <X>19</X>
         <Y>27</Y>
@@ -632,7 +632,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>58</InstanceId>
+      <_instanceId>58</_instanceId>
       <Position>
         <X>19</X>
         <Y>28</Y>
@@ -643,7 +643,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>59</InstanceId>
+      <_instanceId>59</_instanceId>
       <Position>
         <X>19</X>
         <Y>29</Y>
@@ -654,7 +654,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>60</InstanceId>
+      <_instanceId>60</_instanceId>
       <Position>
         <X>19</X>
         <Y>30</Y>
@@ -665,7 +665,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>61</InstanceId>
+      <_instanceId>61</_instanceId>
       <Position>
         <X>19</X>
         <Y>30</Y>
@@ -676,7 +676,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>62</InstanceId>
+      <_instanceId>62</_instanceId>
       <Position>
         <X>20</X>
         <Y>20</Y>
@@ -687,7 +687,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>63</InstanceId>
+      <_instanceId>63</_instanceId>
       <Position>
         <X>20</X>
         <Y>20</Y>
@@ -698,7 +698,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>64</InstanceId>
+      <_instanceId>64</_instanceId>
       <Position>
         <X>20</X>
         <Y>21</Y>
@@ -709,7 +709,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>65</InstanceId>
+      <_instanceId>65</_instanceId>
       <Position>
         <X>20</X>
         <Y>22</Y>
@@ -720,7 +720,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>66</InstanceId>
+      <_instanceId>66</_instanceId>
       <Position>
         <X>20</X>
         <Y>23</Y>
@@ -731,7 +731,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorItem, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>67</InstanceId>
+      <_instanceId>67</_instanceId>
       <Position>
         <X>20</X>
         <Y>23</Y>
@@ -743,7 +743,7 @@
       <_power>100</_power>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>68</InstanceId>
+      <_instanceId>68</_instanceId>
       <Position>
         <X>20</X>
         <Y>24</Y>
@@ -754,7 +754,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>69</InstanceId>
+      <_instanceId>69</_instanceId>
       <Position>
         <X>20</X>
         <Y>25</Y>
@@ -765,7 +765,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>70</InstanceId>
+      <_instanceId>70</_instanceId>
       <Position>
         <X>20</X>
         <Y>26</Y>
@@ -776,7 +776,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>71</InstanceId>
+      <_instanceId>71</_instanceId>
       <Position>
         <X>20</X>
         <Y>27</Y>
@@ -787,7 +787,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>72</InstanceId>
+      <_instanceId>72</_instanceId>
       <Position>
         <X>20</X>
         <Y>28</Y>
@@ -798,7 +798,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>73</InstanceId>
+      <_instanceId>73</_instanceId>
       <Position>
         <X>20</X>
         <Y>29</Y>
@@ -809,7 +809,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>74</InstanceId>
+      <_instanceId>74</_instanceId>
       <Position>
         <X>20</X>
         <Y>30</Y>
@@ -820,7 +820,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>75</InstanceId>
+      <_instanceId>75</_instanceId>
       <Position>
         <X>20</X>
         <Y>30</Y>
@@ -831,7 +831,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>76</InstanceId>
+      <_instanceId>76</_instanceId>
       <Position>
         <X>21</X>
         <Y>20</Y>
@@ -842,7 +842,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>77</InstanceId>
+      <_instanceId>77</_instanceId>
       <Position>
         <X>21</X>
         <Y>20</Y>
@@ -853,7 +853,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>78</InstanceId>
+      <_instanceId>78</_instanceId>
       <Position>
         <X>21</X>
         <Y>21</Y>
@@ -864,7 +864,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>79</InstanceId>
+      <_instanceId>79</_instanceId>
       <Position>
         <X>21</X>
         <Y>22</Y>
@@ -875,7 +875,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>80</InstanceId>
+      <_instanceId>80</_instanceId>
       <Position>
         <X>21</X>
         <Y>23</Y>
@@ -886,7 +886,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>81</InstanceId>
+      <_instanceId>81</_instanceId>
       <Position>
         <X>21</X>
         <Y>24</Y>
@@ -897,7 +897,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>82</InstanceId>
+      <_instanceId>82</_instanceId>
       <Position>
         <X>21</X>
         <Y>25</Y>
@@ -908,7 +908,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>83</InstanceId>
+      <_instanceId>83</_instanceId>
       <Position>
         <X>21</X>
         <Y>26</Y>
@@ -919,7 +919,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>84</InstanceId>
+      <_instanceId>84</_instanceId>
       <Position>
         <X>21</X>
         <Y>27</Y>
@@ -930,7 +930,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>85</InstanceId>
+      <_instanceId>85</_instanceId>
       <Position>
         <X>21</X>
         <Y>28</Y>
@@ -941,7 +941,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>86</InstanceId>
+      <_instanceId>86</_instanceId>
       <Position>
         <X>21</X>
         <Y>29</Y>
@@ -952,7 +952,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>87</InstanceId>
+      <_instanceId>87</_instanceId>
       <Position>
         <X>21</X>
         <Y>30</Y>
@@ -963,7 +963,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>88</InstanceId>
+      <_instanceId>88</_instanceId>
       <Position>
         <X>21</X>
         <Y>30</Y>
@@ -974,7 +974,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>89</InstanceId>
+      <_instanceId>89</_instanceId>
       <Position>
         <X>22</X>
         <Y>20</Y>
@@ -985,7 +985,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>90</InstanceId>
+      <_instanceId>90</_instanceId>
       <Position>
         <X>22</X>
         <Y>20</Y>
@@ -996,7 +996,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>91</InstanceId>
+      <_instanceId>91</_instanceId>
       <Position>
         <X>22</X>
         <Y>21</Y>
@@ -1007,7 +1007,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>92</InstanceId>
+      <_instanceId>92</_instanceId>
       <Position>
         <X>22</X>
         <Y>22</Y>
@@ -1018,7 +1018,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>93</InstanceId>
+      <_instanceId>93</_instanceId>
       <Position>
         <X>22</X>
         <Y>23</Y>
@@ -1029,7 +1029,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>94</InstanceId>
+      <_instanceId>94</_instanceId>
       <Position>
         <X>22</X>
         <Y>24</Y>
@@ -1040,7 +1040,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>95</InstanceId>
+      <_instanceId>95</_instanceId>
       <Position>
         <X>22</X>
         <Y>25</Y>
@@ -1051,7 +1051,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>96</InstanceId>
+      <_instanceId>96</_instanceId>
       <Position>
         <X>22</X>
         <Y>26</Y>
@@ -1062,7 +1062,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>97</InstanceId>
+      <_instanceId>97</_instanceId>
       <Position>
         <X>22</X>
         <Y>27</Y>
@@ -1073,7 +1073,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>98</InstanceId>
+      <_instanceId>98</_instanceId>
       <Position>
         <X>22</X>
         <Y>28</Y>
@@ -1084,7 +1084,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>99</InstanceId>
+      <_instanceId>99</_instanceId>
       <Position>
         <X>22</X>
         <Y>29</Y>
@@ -1095,7 +1095,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>100</InstanceId>
+      <_instanceId>100</_instanceId>
       <Position>
         <X>22</X>
         <Y>30</Y>
@@ -1106,7 +1106,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>101</InstanceId>
+      <_instanceId>101</_instanceId>
       <Position>
         <X>22</X>
         <Y>30</Y>
@@ -1117,7 +1117,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>102</InstanceId>
+      <_instanceId>102</_instanceId>
       <Position>
         <X>23</X>
         <Y>20</Y>
@@ -1128,7 +1128,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>103</InstanceId>
+      <_instanceId>103</_instanceId>
       <Position>
         <X>23</X>
         <Y>20</Y>
@@ -1139,7 +1139,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>104</InstanceId>
+      <_instanceId>104</_instanceId>
       <Position>
         <X>23</X>
         <Y>21</Y>
@@ -1150,7 +1150,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>105</InstanceId>
+      <_instanceId>105</_instanceId>
       <Position>
         <X>23</X>
         <Y>22</Y>
@@ -1161,7 +1161,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>106</InstanceId>
+      <_instanceId>106</_instanceId>
       <Position>
         <X>23</X>
         <Y>23</Y>
@@ -1172,7 +1172,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorItem, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>107</InstanceId>
+      <_instanceId>107</_instanceId>
       <Position>
         <X>23</X>
         <Y>23</Y>
@@ -1184,7 +1184,7 @@
       <_power>100</_power>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>108</InstanceId>
+      <_instanceId>108</_instanceId>
       <Position>
         <X>23</X>
         <Y>24</Y>
@@ -1195,7 +1195,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorItem, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>109</InstanceId>
+      <_instanceId>109</_instanceId>
       <Position>
         <X>23</X>
         <Y>24</Y>
@@ -1207,7 +1207,7 @@
       <_power>100</_power>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>110</InstanceId>
+      <_instanceId>110</_instanceId>
       <Position>
         <X>23</X>
         <Y>25</Y>
@@ -1218,7 +1218,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>111</InstanceId>
+      <_instanceId>111</_instanceId>
       <Position>
         <X>23</X>
         <Y>26</Y>
@@ -1229,7 +1229,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>112</InstanceId>
+      <_instanceId>112</_instanceId>
       <Position>
         <X>23</X>
         <Y>27</Y>
@@ -1240,7 +1240,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>113</InstanceId>
+      <_instanceId>113</_instanceId>
       <Position>
         <X>23</X>
         <Y>28</Y>
@@ -1251,7 +1251,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>114</InstanceId>
+      <_instanceId>114</_instanceId>
       <Position>
         <X>23</X>
         <Y>29</Y>
@@ -1262,7 +1262,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>115</InstanceId>
+      <_instanceId>115</_instanceId>
       <Position>
         <X>23</X>
         <Y>30</Y>
@@ -1273,7 +1273,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>116</InstanceId>
+      <_instanceId>116</_instanceId>
       <Position>
         <X>23</X>
         <Y>30</Y>
@@ -1284,7 +1284,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>117</InstanceId>
+      <_instanceId>117</_instanceId>
       <Position>
         <X>24</X>
         <Y>20</Y>
@@ -1295,7 +1295,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>118</InstanceId>
+      <_instanceId>118</_instanceId>
       <Position>
         <X>24</X>
         <Y>20</Y>
@@ -1306,7 +1306,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>119</InstanceId>
+      <_instanceId>119</_instanceId>
       <Position>
         <X>24</X>
         <Y>21</Y>
@@ -1317,7 +1317,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>120</InstanceId>
+      <_instanceId>120</_instanceId>
       <Position>
         <X>24</X>
         <Y>22</Y>
@@ -1328,7 +1328,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>121</InstanceId>
+      <_instanceId>121</_instanceId>
       <Position>
         <X>24</X>
         <Y>23</Y>
@@ -1339,7 +1339,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>122</InstanceId>
+      <_instanceId>122</_instanceId>
       <Position>
         <X>24</X>
         <Y>24</Y>
@@ -1350,7 +1350,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>123</InstanceId>
+      <_instanceId>123</_instanceId>
       <Position>
         <X>24</X>
         <Y>25</Y>
@@ -1361,7 +1361,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>124</InstanceId>
+      <_instanceId>124</_instanceId>
       <Position>
         <X>24</X>
         <Y>26</Y>
@@ -1372,7 +1372,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>125</InstanceId>
+      <_instanceId>125</_instanceId>
       <Position>
         <X>24</X>
         <Y>27</Y>
@@ -1383,7 +1383,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>126</InstanceId>
+      <_instanceId>126</_instanceId>
       <Position>
         <X>24</X>
         <Y>28</Y>
@@ -1394,7 +1394,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>127</InstanceId>
+      <_instanceId>127</_instanceId>
       <Position>
         <X>24</X>
         <Y>29</Y>
@@ -1405,7 +1405,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>128</InstanceId>
+      <_instanceId>128</_instanceId>
       <Position>
         <X>24</X>
         <Y>30</Y>
@@ -1416,7 +1416,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>129</InstanceId>
+      <_instanceId>129</_instanceId>
       <Position>
         <X>24</X>
         <Y>30</Y>
@@ -1427,7 +1427,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>130</InstanceId>
+      <_instanceId>130</_instanceId>
       <Position>
         <X>25</X>
         <Y>20</Y>
@@ -1438,7 +1438,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>131</InstanceId>
+      <_instanceId>131</_instanceId>
       <Position>
         <X>25</X>
         <Y>20</Y>
@@ -1449,7 +1449,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>132</InstanceId>
+      <_instanceId>132</_instanceId>
       <Position>
         <X>25</X>
         <Y>21</Y>
@@ -1460,7 +1460,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>133</InstanceId>
+      <_instanceId>133</_instanceId>
       <Position>
         <X>25</X>
         <Y>22</Y>
@@ -1471,7 +1471,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>134</InstanceId>
+      <_instanceId>134</_instanceId>
       <Position>
         <X>25</X>
         <Y>23</Y>
@@ -1482,7 +1482,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>135</InstanceId>
+      <_instanceId>135</_instanceId>
       <Position>
         <X>25</X>
         <Y>24</Y>
@@ -1493,7 +1493,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>136</InstanceId>
+      <_instanceId>136</_instanceId>
       <Position>
         <X>25</X>
         <Y>25</Y>
@@ -1504,7 +1504,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>137</InstanceId>
+      <_instanceId>137</_instanceId>
       <Position>
         <X>25</X>
         <Y>26</Y>
@@ -1515,7 +1515,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>138</InstanceId>
+      <_instanceId>138</_instanceId>
       <Position>
         <X>25</X>
         <Y>27</Y>
@@ -1526,7 +1526,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>139</InstanceId>
+      <_instanceId>139</_instanceId>
       <Position>
         <X>25</X>
         <Y>28</Y>
@@ -1537,7 +1537,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>140</InstanceId>
+      <_instanceId>140</_instanceId>
       <Position>
         <X>25</X>
         <Y>29</Y>
@@ -1548,7 +1548,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>141</InstanceId>
+      <_instanceId>141</_instanceId>
       <Position>
         <X>25</X>
         <Y>30</Y>
@@ -1559,7 +1559,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>142</InstanceId>
+      <_instanceId>142</_instanceId>
       <Position>
         <X>25</X>
         <Y>30</Y>
@@ -1570,7 +1570,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>143</InstanceId>
+      <_instanceId>143</_instanceId>
       <Position>
         <X>26</X>
         <Y>20</Y>
@@ -1581,7 +1581,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>144</InstanceId>
+      <_instanceId>144</_instanceId>
       <Position>
         <X>26</X>
         <Y>20</Y>
@@ -1592,7 +1592,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>145</InstanceId>
+      <_instanceId>145</_instanceId>
       <Position>
         <X>26</X>
         <Y>21</Y>
@@ -1603,7 +1603,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>146</InstanceId>
+      <_instanceId>146</_instanceId>
       <Position>
         <X>26</X>
         <Y>22</Y>
@@ -1614,7 +1614,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>147</InstanceId>
+      <_instanceId>147</_instanceId>
       <Position>
         <X>26</X>
         <Y>23</Y>
@@ -1625,7 +1625,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>148</InstanceId>
+      <_instanceId>148</_instanceId>
       <Position>
         <X>26</X>
         <Y>24</Y>
@@ -1636,7 +1636,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>149</InstanceId>
+      <_instanceId>149</_instanceId>
       <Position>
         <X>26</X>
         <Y>25</Y>
@@ -1647,7 +1647,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>150</InstanceId>
+      <_instanceId>150</_instanceId>
       <Position>
         <X>26</X>
         <Y>26</Y>
@@ -1658,7 +1658,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>151</InstanceId>
+      <_instanceId>151</_instanceId>
       <Position>
         <X>26</X>
         <Y>27</Y>
@@ -1669,7 +1669,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>152</InstanceId>
+      <_instanceId>152</_instanceId>
       <Position>
         <X>26</X>
         <Y>28</Y>
@@ -1680,7 +1680,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>153</InstanceId>
+      <_instanceId>153</_instanceId>
       <Position>
         <X>26</X>
         <Y>29</Y>
@@ -1691,7 +1691,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>154</InstanceId>
+      <_instanceId>154</_instanceId>
       <Position>
         <X>26</X>
         <Y>30</Y>
@@ -1702,7 +1702,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>155</InstanceId>
+      <_instanceId>155</_instanceId>
       <Position>
         <X>26</X>
         <Y>30</Y>
@@ -1713,7 +1713,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>156</InstanceId>
+      <_instanceId>156</_instanceId>
       <Position>
         <X>27</X>
         <Y>20</Y>
@@ -1724,7 +1724,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>157</InstanceId>
+      <_instanceId>157</_instanceId>
       <Position>
         <X>27</X>
         <Y>20</Y>
@@ -1735,7 +1735,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>158</InstanceId>
+      <_instanceId>158</_instanceId>
       <Position>
         <X>27</X>
         <Y>21</Y>
@@ -1746,7 +1746,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>159</InstanceId>
+      <_instanceId>159</_instanceId>
       <Position>
         <X>27</X>
         <Y>22</Y>
@@ -1757,7 +1757,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>160</InstanceId>
+      <_instanceId>160</_instanceId>
       <Position>
         <X>27</X>
         <Y>23</Y>
@@ -1768,7 +1768,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>161</InstanceId>
+      <_instanceId>161</_instanceId>
       <Position>
         <X>27</X>
         <Y>24</Y>
@@ -1779,7 +1779,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>162</InstanceId>
+      <_instanceId>162</_instanceId>
       <Position>
         <X>27</X>
         <Y>25</Y>
@@ -1790,7 +1790,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>163</InstanceId>
+      <_instanceId>163</_instanceId>
       <Position>
         <X>27</X>
         <Y>26</Y>
@@ -1801,7 +1801,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>164</InstanceId>
+      <_instanceId>164</_instanceId>
       <Position>
         <X>27</X>
         <Y>27</Y>
@@ -1812,7 +1812,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>165</InstanceId>
+      <_instanceId>165</_instanceId>
       <Position>
         <X>27</X>
         <Y>28</Y>
@@ -1823,7 +1823,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>166</InstanceId>
+      <_instanceId>166</_instanceId>
       <Position>
         <X>27</X>
         <Y>29</Y>
@@ -1834,7 +1834,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>167</InstanceId>
+      <_instanceId>167</_instanceId>
       <Position>
         <X>27</X>
         <Y>30</Y>
@@ -1845,7 +1845,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>168</InstanceId>
+      <_instanceId>168</_instanceId>
       <Position>
         <X>27</X>
         <Y>30</Y>
@@ -1856,7 +1856,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>169</InstanceId>
+      <_instanceId>169</_instanceId>
       <Position>
         <X>28</X>
         <Y>20</Y>
@@ -1867,7 +1867,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>170</InstanceId>
+      <_instanceId>170</_instanceId>
       <Position>
         <X>28</X>
         <Y>20</Y>
@@ -1878,7 +1878,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>171</InstanceId>
+      <_instanceId>171</_instanceId>
       <Position>
         <X>28</X>
         <Y>21</Y>
@@ -1889,7 +1889,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>172</InstanceId>
+      <_instanceId>172</_instanceId>
       <Position>
         <X>28</X>
         <Y>22</Y>
@@ -1900,7 +1900,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>173</InstanceId>
+      <_instanceId>173</_instanceId>
       <Position>
         <X>28</X>
         <Y>23</Y>
@@ -1911,7 +1911,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>174</InstanceId>
+      <_instanceId>174</_instanceId>
       <Position>
         <X>28</X>
         <Y>24</Y>
@@ -1922,7 +1922,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>175</InstanceId>
+      <_instanceId>175</_instanceId>
       <Position>
         <X>28</X>
         <Y>25</Y>
@@ -1933,7 +1933,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>176</InstanceId>
+      <_instanceId>176</_instanceId>
       <Position>
         <X>28</X>
         <Y>26</Y>
@@ -1944,7 +1944,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>177</InstanceId>
+      <_instanceId>177</_instanceId>
       <Position>
         <X>28</X>
         <Y>27</Y>
@@ -1955,7 +1955,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>178</InstanceId>
+      <_instanceId>178</_instanceId>
       <Position>
         <X>28</X>
         <Y>28</Y>
@@ -1966,7 +1966,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>179</InstanceId>
+      <_instanceId>179</_instanceId>
       <Position>
         <X>28</X>
         <Y>29</Y>
@@ -1977,7 +1977,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>180</InstanceId>
+      <_instanceId>180</_instanceId>
       <Position>
         <X>28</X>
         <Y>30</Y>
@@ -1988,7 +1988,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>181</InstanceId>
+      <_instanceId>181</_instanceId>
       <Position>
         <X>28</X>
         <Y>30</Y>
@@ -1999,7 +1999,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>182</InstanceId>
+      <_instanceId>182</_instanceId>
       <Position>
         <X>29</X>
         <Y>20</Y>
@@ -2010,7 +2010,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>183</InstanceId>
+      <_instanceId>183</_instanceId>
       <Position>
         <X>29</X>
         <Y>20</Y>
@@ -2021,7 +2021,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>184</InstanceId>
+      <_instanceId>184</_instanceId>
       <Position>
         <X>29</X>
         <Y>21</Y>
@@ -2032,7 +2032,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>185</InstanceId>
+      <_instanceId>185</_instanceId>
       <Position>
         <X>29</X>
         <Y>22</Y>
@@ -2043,7 +2043,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>186</InstanceId>
+      <_instanceId>186</_instanceId>
       <Position>
         <X>29</X>
         <Y>23</Y>
@@ -2054,7 +2054,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>187</InstanceId>
+      <_instanceId>187</_instanceId>
       <Position>
         <X>29</X>
         <Y>24</Y>
@@ -2065,7 +2065,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>188</InstanceId>
+      <_instanceId>188</_instanceId>
       <Position>
         <X>29</X>
         <Y>25</Y>
@@ -2076,7 +2076,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>189</InstanceId>
+      <_instanceId>189</_instanceId>
       <Position>
         <X>29</X>
         <Y>26</Y>
@@ -2087,7 +2087,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>190</InstanceId>
+      <_instanceId>190</_instanceId>
       <Position>
         <X>29</X>
         <Y>27</Y>
@@ -2098,7 +2098,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>191</InstanceId>
+      <_instanceId>191</_instanceId>
       <Position>
         <X>29</X>
         <Y>28</Y>
@@ -2109,7 +2109,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>192</InstanceId>
+      <_instanceId>192</_instanceId>
       <Position>
         <X>29</X>
         <Y>29</Y>
@@ -2120,7 +2120,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>193</InstanceId>
+      <_instanceId>193</_instanceId>
       <Position>
         <X>29</X>
         <Y>30</Y>
@@ -2131,7 +2131,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>194</InstanceId>
+      <_instanceId>194</_instanceId>
       <Position>
         <X>29</X>
         <Y>30</Y>
@@ -2142,7 +2142,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>195</InstanceId>
+      <_instanceId>195</_instanceId>
       <Position>
         <X>30</X>
         <Y>20</Y>
@@ -2153,7 +2153,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>196</InstanceId>
+      <_instanceId>196</_instanceId>
       <Position>
         <X>30</X>
         <Y>20</Y>
@@ -2164,7 +2164,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>197</InstanceId>
+      <_instanceId>197</_instanceId>
       <Position>
         <X>30</X>
         <Y>21</Y>
@@ -2175,7 +2175,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>198</InstanceId>
+      <_instanceId>198</_instanceId>
       <Position>
         <X>30</X>
         <Y>22</Y>
@@ -2186,7 +2186,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>199</InstanceId>
+      <_instanceId>199</_instanceId>
       <Position>
         <X>30</X>
         <Y>23</Y>
@@ -2197,7 +2197,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>200</InstanceId>
+      <_instanceId>200</_instanceId>
       <Position>
         <X>30</X>
         <Y>24</Y>
@@ -2208,7 +2208,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>201</InstanceId>
+      <_instanceId>201</_instanceId>
       <Position>
         <X>30</X>
         <Y>25</Y>
@@ -2219,7 +2219,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>202</InstanceId>
+      <_instanceId>202</_instanceId>
       <Position>
         <X>30</X>
         <Y>26</Y>
@@ -2230,7 +2230,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>203</InstanceId>
+      <_instanceId>203</_instanceId>
       <Position>
         <X>30</X>
         <Y>27</Y>
@@ -2241,7 +2241,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>204</InstanceId>
+      <_instanceId>204</_instanceId>
       <Position>
         <X>30</X>
         <Y>28</Y>
@@ -2252,7 +2252,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>205</InstanceId>
+      <_instanceId>205</_instanceId>
       <Position>
         <X>30</X>
         <Y>29</Y>
@@ -2263,7 +2263,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>206</InstanceId>
+      <_instanceId>206</_instanceId>
       <Position>
         <X>30</X>
         <Y>30</Y>
@@ -2274,7 +2274,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>207</InstanceId>
+      <_instanceId>207</_instanceId>
       <Position>
         <X>30</X>
         <Y>30</Y>
@@ -2285,7 +2285,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>208</InstanceId>
+      <_instanceId>208</_instanceId>
       <Position>
         <X>31</X>
         <Y>20</Y>
@@ -2296,7 +2296,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>209</InstanceId>
+      <_instanceId>209</_instanceId>
       <Position>
         <X>31</X>
         <Y>20</Y>
@@ -2307,7 +2307,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>210</InstanceId>
+      <_instanceId>210</_instanceId>
       <Position>
         <X>31</X>
         <Y>21</Y>
@@ -2318,7 +2318,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>211</InstanceId>
+      <_instanceId>211</_instanceId>
       <Position>
         <X>31</X>
         <Y>22</Y>
@@ -2329,7 +2329,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>212</InstanceId>
+      <_instanceId>212</_instanceId>
       <Position>
         <X>31</X>
         <Y>23</Y>
@@ -2340,7 +2340,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>213</InstanceId>
+      <_instanceId>213</_instanceId>
       <Position>
         <X>31</X>
         <Y>24</Y>
@@ -2351,7 +2351,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>214</InstanceId>
+      <_instanceId>214</_instanceId>
       <Position>
         <X>31</X>
         <Y>25</Y>
@@ -2362,7 +2362,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>215</InstanceId>
+      <_instanceId>215</_instanceId>
       <Position>
         <X>31</X>
         <Y>26</Y>
@@ -2373,7 +2373,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>216</InstanceId>
+      <_instanceId>216</_instanceId>
       <Position>
         <X>31</X>
         <Y>27</Y>
@@ -2384,7 +2384,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>217</InstanceId>
+      <_instanceId>217</_instanceId>
       <Position>
         <X>31</X>
         <Y>28</Y>
@@ -2395,7 +2395,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>218</InstanceId>
+      <_instanceId>218</_instanceId>
       <Position>
         <X>31</X>
         <Y>29</Y>
@@ -2406,7 +2406,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>219</InstanceId>
+      <_instanceId>219</_instanceId>
       <Position>
         <X>31</X>
         <Y>30</Y>
@@ -2417,7 +2417,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>220</InstanceId>
+      <_instanceId>220</_instanceId>
       <Position>
         <X>31</X>
         <Y>30</Y>
@@ -2428,7 +2428,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>221</InstanceId>
+      <_instanceId>221</_instanceId>
       <Position>
         <X>32</X>
         <Y>20</Y>
@@ -2439,7 +2439,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>222</InstanceId>
+      <_instanceId>222</_instanceId>
       <Position>
         <X>32</X>
         <Y>20</Y>
@@ -2450,7 +2450,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>223</InstanceId>
+      <_instanceId>223</_instanceId>
       <Position>
         <X>32</X>
         <Y>21</Y>
@@ -2461,7 +2461,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>224</InstanceId>
+      <_instanceId>224</_instanceId>
       <Position>
         <X>32</X>
         <Y>21</Y>
@@ -2472,7 +2472,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>225</InstanceId>
+      <_instanceId>225</_instanceId>
       <Position>
         <X>32</X>
         <Y>22</Y>
@@ -2483,7 +2483,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>226</InstanceId>
+      <_instanceId>226</_instanceId>
       <Position>
         <X>32</X>
         <Y>22</Y>
@@ -2494,7 +2494,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>227</InstanceId>
+      <_instanceId>227</_instanceId>
       <Position>
         <X>32</X>
         <Y>23</Y>
@@ -2505,7 +2505,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>228</InstanceId>
+      <_instanceId>228</_instanceId>
       <Position>
         <X>32</X>
         <Y>23</Y>
@@ -2516,7 +2516,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>229</InstanceId>
+      <_instanceId>229</_instanceId>
       <Position>
         <X>32</X>
         <Y>24</Y>
@@ -2527,7 +2527,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>230</InstanceId>
+      <_instanceId>230</_instanceId>
       <Position>
         <X>32</X>
         <Y>24</Y>
@@ -2538,7 +2538,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>231</InstanceId>
+      <_instanceId>231</_instanceId>
       <Position>
         <X>32</X>
         <Y>25</Y>
@@ -2549,7 +2549,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>232</InstanceId>
+      <_instanceId>232</_instanceId>
       <Position>
         <X>32</X>
         <Y>25</Y>
@@ -2560,7 +2560,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>233</InstanceId>
+      <_instanceId>233</_instanceId>
       <Position>
         <X>32</X>
         <Y>26</Y>
@@ -2571,7 +2571,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>234</InstanceId>
+      <_instanceId>234</_instanceId>
       <Position>
         <X>32</X>
         <Y>26</Y>
@@ -2582,7 +2582,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>235</InstanceId>
+      <_instanceId>235</_instanceId>
       <Position>
         <X>32</X>
         <Y>27</Y>
@@ -2593,7 +2593,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>236</InstanceId>
+      <_instanceId>236</_instanceId>
       <Position>
         <X>32</X>
         <Y>27</Y>
@@ -2604,7 +2604,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>237</InstanceId>
+      <_instanceId>237</_instanceId>
       <Position>
         <X>32</X>
         <Y>28</Y>
@@ -2615,7 +2615,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>238</InstanceId>
+      <_instanceId>238</_instanceId>
       <Position>
         <X>32</X>
         <Y>28</Y>
@@ -2626,7 +2626,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>239</InstanceId>
+      <_instanceId>239</_instanceId>
       <Position>
         <X>32</X>
         <Y>29</Y>
@@ -2637,7 +2637,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>240</InstanceId>
+      <_instanceId>240</_instanceId>
       <Position>
         <X>32</X>
         <Y>29</Y>
@@ -2648,7 +2648,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorFloor, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>241</InstanceId>
+      <_instanceId>241</_instanceId>
       <Position>
         <X>32</X>
         <Y>30</Y>
@@ -2659,7 +2659,7 @@
       </Offset>
     </TileObject>
     <TileObject Type="TileEngineSfmlMapEditor.MapEditing.EditorWall, TileEngineSfmlMapEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <InstanceId>242</InstanceId>
+      <_instanceId>242</_instanceId>
       <Position>
         <X>32</X>
         <Y>30</Y>
