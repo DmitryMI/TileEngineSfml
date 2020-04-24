@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using TileEngineSfmlCs.TileEngine.TileObjects;
+using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils;
 using TileEngineSfmlCs.Utils.Serialization;
@@ -273,6 +274,7 @@ namespace TileEngineSfmlCs.TileEngine
             }
             SerializeScene(scene, mapXmlStream);
             mapXmlStream.Flush();
+            mapXmlStream.Close();
         }
 
         public static void SerializeScene(Scene scene, Stream serializationStream)
@@ -349,12 +351,12 @@ namespace TileEngineSfmlCs.TileEngine
         private static void SerializeTileObject(TileObject tileObject, XmlElement parentElement)
         {
             XmlDocument xmlDocument = parentElement.OwnerDocument;
-            Type type = tileObject.GetType();
+            EntityType type = tileObject.GetEntityType();
             if (xmlDocument != null)
             {
                 XmlElement objectElement = xmlDocument.CreateElement("TileObject");
                 XmlAttribute typeAttribute = xmlDocument.CreateAttribute("Type");
-                string typePath = type.AssemblyQualifiedName;
+                string typePath = type.FullName;
                 typeAttribute.Value = typePath;
                 objectElement.Attributes.Append(typeAttribute);
                 tileObject.AppendFields(objectElement);
@@ -375,14 +377,19 @@ namespace TileEngineSfmlCs.TileEngine
                 return null;
             }
             string fullTypeName = typeAttribute.Value;
-            Type type = Type.GetType(fullTypeName);
+            //Type type = Type.GetType(fullTypeName);
+            EntityType type = TypeManagement.TypeManager.Instance.GetEntityType(fullTypeName);
             if (type == null)
             {
-                throw new TypeNotFound(fullTypeName);
+                Logging.LogManager.EditorLogger.LogError($"Type {fullTypeName} was not found!");
+                return null;
             }
-            TileObject instance = (TileObject)Activator.CreateInstance(type);
-            instance.ReadFields(element);
-            return instance;
+            else
+            {
+                TileObject instance = type.Activate();
+                instance.ReadFields(element);
+                return instance;
+            }
         }
 
         private static void SerializeTileObjects(List<TileObject>[,] objectMatrix, XmlElement tileObjects)

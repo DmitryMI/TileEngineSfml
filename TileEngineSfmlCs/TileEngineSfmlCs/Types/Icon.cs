@@ -12,6 +12,13 @@ namespace TileEngineSfmlCs.Types
         private List<ColorB> _colors = new List<ColorB>();
         private List<float> _scales = new List<float>();
 
+        public void Clear()
+        {
+            _resourceIds.Clear();
+            _colors.Clear();
+            _scales.Clear();
+        }
+
         public int SpritesCount => _resourceIds.Count;
 
         public Icon(params string[] images)

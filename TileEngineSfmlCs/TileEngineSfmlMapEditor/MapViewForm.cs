@@ -103,6 +103,7 @@ namespace TileEngineSfmlMapEditor
 
         private void OnEditorCreated()
         {
+            _typeTreeNode = TypeManager.Instance.TreeRoot;
             InitLayerMenuItems();
         }
 
@@ -118,10 +119,10 @@ namespace TileEngineSfmlMapEditor
             if (newMapForm.ResultOk)
             {
                 _editor = new TileEngineEditor(RenderingCanvas);
-            }
-            _editor.CreateMainScene(newMapForm.ResultWidth, newMapForm.ResultHeight);
+                _editor.CreateMainScene(newMapForm.ResultWidth, newMapForm.ResultHeight);
 
-            OnEditorCreated();
+                OnEditorCreated();
+            }
         }
 
         private void SaveMap(string path)

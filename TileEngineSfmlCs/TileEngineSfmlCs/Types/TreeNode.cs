@@ -149,13 +149,17 @@ namespace TileEngineSfmlCs.Types
         public static string GetPath(TreeNode<T> node, Func<T, string> stringifyFunc)
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append("/");
 
             TreeNode<T> currentNode = node;
             while (currentNode != null)
             {
-                builder.Insert(0, stringifyFunc(currentNode.Data));
-                builder.Insert(0, '/');
+                string str = stringifyFunc(currentNode.Data);
+                if (str != null)
+                {
+                    builder.Insert(0, str);
+                    builder.Insert(0, '\\');
+                }
+                
                 currentNode = currentNode.ParentNode;
             }
 
@@ -181,6 +185,19 @@ namespace TileEngineSfmlCs.Types
             }
 
             return currentEntry;
+        }
+
+        public static void TraverseTree(TreeNode<T> startNode, Action<TreeNode<T>> action, bool includeStartNode)
+        {
+            if (includeStartNode)
+            {
+                action(startNode);
+            }
+
+            foreach (var child in startNode)
+            {
+                TraverseTree(child, action, true);
+            }
         }
 
         public void Dispose()

@@ -14,6 +14,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
         private Stream _mapStream;
         private ZipArchive _mapZipArchive;
         private TreeNode<IFileSystemEntry> _mapTreeNode;
+        private string _fileName;
 
 
         public TileEngineMap(string fileName)
@@ -21,6 +22,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
             _mapStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             _mapZipArchive = new ZipArchive(_mapStream, ZipArchiveMode.Update, true);
             CreateTree();
+            _fileName = fileName;
         }
 
         public TileEngineMap(Stream stream)
@@ -33,23 +35,23 @@ namespace TileEngineSfmlCs.Utils.Serialization
         public void Save()
         {
             _mapZipArchive.Dispose();
-            _mapStream.Flush();
-            _mapStream.Seek(0, SeekOrigin.Begin);
             _mapZipArchive = new ZipArchive(_mapStream);
-            CreateTree();
         }
 
         public void Dispose()
         {
-            _mapStream?.Dispose();
-           _mapZipArchive?.Dispose();
+            _mapZipArchive?.Dispose();
+            if (_mapStream.CanRead)
+            {
+                _mapStream.Close();
+                _mapStream.Dispose();
+            }
         }
 
         public bool CanWrite => _mapStream.CanWrite;
 
         private void CreateTree()
         {
-            GameResources.Instance?.RemoveDirectory("User");
             _mapTreeNode = new TreeNode<IFileSystemEntry>();
             foreach (var entry in _mapZipArchive.Entries)
             {
@@ -62,8 +64,6 @@ namespace TileEngineSfmlCs.Utils.Serialization
                 IFileSystemEntry file = new MapFileEntry(entry);
                 directory.Add(new TreeNode<IFileSystemEntry>(file));
             }
-
-            GameResources.Instance?.AppendToRoot(_mapTreeNode, "User");
         }
 
         private TreeNode<IFileSystemEntry> TraverseDirectories(TreeNode<IFileSystemEntry> root, string[] path,  int pathLength)
@@ -104,9 +104,26 @@ namespace TileEngineSfmlCs.Utils.Serialization
 
         public Stream CreateEntry(string path)
         {
+            path = path.Replace('\\', '/');
             var entry = _mapZipArchive.CreateEntry(path, CompressionLevel.Optimal);
-            CreateTree();
             return entry.Open();
+        }
+
+        public void UpdateTree()
+        {
+            CreateTree();
+        }
+
+        public TreeNode<IFileSystemEntry> GetTreeNode(string directoryPath)
+        {
+            var directory = TreeNode<IFileSystemEntry>.SearchPath(_mapTreeNode, directoryPath, entry => entry.Name);
+            return directory;
+        }
+
+        public void DeleteEntry(string path)
+        {
+            var entry = _mapZipArchive.GetEntry(path);
+            entry?.Delete();
         }
     }
 }

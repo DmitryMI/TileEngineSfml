@@ -5,7 +5,7 @@ namespace TileEngineSfmlCs.ResourceManagement.ResourceTypes
 {
     public class ResourceEntry : IDisposable
     {
-        private Stream _stream;
+        private MemoryStream _stream;
 
         public bool IsDirectory { get; }
 
@@ -23,10 +23,22 @@ namespace TileEngineSfmlCs.ResourceManagement.ResourceTypes
 
         public ResourceEntry(int resourceId, string name, Stream stream)
         {
-            IsDirectory = _stream == null;
+            IsDirectory = false;
             ResourceId = resourceId;
             Name = name;
-            _stream = stream;
+            CopyStream(stream);
+        }
+
+        private void CopyStream(Stream stream)
+        {
+            byte[] data = new byte[stream.Length];
+            stream.Read(data, 0, data.Length);
+            _stream = new MemoryStream();
+            _stream.Write(data, 0, data.Length);
+            _stream.Seek(0, SeekOrigin.Begin);
+            stream.Flush();
+            stream.Close();
+            stream.Dispose();
         }
 
         /// <summary>

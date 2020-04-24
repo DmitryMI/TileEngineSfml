@@ -27,7 +27,7 @@ namespace HullGeneratorTest
             GameResources.Instance = resources;
             ResourceEntry entry = resources.GetEntry(image);
 
-            Stream fs = resources.GetStream(entry);
+            Stream fs = resources.CopyStream(entry);
 
             Texture texture = new Texture(fs);
             Sprite sprite = new Sprite(texture);

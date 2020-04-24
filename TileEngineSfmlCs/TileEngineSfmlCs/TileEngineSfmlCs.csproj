@@ -85,11 +85,14 @@
     <Compile Include="TileEngine\Logging\DebugLogger.cs" />
     <Compile Include="TileEngine\Logging\ILogger.cs" />
     <Compile Include="TileEngine\Logging\LogManager.cs" />
+    <Compile Include="TileEngine\Scripting\PythonFieldDescriptor.cs" />
+    <Compile Include="TileEngine\Scripting\ScriptingManager.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />
     <Compile Include="TileEngine\Scripting\PythonObjects\PythonObject.cs" />
-    <Compile Include="TileEngine\TypeManagement\EntityTypes\PythonEntityType.cs" />
+    <Compile Include="TileEngine\Scripting\PythonEntityType.cs" />
+    <Compile Include="TileEngine\TypeManagement\EntityTypes\DirectoryEntityType.cs" />
     <Compile Include="Utils\Serialization\IFieldSerializer.cs" />
     <Compile Include="Utils\Serialization\SerializationUtils.cs" />
     <Compile Include="TileEngine\Subsystem.cs" />

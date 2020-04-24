@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
 using ResourceEntry = TileEngineSfmlCs.ResourceManagement.ResourceTypes.ResourceEntry;
 
 namespace TileEngineSfmlCs.ResourceManagement
 {
-    public class GameResources
+    public class GameResources : IDisposable
     {
         #region Singleton
         private static GameResources _instance;
@@ -26,6 +27,15 @@ namespace TileEngineSfmlCs.ResourceManagement
         private TreeNode<ResourceEntry> _resourceTreeRoot;
 
         public TreeNode<ResourceEntry> ResourcesRoot => _resourceTreeRoot;
+
+        public void DisposeResources()
+        {
+            foreach (var resource in _resourcesList)
+            {
+                resource.Dispose();
+            }
+            _resourcesList.Clear();
+        }
 
         private void LoadBuiltInEntry(TreeNode<ResourceEntry> parent, string entryPath)
         {
@@ -96,25 +106,14 @@ namespace TileEngineSfmlCs.ResourceManagement
             return -1;
         }
 
-        public Stream GetStream(string path)
+        public Stream CopyStream(ResourceEntry entry)
         {
-            if (path.StartsWith("\\"))
-            {
-                path = path.Remove(0, 1);
-            }
-
-            ResourceEntry entry = GetEntry(path);
-            return GetStream(entry);
-        }
-
-        public Stream GetStream(int id)
-        {
-            return _resourcesList[id].DataStream;
-        }
-
-        public Stream GetStream(ResourceEntry entry)
-        {
-            return entry.DataStream;
+            MemoryStream stream = new MemoryStream();
+            byte[] data = new byte[entry.DataStream.Length];
+            entry.DataStream.Read(data, 0, data.Length);
+            stream.Write(data, 0, data.Length);
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream;
         }
 
         public void AppendToRoot(TreeNode<IFileSystemEntry> fsTree, string subRootName)
@@ -126,7 +125,17 @@ namespace TileEngineSfmlCs.ResourceManagement
                 _resourceTreeRoot.Add(subRoot);
             }
 
-            TraverseChildNodes(fsTree, subRoot);
+            foreach (var child in fsTree)
+            {
+                // We ignore files in root of .temap
+                if (child.Data.IsDirectory)
+                {
+                    TreeNode<ResourceEntry> childFile = new TreeNode<ResourceEntry>(AddResourceToList(child.Data));
+                    subRoot.Add(childFile);
+                    TraverseChildNodes(child, childFile);
+                }
+            }
+            
 
 #if DEBUG
             Debug.WriteLine("Resource tree updated: ");
@@ -200,5 +209,72 @@ namespace TileEngineSfmlCs.ResourceManagement
             _resourcesList.Add(entry);
             return entry;
         }
+
+        public void Dispose()
+        {
+            DisposeResources();
+        }
+
+        public void LoadResourcesFromMap(TileEngineMap map)
+        {
+            var root = map.MapTree;
+            AppendToRoot(root, "User");
+        }
+
+        public void SaveResourcesToMap(TileEngineMap map)
+        {
+            var userResources = _resourceTreeRoot.FirstOrDefault(e => e.Data != null && e.Data.Name == "User");
+
+            if (userResources == null)
+            {
+                Debug.WriteLine("[GameResources] Nothing to save");
+                return;
+            }
+
+            foreach (var child in userResources)
+            {
+                SaveResourceEntry(map, child);
+            }
+        }
+
+        private void SaveResourceEntry(TileEngineMap map, TreeNode<ResourceEntry> resourceNode)
+        {
+            foreach (var child in resourceNode)
+            {
+                SaveResourceEntry(map, child);
+            }
+
+            if (resourceNode.Data.IsDirectory)
+            {
+                return;
+            }
+
+            //var parent = resourceNode.ParentNode;
+            //resourceNode.ParentNode = null;
+            string path = TreeNode<ResourceEntry>.GetPath(resourceNode, r => r.Name);
+            //resourceNode.ParentNode = parent;
+
+            path = path.Replace("User\\", "");
+            if (path[0] == '\\')
+            {
+                path = path.Remove(0, 1);
+            }
+            Debug.WriteLine($"[GameResources] Pushing {resourceNode} to TileEngineMap with path {path}");
+            var entryStream = map.GetEntry(path);
+            if (entryStream != null)
+            {
+                map.DeleteEntry(path);
+            }
+            entryStream = map.CreateEntry(path);
+
+            byte[] data = new byte[resourceNode.Data.DataStream.Length];
+            resourceNode.Data.DataStream.Seek(0, SeekOrigin.Begin);
+            resourceNode.Data.DataStream.Read(data, 0, data.Length);
+            entryStream.Write(data, 0, data.Length);
+
+            
+        }
+
+        
     }
 }

@@ -91,6 +91,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
         }
 
         public override string Name => BaseType.Name;
+        public override string FullName => BaseType.FullName;
         public override bool CanActivate => CheckActivate();
 
 
