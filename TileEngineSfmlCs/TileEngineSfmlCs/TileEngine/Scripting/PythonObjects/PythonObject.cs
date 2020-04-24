@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
+using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
 
-namespace TileEngineSfmlCs.TileEngine.TileObjects.PythonObjects
+namespace TileEngineSfmlCs.TileEngine.Scripting.PythonObjects
 {
     [TypeManagerIgnore(IgnoranceReason.NotReallyAnObject)]
     public class PythonObject : TileObject

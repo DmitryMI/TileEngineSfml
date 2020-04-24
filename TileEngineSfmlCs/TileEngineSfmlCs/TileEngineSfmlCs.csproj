@@ -88,7 +88,7 @@
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />
-    <Compile Include="TileEngine\TileObjects\PythonObjects\PythonObject.cs" />
+    <Compile Include="TileEngine\Scripting\PythonObjects\PythonObject.cs" />
     <Compile Include="TileEngine\TypeManagement\EntityTypes\PythonEntityType.cs" />
     <Compile Include="Utils\Serialization\IFieldSerializer.cs" />
     <Compile Include="Utils\Serialization\SerializationUtils.cs" />
