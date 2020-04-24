@@ -30,7 +30,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
             {
                 if (_treeRoot == null)
                 {
-                    _treeRoot = GetTileObjectTree();
+                    _treeRoot = GetAssemblyTileObjectTree();
                 }
 
                 return _treeRoot;
@@ -39,7 +39,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
 
         public Type[] TileObjectDerivatives => _tileObjectDerivatives;
 
-        public TreeNode<EntityType> GetTileObjectTree()
+        public TreeNode<EntityType> GetAssemblyTileObjectTree()
         {
             var types = from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
                         from assemblyType in domainAssembly.GetTypes()
