@@ -17,6 +17,7 @@ namespace TileEngineSfmlCs.TileEngine
         private int _instanceCounter = 1;
 
         private List<Subsystem> _subsystems;
+        private List<TileObject> _updateableObjects = new List<TileObject>();
 
         public int Width { get; }
         public int Height { get; }
@@ -49,15 +50,9 @@ namespace TileEngineSfmlCs.TileEngine
 
         public void NextFrame()
         {
-            for (int x = 0; x < Width; x++)
+            foreach (var updateable in _updateableObjects)
             {
-                for (int y = 0; y < Height; y++)
-                {
-                    foreach (var tileObject in ObjectMatrix[x, y])
-                    {
-                        tileObject.OnUpdate();
-                    }
-                }
+                updateable.OnUpdate();
             }
 
             foreach (var subsystem in _subsystems)
@@ -200,9 +195,23 @@ namespace TileEngineSfmlCs.TileEngine
             RegisterPosition(obj);
         }
 
+        public void RegisterUpdateable(TileObject tileObject)
+        {
+            _updateableObjects.Add(tileObject);
+        }
+
+        public void UnregisterUpdateable(TileObject tileObject)
+        {
+            _updateableObjects.Remove(tileObject);
+        }
+
         public void Instantiate(TileObject tileObject)
         {
             RegisterPosition(tileObject);
+            if (tileObject.RequiresUpdates)
+            {
+                RegisterUpdateable(tileObject);
+            }
             tileObject.SetScene(this);
             tileObject.SetInstanceId(_instanceCounter);
             _instanceCounter++;
@@ -232,6 +241,7 @@ namespace TileEngineSfmlCs.TileEngine
         public void Destroy(TileObject tileObject)
         {
             UnregisterPosition(tileObject);
+            UnregisterUpdateable(tileObject);
             tileObject.SetScene(null);
             tileObject.OnDestroy();
 

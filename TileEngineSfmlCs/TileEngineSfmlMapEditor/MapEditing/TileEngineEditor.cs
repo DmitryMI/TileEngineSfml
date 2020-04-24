@@ -9,6 +9,7 @@ using SFML.System;
 using TileEngineSfmlCs.ResourceManagement;
 using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
 using TileEngineSfmlCs.TileEngine;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
@@ -104,7 +105,17 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         private Texture GetTexture(int resourceId)
         {
+            if (resourceId == -1)
+            {
+                LogManager.EditorLogger.LogError($"[{GetType().Name}] Resource id was -1!");
+                return null;
+            }
             ResourceEntry resourceEntry = GameResources.Instance.GetEntry(resourceId);
+            if (resourceEntry == null)
+            {
+                LogManager.EditorLogger.LogError($"[{GetType().Name}]Resource with id {resourceId} was not found");
+                return null;
+            }
             if (resourceEntry.LoadedValue == null)
             {
                 Stream fs = GameResources.Instance.GetStream(resourceEntry);
@@ -338,6 +349,10 @@ namespace TileEngineSfmlMapEditor.MapEditing
             for (int i = 0; i < to.Icon.SpritesCount; i++)
             {
                 Texture texture = GetTexture(to.Icon.GetResourceId(i));
+                if (texture == null)
+                {
+                    return false;
+                }
                 Image image = texture.CopyToImage();
                 Vector2f sfmlCursor = cursorProjection;
                 Vector2f sfmlObject = WorldToSfml(to.Position, to.Offset);
@@ -656,7 +671,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 _tileEngineMap.Save();
                 _tileEngineMap.Dispose();
             }
-            FileStream stream = new FileStream(targetFile, FileMode.Create, FileAccess.ReadWrite);
+            FileStream stream = new FileStream(targetFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             _tileEngineMap = new TileEngineMap(stream);
             Scene.SaveToMap(_scene, _tileEngineMap, "main.scene");
             _tileEngineMap.Save();

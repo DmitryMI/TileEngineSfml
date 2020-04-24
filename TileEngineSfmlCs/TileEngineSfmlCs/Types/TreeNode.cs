@@ -11,6 +11,16 @@ namespace TileEngineSfmlCs.Types
     {
         private List<TreeNode<T>> _childNodes;
 
+        public override string ToString()
+        {
+            if (Data != null)
+            {
+                return Data.ToString();
+            }
+
+            return "Empty";
+        }
+
         public TreeNode()
         {
             _childNodes = new List<TreeNode<T>>();

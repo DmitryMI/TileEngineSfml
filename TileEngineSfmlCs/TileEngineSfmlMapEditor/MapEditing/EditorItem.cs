@@ -14,6 +14,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
         public override TileLayer Layer => TileLayer.Items;
         public override string VisibleName => "Laser gun";
         public override string ExamineDescription => "Deadly futuristic weapon";
+        public override bool RequiresUpdates => false;
 
         public float Power => _power;
        

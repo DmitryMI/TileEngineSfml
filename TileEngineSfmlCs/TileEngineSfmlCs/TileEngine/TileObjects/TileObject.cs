@@ -88,6 +88,8 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         public abstract string VisibleName { get; }
         public abstract string ExamineDescription { get; }
 
+        public abstract bool RequiresUpdates { get; }
+
         /// <summary>
         /// Defines if mob can walk through the object
         /// </summary>

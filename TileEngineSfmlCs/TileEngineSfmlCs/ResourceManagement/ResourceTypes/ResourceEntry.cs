@@ -14,6 +14,11 @@ namespace TileEngineSfmlCs.ResourceManagement.ResourceTypes
 
         public object LoadedValue { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Name}({ResourceId})";
+        }
+
         public Stream DataStream => _stream;
 
         public ResourceEntry(int resourceId, string name, Stream stream)

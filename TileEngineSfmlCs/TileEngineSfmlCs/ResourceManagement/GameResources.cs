@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
@@ -117,19 +119,53 @@ namespace TileEngineSfmlCs.ResourceManagement
 
         public void AppendToRoot(TreeNode<IFileSystemEntry> fsTree, string subRootName)
         {
-            TreeNode<ResourceEntry> subRoot = new TreeNode<ResourceEntry>(CreateDirectory(subRootName));
+            var subRoot = TreeNode<ResourceEntry>.SearchPath(_resourceTreeRoot, subRootName, entry => entry.Name);
+            if (subRoot == null)
+            {
+                subRoot = new TreeNode<ResourceEntry>(CreateDirectory(subRootName));
+                _resourceTreeRoot.Add(subRoot);
+            }
+
             TraverseChildNodes(fsTree, subRoot);
+
+#if DEBUG
+            Debug.WriteLine("Resource tree updated: ");
+            PrintResourcePath(_resourceTreeRoot, String.Empty);
+#endif
+        }
+
+        private void PrintResourcePath(TreeNode<ResourceEntry> resourceEntryNode, string path)
+        {
+            Debug.WriteLine(path + resourceEntryNode.Data?.Name);
+            foreach (var childNode in resourceEntryNode)
+            {
+                PrintResourcePath(childNode, path + resourceEntryNode.Data?.Name + "\\");
+            }
+        }
+
+        public void RemoveDirectory(string subRootName)
+        {
+            var subRoot = TreeNode<ResourceEntry>.SearchPath(_resourceTreeRoot, subRootName, entry => entry.Name);
+            if (subRoot == null)
+            {
+                return;
+            }
+            subRoot.ParentNode.Remove(subRoot);
         }
 
         private void TraverseChildNodes(TreeNode<IFileSystemEntry> fsNode, TreeNode<ResourceEntry> resourceNode)
         {
-            foreach (var childNode in fsNode)
+            foreach (var childFsNode in fsNode)
             {
-                TreeNode<ResourceEntry> resourceChild = new TreeNode<ResourceEntry>(AddResourceToList(childNode.Data));
-                resourceNode.Add(resourceChild);
-                foreach (var subChild in childNode)
+                Debug.WriteLine($"Processing {childFsNode} from {fsNode}");
+                TreeNode<ResourceEntry> childResourceNode = new TreeNode<ResourceEntry>(AddResourceToList(childFsNode.Data));
+                resourceNode.Add(childResourceNode);
+                Debug.WriteLine($"Appending {childResourceNode} from {fsNode} to {resourceNode}");
+                foreach (var subChild in childFsNode)
                 {
-                    TraverseChildNodes(subChild, resourceChild);
+                    TreeNode<ResourceEntry> subChildResourceNode = new TreeNode<ResourceEntry>(AddResourceToList(subChild.Data));
+                    childResourceNode.Add(subChildResourceNode);
+                    TraverseChildNodes(subChild, subChildResourceNode);
                 }
             }
         }

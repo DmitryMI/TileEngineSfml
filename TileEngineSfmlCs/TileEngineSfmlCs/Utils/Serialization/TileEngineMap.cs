@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.IO.Compression;
+using TileEngineSfmlCs.ResourceManagement;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.Utils.Serialization
@@ -46,14 +49,21 @@ namespace TileEngineSfmlCs.Utils.Serialization
 
         private void CreateTree()
         {
+            GameResources.Instance?.RemoveDirectory("User");
             _mapTreeNode = new TreeNode<IFileSystemEntry>();
             foreach (var entry in _mapZipArchive.Entries)
             {
-                string[] pathFragments = entry.FullName.Split('\\');
+                if(entry.CompressedLength == 0)
+                    continue;
+                string[] pathFragments = entry.FullName.Split('/');
                 var directory = TraverseDirectories(_mapTreeNode, pathFragments,  pathFragments.Length - 1);
+                LogManager.EditorLogger.Log($"[TileEngineMap] Pushing {entry.FullName} into {directory}");
+                LogManager.RuntimeLogger.Log($"[TileEngineMap] Pushing {entry.FullName} into {directory}");
                 IFileSystemEntry file = new MapFileEntry(entry);
                 directory.Add(new TreeNode<IFileSystemEntry>(file));
             }
+
+            GameResources.Instance?.AppendToRoot(_mapTreeNode, "User");
         }
 
         private TreeNode<IFileSystemEntry> TraverseDirectories(TreeNode<IFileSystemEntry> root, string[] path,  int pathLength)
@@ -62,10 +72,8 @@ namespace TileEngineSfmlCs.Utils.Serialization
                 return root;
             int fragmentIndex = 0;
             TreeNode<IFileSystemEntry> currentEntry = root.FirstOrDefault(e => e.Data.Name.Equals(path[0]));
-            fragmentIndex++;
             if (currentEntry == null)
             {
-
                 currentEntry = new TreeNode<IFileSystemEntry>(new MapFileEntry(path[0]));
                 root.Add(currentEntry);
             }
@@ -73,11 +81,12 @@ namespace TileEngineSfmlCs.Utils.Serialization
             fragmentIndex++;
             while (fragmentIndex < pathLength)
             {
+                var parent = currentEntry;
                 currentEntry = currentEntry.FirstOrDefault(n => n.Data.Name.Equals(path[fragmentIndex]));
                 if (currentEntry == null)
                 {
                     currentEntry = new TreeNode<IFileSystemEntry>(new MapFileEntry(path[fragmentIndex]));
-                    root.Add(currentEntry);
+                    parent.Add(currentEntry);
                 }
                 fragmentIndex++;
             }

@@ -12,6 +12,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
         public override TileLayer Layer => TileLayer.Floor;
         public override string VisibleName => "Editor floor";
         public override string ExamineDescription => "This is an example floor tile for editor usage only";
+        public override bool RequiresUpdates => false;
         public override bool IsPassable => true;
         public override bool IsLightTransparent => true;
         public override bool IsGasTransparent => true;

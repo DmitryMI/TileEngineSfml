@@ -9,6 +9,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
         private readonly ZipArchiveEntry _zipArchiveEntry;
         private readonly string _name;
         private readonly string _path;
+        private Stream _stream;
 
         /// <summary>
         /// MapFileEntry represents files in .temap archive
@@ -28,6 +29,11 @@ namespace TileEngineSfmlCs.Utils.Serialization
             }
         }
 
+        public override string ToString()
+        {
+            return _name;
+        }
+
         /// <summary>
         /// Creates directory
         /// </summary>
@@ -42,7 +48,16 @@ namespace TileEngineSfmlCs.Utils.Serialization
 
         public Stream GetStream()
         {
-            return _zipArchiveEntry?.Open();
+            if (_stream == null)
+            {
+                _stream = _zipArchiveEntry?.Open();
+            }
+            else if (!_stream.CanRead)
+            {
+                _stream.Close();
+                _stream = _zipArchiveEntry?.Open();
+            }
+            return _stream;
         }
     }
 }
