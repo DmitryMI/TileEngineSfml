@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Xml;
-using TileEngineSfmlCs.TileEngine.SceneSerialization;
+using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.Types
 {

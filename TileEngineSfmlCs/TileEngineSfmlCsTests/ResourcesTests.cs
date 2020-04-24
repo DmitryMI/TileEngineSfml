@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ResourcesManager;
-using ResourcesManager.ResourceTypes;
+using TileEngineSfmlCs.ResourceManagement;
+using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
 
 namespace TileEngineSfmlCsTests
 {

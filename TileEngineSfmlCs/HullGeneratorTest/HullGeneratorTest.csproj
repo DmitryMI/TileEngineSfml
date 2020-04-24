@@ -80,10 +80,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ResourcesManager\ResourcesManager.csproj">
-      <Project>{fb09d966-2388-4702-95cb-c034a613faf6}</Project>
-      <Name>ResourcesManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TileEngineSfmlCs\TileEngineSfmlCs.csproj">
       <Project>{0080DC99-6FBF-4773-9794-D5F6ABC324BE}</Project>
       <Name>TileEngineSfmlCs</Name>

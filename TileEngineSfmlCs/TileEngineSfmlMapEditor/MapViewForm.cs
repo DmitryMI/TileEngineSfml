@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using SFML.System;
-using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.Logging;
-using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
@@ -55,10 +46,8 @@ namespace TileEngineSfmlMapEditor
 
         private void LoadMap(string fileName)
         {
-            FileStream fs = new FileStream(fileName, FileMode.Open);
-            _editor = new TileEngineEditor(fs, RenderingCanvas);
-            fs.Close();
-            fs.Dispose();
+            _editor = new TileEngineEditor(RenderingCanvas);
+            _editor.LoadMap(fileName);
             _mapFilePath = fileName;
             OnEditorCreated();
         }
@@ -128,18 +117,16 @@ namespace TileEngineSfmlMapEditor
             newMapForm.ShowDialog();
             if (newMapForm.ResultOk)
             {
-                _editor = new TileEngineEditor(newMapForm.ResultWidth, newMapForm.ResultHeight, RenderingCanvas);
+                _editor = new TileEngineEditor(RenderingCanvas);
             }
+            _editor.CreateMainScene(newMapForm.ResultWidth, newMapForm.ResultHeight);
 
             OnEditorCreated();
         }
 
         private void SaveMap(string path)
         {
-            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
-            _editor.SaveScene(fs);
-            fs.Close();
-            fs.Dispose();
+            _editor.SaveMap(path);
             _mapFilePath = path;
         }
 

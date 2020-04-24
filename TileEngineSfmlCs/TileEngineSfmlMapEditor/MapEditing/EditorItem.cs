@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using TileEngineSfmlCs.TileEngine.SceneSerialization;
+﻿using System.Xml;
 using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
 using TileEngineSfmlCs.Types;
+using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlMapEditor.MapEditing
 {

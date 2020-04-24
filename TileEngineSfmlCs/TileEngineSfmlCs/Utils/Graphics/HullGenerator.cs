@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ResourcesManager;
-using ResourcesManager.ResourceTypes;
 using SFML.Graphics;
 using SFML.System;
 using TileEngineSfmlCs.Types;
+using GameResources = TileEngineSfmlCs.ResourceManagement.GameResources;
+using ResourceEntry = TileEngineSfmlCs.ResourceManagement.ResourceTypes.ResourceEntry;
 
 namespace TileEngineSfmlCs.Utils.Graphics
 {
@@ -29,12 +26,12 @@ namespace TileEngineSfmlCs.Utils.Graphics
 
         private static Polygon GetPolygon(Icon icon, int spriteIndex)
         {
-            ResourcesManager.ResourceTypes.ResourceEntry resourceEntry =
+            ResourceEntry resourceEntry =
                 GameResources.Instance.GetEntry(icon.GetResourceId(spriteIndex));
           
             if (resourceEntry.LoadedValue == null)
             {
-                FileStream fs = ResourcesManager.GameResources.Instance.GetFileStream(resourceEntry);
+                Stream fs = GameResources.Instance.GetStream(resourceEntry);
                 byte[] data = new byte[fs.Length];
                 fs.Read(data, 0, data.Length);
                 fs.Close();

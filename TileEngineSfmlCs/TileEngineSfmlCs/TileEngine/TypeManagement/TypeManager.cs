@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
+using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.TypeManagement
 {

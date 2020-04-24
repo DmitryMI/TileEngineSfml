@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace TileEngineSfmlCs.TileEngine.SceneSerialization
+namespace TileEngineSfmlCs.Utils.Serialization
 {
     public interface IFieldSerializer
     {

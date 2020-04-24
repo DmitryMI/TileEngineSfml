@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Xml;
-using TileEngineSfmlCs.TileEngine.SceneSerialization;
+using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.Types
 {

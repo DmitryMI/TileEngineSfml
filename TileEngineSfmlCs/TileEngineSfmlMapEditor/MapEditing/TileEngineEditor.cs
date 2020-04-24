@@ -1,36 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using ResourcesManager;
-using ResourcesManager.ResourceTypes;
 using SFML.Graphics;
 using SFML.System;
+using TileEngineSfmlCs.ResourceManagement;
+using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
 using TileEngineSfmlCs.TileEngine;
-using TileEngineSfmlCs.TileEngine.Logging;
-using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
+using TileEngineSfmlCs.Utils.Serialization;
 using Color = SFML.Graphics.Color;
 using Icon = TileEngineSfmlCs.Types.Icon;
 using Image = SFML.Graphics.Image;
 
 namespace TileEngineSfmlMapEditor.MapEditing
 {
-    public class TileEngineEditor
+    public class TileEngineEditor : IDisposable
     {
         public int PixelsPerUnit = 32;
 
         private Scene _scene;
+        private TileEngineMap _tileEngineMap;
         private IRenderReceiver _renderReceiver;
         private Vector2 _cameraPosition;
-        private ResourcesManager.GameResources _resources;
+        private GameResources _resources;
         private Random _rnd = new Random();
         private TypeManager _typeManager;
         private List<Vector2Int> _selectedCells = new List<Vector2Int>();
@@ -106,10 +104,10 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         private Texture GetTexture(int resourceId)
         {
-            ResourceEntry resourceEntry = ResourcesManager.GameResources.Instance.GetEntry(resourceId);
+            ResourceEntry resourceEntry = GameResources.Instance.GetEntry(resourceId);
             if (resourceEntry.LoadedValue == null)
             {
-                FileStream fs = ResourcesManager.GameResources.Instance.GetFileStream(resourceEntry);
+                Stream fs = GameResources.Instance.GetStream(resourceEntry);
                 byte[] data = new byte[fs.Length];
                 fs.Read(data, 0, data.Length);
                 fs.Close();
@@ -126,11 +124,27 @@ namespace TileEngineSfmlMapEditor.MapEditing
             string resourcesPath = Path.Combine(Environment.CurrentDirectory, "Resources");
             _resources = new GameResources(resourcesPath);
             GameResources.Instance = _resources;
+
+           
+        }
+
+        private void LoadUserResources()
+        {
+            if (_tileEngineMap != null)
+            {
+                TreeNode<IFileSystemEntry> mapResources =
+                    TreeNode<IFileSystemEntry>.SearchPath(_tileEngineMap.MapTree, "Resources", entry => entry.Name);
+
+                _resources.AppendToRoot(mapResources, "User");
+            }
         }
 
         private void InitializeFields()
         {
-            _cameraPosition = new Vector2Int(_scene.Width / 2, _scene.Height / 2);
+            if (_scene != null)
+            {
+                _cameraPosition = new Vector2Int(_scene.Width / 2, _scene.Height / 2);
+            }
 
             if (TypeManager.Instance == null)
             {
@@ -146,20 +160,26 @@ namespace TileEngineSfmlMapEditor.MapEditing
             InitLayers();
         }
 
-        public TileEngineEditor(Stream mapStream, IRenderReceiver renderReceiver)
+        public TileEngineEditor(IRenderReceiver renderReceiver)
         {
-            LoadResources();
             _renderReceiver = renderReceiver;
-            _scene = Serializer.DeserializeScene(mapStream);
+            LoadResources();
+        }
+
+        public void LoadMap(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException();
+            }
+            _tileEngineMap = new TileEngineMap(filePath);
+            _scene = Scene.CreateFromMap(_tileEngineMap, "main.scene");
             InitializeFields();
         }
 
-        public TileEngineEditor(int width, int height, IRenderReceiver renderReceiver)
+        public void CreateMainScene(int width, int height)
         {
-            LoadResources();
-            _renderReceiver = renderReceiver;
             _scene = new Scene(width, height);
-            ProcessNewScene();
             InitializeFields();
         }
 
@@ -259,6 +279,11 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         public void UpdateGraphics()
         {
+            if (_scene == null)
+            {
+                return;
+            }
+
             Vector2Int viewportSize = GetViewportSize();
 
             int minX = (int)Math.Floor(-viewportSize.X / 2.0f + _cameraPosition.X);
@@ -339,6 +364,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         public TileObject GetObjectUnderPoint(int x, int y)
         {
+            if (_scene == null)
+                return null;
+
             GetPositionWithOffset(x, y, out Vector2Int cell, out Vector2 offset);
 
 
@@ -621,9 +649,17 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         public TreeNode<EntityType> TypeTreeRoot => TypeManager.Instance.TreeRoot;
 
-        public void SaveScene(Stream serializationStream)
+        public void SaveMap(string targetFile)
         {
-            Serializer.SerializeScene(_scene, serializationStream);
+            if (_tileEngineMap != null)
+            {
+                _tileEngineMap.Save();
+                _tileEngineMap.Dispose();
+            }
+            FileStream stream = new FileStream(targetFile, FileMode.Create, FileAccess.ReadWrite);
+            _tileEngineMap = new TileEngineMap(stream);
+            Scene.SaveToMap(_scene, _tileEngineMap, "main.scene");
+            _tileEngineMap.Save();
         }
 
         public Vector2 CameraPosition
@@ -682,5 +718,10 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
 
         #endregion
+
+        public void Dispose()
+        {
+            _tileEngineMap?.Dispose();
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using TileEngineSfmlCs.TileEngine.Logging;
+﻿using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs

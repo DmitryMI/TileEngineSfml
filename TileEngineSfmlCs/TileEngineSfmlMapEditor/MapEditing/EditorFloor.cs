@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using TileEngineSfmlCs.TileEngine;
-using TileEngineSfmlCs.TileEngine.TileObjects;
+﻿using System.Xml;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlMapEditor.MapEditing

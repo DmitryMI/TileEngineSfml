@@ -124,10 +124,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ResourcesManager\ResourcesManager.csproj">
-      <Project>{FB09D966-2388-4702-95CB-C034A613FAF6}</Project>
-      <Name>ResourcesManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TileEngineSfmlCs\TileEngineSfmlCs.csproj">
       <Project>{0080dc99-6fbf-4773-9794-d5f6abc324be}</Project>
       <Name>TileEngineSfmlCs</Name>

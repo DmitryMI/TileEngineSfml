@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using ResourcesManager;
-using ResourcesManager.ResourceTypes;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using TileEngineSfmlCs.ResourceManagement;
+using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Graphics;
 
@@ -27,11 +23,11 @@ namespace HullGeneratorTest
             VideoMode videoMode = new VideoMode((uint)width, (uint)height);
             RenderWindow renderWindow = new RenderWindow(videoMode, "Hull generator test");
 
-            ResourcesManager.GameResources resources = new GameResources("C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlMapEditor\\Resources");
+            GameResources resources = new GameResources("C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlMapEditor\\Resources");
             GameResources.Instance = resources;
             ResourceEntry entry = resources.GetEntry(image);
 
-            FileStream fs = resources.GetFileStream(entry);
+            Stream fs = resources.GetStream(entry);
 
             Texture texture = new Texture(fs);
             Sprite sprite = new Sprite(texture);

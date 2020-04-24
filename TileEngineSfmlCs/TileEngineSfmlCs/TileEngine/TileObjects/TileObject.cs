@@ -1,8 +1,8 @@
 ﻿using System.Xml;
-using TileEngineSfmlCs.TileEngine.SceneSerialization;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
+using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects
 {

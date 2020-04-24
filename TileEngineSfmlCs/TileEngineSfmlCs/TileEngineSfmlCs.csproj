@@ -47,6 +47,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,15 +59,16 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManagement\GameResources.cs" />
+    <Compile Include="ResourceManagement\ResourceTypes\ResourceEntry.cs" />
     <Compile Include="TileEngine\Logging\DebugLogger.cs" />
     <Compile Include="TileEngine\Logging\ILogger.cs" />
     <Compile Include="TileEngine\Logging\LogManager.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />
-    <Compile Include="TileEngine\SceneSerialization\IFieldSerializer.cs" />
-    <Compile Include="TileEngine\SceneSerialization\SerializationUtils.cs" />
-    <Compile Include="TileEngine\SceneSerialization\Serializer.cs" />
+    <Compile Include="Utils\Serialization\IFieldSerializer.cs" />
+    <Compile Include="Utils\Serialization\SerializationUtils.cs" />
     <Compile Include="TileEngine\Subsystem.cs" />
     <Compile Include="TileEngine\TileEngineServer.cs" />
     <Compile Include="TileEngine\TileObjects\Objs\Items\Item.cs" />
@@ -81,7 +84,7 @@
     <Compile Include="TileEngine\TypeManagement\FieldEditorReadOnlyAttribute.cs" />
     <Compile Include="TileEngine\TypeManagement\IgnoranceReason.cs" />
     <Compile Include="TileEngine\TypeManagement\RuntimeFieldAccessRestrictedException.cs" />
-    <Compile Include="TileEngine\TypeManagement\TreeNode.cs" />
+    <Compile Include="Types\TreeNode.cs" />
     <Compile Include="TileEngine\TypeManagement\TypeManager.cs" />
     <Compile Include="TileEngine\TypeManagement\TypeManagerIgnoreAttribute.cs" />
     <Compile Include="Utils\GraphicsUtils.cs" />
@@ -95,16 +98,13 @@
     <Compile Include="Utils\Graphics\HullGenerator.cs" />
     <Compile Include="Utils\Graphics\Polygon.cs" />
     <Compile Include="Utils\ParsingUtils.cs" />
+    <Compile Include="Utils\Serialization\IFileSystemEntry.cs" />
+    <Compile Include="Utils\Serialization\MapFileEntry.cs" />
+    <Compile Include="Utils\Serialization\TileEngineMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ResourcesManager\ResourcesManager.csproj">
-      <Project>{FB09D966-2388-4702-95CB-C034A613FAF6}</Project>
-      <Name>ResourcesManager</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="csfml-audio.dll" />
@@ -113,5 +113,6 @@
     <Content Include="csfml-system.dll" />
     <Content Include="csfml-window.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

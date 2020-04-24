@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 
-namespace TileEngineSfmlCs.TileEngine.TypeManagement
+namespace TileEngineSfmlCs.Types
 {
-    public class TreeNode<T> : IList<TreeNode<T>>
+    public class TreeNode<T> : IList<TreeNode<T>>, IDisposable
     {
         private List<TreeNode<T>> _childNodes;
 
@@ -148,6 +150,35 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
             }
 
             return builder.ToString();
+        }
+
+        public static TreeNode<T> SearchPath(TreeNode<T> root, string path, Func<T, string> nameReader)
+        {
+            string[] pathFragments = path.Split(Path.DirectorySeparatorChar);
+            int fragmentIndex = 0;
+            TreeNode<T> currentEntry = root.FirstOrDefault(e => nameReader(e.Data).Equals(pathFragments[0]));
+            fragmentIndex++;
+            if (currentEntry == null)
+            {
+                return null;
+            }
+            while (fragmentIndex < pathFragments.Length)
+            {
+                currentEntry = currentEntry.FirstOrDefault(n => nameReader(n.Data).Equals(pathFragments[fragmentIndex]));
+                if (currentEntry == null)
+                    return null;
+                fragmentIndex++;
+            }
+
+            return currentEntry;
+        }
+
+        public void Dispose()
+        {
+            if (Data is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }

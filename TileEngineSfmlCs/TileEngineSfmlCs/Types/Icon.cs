@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Xml;
-using ResourcesManager;
 using TileEngineSfmlCs.TileEngine.Logging;
-using TileEngineSfmlCs.TileEngine.SceneSerialization;
+using TileEngineSfmlCs.Utils.Serialization;
+using GameResources = TileEngineSfmlCs.ResourceManagement.GameResources;
 
 namespace TileEngineSfmlCs.Types
 {

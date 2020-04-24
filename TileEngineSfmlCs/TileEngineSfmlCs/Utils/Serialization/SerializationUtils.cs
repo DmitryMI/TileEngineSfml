@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using TileEngineSfmlCs.TileEngine.Logging;
-using TileEngineSfmlCs.Types;
 
-namespace TileEngineSfmlCs.TileEngine.SceneSerialization
+namespace TileEngineSfmlCs.Utils.Serialization
 {
     public static class SerializationUtils
     {
