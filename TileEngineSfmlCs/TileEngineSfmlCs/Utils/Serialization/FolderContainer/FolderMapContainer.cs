@@ -70,12 +70,12 @@ namespace TileEngineSfmlCs.Utils.Serialization.FolderContainer
 
         public TreeNode<IFileSystemEntry> MapTree => _treeNode;
 
-        public Stream GetEntry(string path)
+        public IFileSystemEntry GetEntry(string path)
         {
             throw new NotImplementedException();
         }
 
-        public Stream CreateEntry(string path)
+        public IFileSystemEntry CreateEntry(string path)
         {
             throw new NotImplementedException();
         }

@@ -63,9 +63,11 @@ namespace TileEngineSfmlCs.TileEngine.Scripting
         {
             foreach (var type in _pythonEntityTypes)
             {
-                Stream stream = map.CreateEntry(type.FilePath);
-                byte[] sourceCode = Encoding.UTF8.GetBytes(type.SourceCode);
-                stream.Write(sourceCode, 0, sourceCode.Length);
+                using (Stream stream = map.CreateEntry(type.FilePath).OpenStream())
+                {
+                    byte[] sourceCode = Encoding.UTF8.GetBytes(type.SourceCode);
+                    stream.Write(sourceCode, 0, sourceCode.Length);
+                }
             }
         }
     }

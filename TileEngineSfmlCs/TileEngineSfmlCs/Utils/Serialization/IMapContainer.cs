@@ -9,8 +9,8 @@ namespace TileEngineSfmlCs.Utils.Serialization
         void Save();
         bool CanWrite { get; }
         TreeNode<IFileSystemEntry> MapTree { get; }
-        Stream GetEntry(string path);
-        Stream CreateEntry(string path);
+        IFileSystemEntry GetEntry(string path);
+        IFileSystemEntry CreateEntry(string path);
         void DeleteEntry(string path);
         void UpdateTree();
         TreeNode<IFileSystemEntry> GetTreeNode(string directoryPath);
