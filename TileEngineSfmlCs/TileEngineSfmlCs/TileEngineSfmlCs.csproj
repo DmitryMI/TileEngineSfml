@@ -93,6 +93,8 @@
     <Compile Include="TileEngine\Scripting\PythonObjects\PythonObject.cs" />
     <Compile Include="TileEngine\Scripting\PythonEntityType.cs" />
     <Compile Include="TileEngine\TypeManagement\EntityTypes\DirectoryEntityType.cs" />
+    <Compile Include="Utils\Serialization\FolderContainer\FolderFileEntry.cs" />
+    <Compile Include="Utils\Serialization\FolderContainer\FolderMapContainer.cs" />
     <Compile Include="Utils\Serialization\IFieldSerializer.cs" />
     <Compile Include="Utils\Serialization\IMapContainer.cs" />
     <Compile Include="Utils\Serialization\MapContainerManager.cs" />
@@ -127,8 +129,8 @@
     <Compile Include="Utils\Graphics\Polygon.cs" />
     <Compile Include="Utils\ParsingUtils.cs" />
     <Compile Include="Utils\Serialization\IFileSystemEntry.cs" />
-    <Compile Include="Utils\Serialization\MapFileEntry.cs" />
-    <Compile Include="Utils\Serialization\ZipMapContainer.cs" />
+    <Compile Include="Utils\Serialization\ZipContainer\ZipFileEntry.cs" />
+    <Compile Include="Utils\Serialization\ZipContainer\ZipMapContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

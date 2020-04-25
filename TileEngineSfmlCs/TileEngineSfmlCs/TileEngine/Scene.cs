@@ -320,7 +320,7 @@ namespace TileEngineSfmlCs.TileEngine
             foreach (var tileObject in tileObjects)
             {
                 scene.Instantiate(tileObject);
-                Debug.WriteLine($"TileObject loaded. Position: {tileObject.Position.X}, {tileObject.Position.Y}");
+                //Debug.WriteLine($"TileObject loaded. Position: {tileObject.Position.X}, {tileObject.Position.Y}");
             }
 
             return scene;

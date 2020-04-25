@@ -45,7 +45,7 @@ namespace TileEngineSfmlCs.TileEngine.Scripting
             foreach (var fileNode in _scriptFiles)
             {
                 IFileSystemEntry file = fileNode.Data;
-                PythonObjects.PythonObject obj = new PythonObject(file.GetStream(), null);
+                PythonObjects.PythonObject obj = new PythonObject(file.OpenStream(), null);
                 string path = TreeNode<IFileSystemEntry>.GetPath(fileNode, f => f?.Name);
                 PythonEntityType entityType = new PythonEntityType(obj, path);
                 _pythonEntityTypes.Add(entityType);

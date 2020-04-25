@@ -2,9 +2,9 @@
 using System.IO;
 using System.IO.Compression;
 
-namespace TileEngineSfmlCs.Utils.Serialization
+namespace TileEngineSfmlCs.Utils.Serialization.ZipContainer
 {
-    public class MapFileEntry : IFileSystemEntry
+    public class ZipFileEntry : IFileSystemEntry
     {
         private readonly ZipArchiveEntry _zipArchiveEntry;
         private readonly string _name;
@@ -15,7 +15,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
         /// MapFileEntry represents files in .temap archive
         /// </summary>
         /// <param name="entry">Must not be null</param>
-        public MapFileEntry(ZipArchiveEntry entry)
+        public ZipFileEntry(ZipArchiveEntry entry)
         {
             if (entry != null)
             {
@@ -37,7 +37,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
         /// <summary>
         /// Creates directory
         /// </summary>
-        public MapFileEntry(string name)
+        public ZipFileEntry(string name)
         {
             _zipArchiveEntry = null;
             _name = name;
@@ -46,7 +46,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
         public string Name => _name;
         public bool IsDirectory => _zipArchiveEntry == null;
 
-        public Stream GetStream()
+        public Stream OpenStream()
         {
             if (_stream == null)
             {
@@ -58,6 +58,11 @@ namespace TileEngineSfmlCs.Utils.Serialization
                 _stream = _zipArchiveEntry?.Open();
             }
             return _stream;
+        }
+
+        public void Dispose()
+        {
+            _stream?.Dispose();
         }
     }
 }

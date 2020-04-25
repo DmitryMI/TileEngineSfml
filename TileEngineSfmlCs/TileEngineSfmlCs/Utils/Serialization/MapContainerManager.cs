@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileEngineSfmlCs.Utils.Serialization.ZipContainer;
 
 namespace TileEngineSfmlCs.Utils.Serialization
 {
@@ -23,10 +24,18 @@ namespace TileEngineSfmlCs.Utils.Serialization
 
         public IMapContainer GetMapContainer(string fileSystemPath)
         {
-            FileInfo fileInfo = new FileInfo(fileSystemPath);
-            if (fileInfo.Extension == ".temap")
+            if (File.Exists(fileSystemPath))
             {
-                return new ZipMapContainer(fileSystemPath);
+                FileInfo fileInfo = new FileInfo(fileSystemPath);
+                if (fileInfo.Extension == ".temap")
+                {
+                    return new ZipMapContainer(fileSystemPath);
+                }
+                throw new NotImplementedException("Only .temap format is supported");
+            }
+            else if (Directory.Exists(fileSystemPath))
+            {
+
             }
 
             throw new NotImplementedException();

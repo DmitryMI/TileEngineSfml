@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.IO.Compression;
-using TileEngineSfmlCs.ResourceManagement;
+using System.Linq;
 using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.Types;
 
-namespace TileEngineSfmlCs.Utils.Serialization
+namespace TileEngineSfmlCs.Utils.Serialization.ZipContainer
 {
     public class ZipMapContainer : IMapContainer
     {
@@ -60,7 +58,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
                 var directory = TraverseDirectories(_mapTreeNode, pathFragments,  pathFragments.Length - 1);
                 LogManager.EditorLogger.Log($"[TileEngineMap] Pushing {entry.FullName} into {directory}");
                 LogManager.RuntimeLogger.Log($"[TileEngineMap] Pushing {entry.FullName} into {directory}");
-                IFileSystemEntry file = new MapFileEntry(entry);
+                IFileSystemEntry file = new ZipFileEntry(entry);
                 directory.Add(new TreeNode<IFileSystemEntry>(file));
             }
         }
@@ -73,7 +71,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
             TreeNode<IFileSystemEntry> currentEntry = root.FirstOrDefault(e => e.Data.Name.Equals(path[0]));
             if (currentEntry == null)
             {
-                currentEntry = new TreeNode<IFileSystemEntry>(new MapFileEntry(path[0]));
+                currentEntry = new TreeNode<IFileSystemEntry>(new ZipFileEntry(path[0]));
                 root.Add(currentEntry);
             }
 
@@ -84,7 +82,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
                 currentEntry = currentEntry.FirstOrDefault(n => n.Data.Name.Equals(path[fragmentIndex]));
                 if (currentEntry == null)
                 {
-                    currentEntry = new TreeNode<IFileSystemEntry>(new MapFileEntry(path[fragmentIndex]));
+                    currentEntry = new TreeNode<IFileSystemEntry>(new ZipFileEntry(path[fragmentIndex]));
                     parent.Add(currentEntry);
                 }
                 fragmentIndex++;
@@ -98,7 +96,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
         public Stream GetEntry(string path)
         {
             var entry = TreeNode<IFileSystemEntry>.SearchPath(_mapTreeNode, path, e => e.Name);
-            return entry?.Data?.GetStream();
+            return entry?.Data?.OpenStream();
         }
 
         public Stream CreateEntry(string path)

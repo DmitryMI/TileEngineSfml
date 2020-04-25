@@ -188,7 +188,7 @@ namespace TileEngineSfmlCs.ResourceManagement
             }
             else
             {
-                entry = new ResourceEntry(_resourcesList.Count, fileSystemEntry.Name, fileSystemEntry.GetStream());
+                entry = new ResourceEntry(_resourcesList.Count, fileSystemEntry.Name, fileSystemEntry.OpenStream());
             }
             _resourcesList.Add(entry);
             return entry;
