@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
@@ -257,21 +258,31 @@ namespace TileEngineSfmlCs.TileEngine
 
         public static Scene CreateFromMap(IMapContainer map, string scenePath)
         {
-            Stream mapXmlStream = map.GetEntry(scenePath);
-            if (mapXmlStream == null)
+            var entry = map.GetEntry(scenePath);
+            if (entry == null)
             {
+                LogManager.EditorLogger.LogError("[Scene] main.scene not found!");
                 return null;
             }
-            return DeserializeScene(mapXmlStream);
+            using (Stream mapXmlStream = entry.OpenStream())
+            {
+                if (mapXmlStream == null)
+                {
+                    return null;
+                }
+                return DeserializeScene(mapXmlStream);
+            }
         }
 
         public static void SaveToMap(Scene scene, IMapContainer map, string scenePath)
         {
             map.DeleteEntry(scenePath);
-            var mapXmlStream = map.CreateEntry(scenePath);
-            SerializeScene(scene, mapXmlStream);
-            mapXmlStream.Flush();
-            mapXmlStream.Close();
+            using (Stream mapXmlStream = map.CreateEntry(scenePath).OpenStream())
+            {
+                SerializeScene(scene, mapXmlStream);
+                mapXmlStream.Flush();
+                mapXmlStream.Close();
+            }
         }
 
         public static void SerializeScene(Scene scene, Stream serializationStream)

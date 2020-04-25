@@ -93,17 +93,24 @@ namespace TileEngineSfmlCs.Utils.Serialization.ZipContainer
         
         public TreeNode<IFileSystemEntry> MapTree => _mapTreeNode;
 
-        public Stream GetEntry(string path)
+        public IFileSystemEntry GetEntry(string path)
         {
             var entry = TreeNode<IFileSystemEntry>.SearchPath(_mapTreeNode, path, e => e.Name);
-            return entry?.Data?.OpenStream();
+            return entry?.Data;
         }
 
-        public Stream CreateEntry(string path)
+        public IFileSystemEntry CreateEntry(string path)
         {
+            string[] pathFragments = path.Split('\\');
+            var parent =
+                TreeNode<IFileSystemEntry>.SearchPath(_mapTreeNode, pathFragments, pathFragments.Length - 1,
+                    f => f.Name);
+
             path = path.Replace('\\', '/');
             var entry = _mapZipArchive.CreateEntry(path, CompressionLevel.Optimal);
-            return entry.Open();
+            IFileSystemEntry fs = new ZipFileEntry(entry);
+            parent.Add(new TreeNode<IFileSystemEntry>(fs));
+            return fs;
         }
 
         public void UpdateTree()
