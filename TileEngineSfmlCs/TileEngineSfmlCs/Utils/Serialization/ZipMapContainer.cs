@@ -9,7 +9,7 @@ using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.Utils.Serialization
 {
-    public class TileEngineMap : IDisposable
+    public class ZipMapContainer : IMapContainer
     {
         private Stream _mapStream;
         private ZipArchive _mapZipArchive;
@@ -17,19 +17,12 @@ namespace TileEngineSfmlCs.Utils.Serialization
         private string _fileName;
 
 
-        public TileEngineMap(string fileName)
+        public ZipMapContainer(string fileName)
         {
             _mapStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             _mapZipArchive = new ZipArchive(_mapStream, ZipArchiveMode.Update, true);
             CreateTree();
             _fileName = fileName;
-        }
-
-        public TileEngineMap(Stream stream)
-        {
-            _mapStream = stream;
-            _mapZipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true);
-            CreateTree();
         }
 
         public void Save()
@@ -40,11 +33,17 @@ namespace TileEngineSfmlCs.Utils.Serialization
 
         public void Dispose()
         {
-            _mapZipArchive?.Dispose();
-            if (_mapStream.CanRead)
+            try
             {
-                _mapStream.Close();
-                _mapStream.Dispose();
+                _mapZipArchive?.Dispose();
+
+                _mapStream?.Close();
+                _mapStream?.Dispose();
+                LogManager.EditorLogger.Log("[ZipMapContainer] Zip archive closed and disposed");
+            }
+            catch (Exception ex)
+            {
+                LogManager.EditorLogger.Log("[ZipMapContainer] Dispose exception: " + ex.Message);
             }
         }
 
@@ -120,8 +119,20 @@ namespace TileEngineSfmlCs.Utils.Serialization
             return directory;
         }
 
+        public void Reload()
+        {
+            _mapZipArchive?.Dispose();
+            _mapStream?.Close();
+            _mapStream?.Dispose();
+
+            _mapStream = new FileStream(_fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            _mapZipArchive = new ZipArchive(_mapStream, ZipArchiveMode.Update, true);
+            CreateTree();
+        }
+
         public void DeleteEntry(string path)
         {
+            path = path.Replace('\\', '/');
             var entry = _mapZipArchive.GetEntry(path);
             entry?.Delete();
         }

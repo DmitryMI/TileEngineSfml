@@ -215,13 +215,13 @@ namespace TileEngineSfmlCs.ResourceManagement
             DisposeResources();
         }
 
-        public void LoadResourcesFromMap(TileEngineMap map)
+        public void LoadResourcesFromMap(IMapContainer map)
         {
             var root = map.MapTree;
             AppendToRoot(root, "User");
         }
 
-        public void SaveResourcesToMap(TileEngineMap map)
+        public void SaveResourcesToMap(IMapContainer map)
         {
             var userResources = _resourceTreeRoot.FirstOrDefault(e => e.Data != null && e.Data.Name == "User");
 
@@ -237,7 +237,7 @@ namespace TileEngineSfmlCs.ResourceManagement
             }
         }
 
-        private void SaveResourceEntry(TileEngineMap map, TreeNode<ResourceEntry> resourceNode)
+        private void SaveResourceEntry(IMapContainer map, TreeNode<ResourceEntry> resourceNode)
         {
             foreach (var child in resourceNode)
             {
@@ -260,19 +260,17 @@ namespace TileEngineSfmlCs.ResourceManagement
                 path = path.Remove(0, 1);
             }
             Debug.WriteLine($"[GameResources] Pushing {resourceNode} to TileEngineMap with path {path}");
-            var entryStream = map.GetEntry(path);
-            if (entryStream != null)
-            {
-                map.DeleteEntry(path);
-            }
-            entryStream = map.CreateEntry(path);
+            //var entryStream = map.GetEntry(path);
+            map.DeleteEntry(path);
+            
+            var entryStream = map.CreateEntry(path);
 
             byte[] data = new byte[resourceNode.Data.DataStream.Length];
             resourceNode.Data.DataStream.Seek(0, SeekOrigin.Begin);
             resourceNode.Data.DataStream.Read(data, 0, data.Length);
             entryStream.Write(data, 0, data.Length);
-
-            
+            entryStream.Close();
+            entryStream.Dispose();
         }
 
         

@@ -255,7 +255,7 @@ namespace TileEngineSfmlCs.TileEngine
 
         #region Scene  creation
 
-        public static Scene CreateFromMap(TileEngineMap map, string scenePath)
+        public static Scene CreateFromMap(IMapContainer map, string scenePath)
         {
             Stream mapXmlStream = map.GetEntry(scenePath);
             if (mapXmlStream == null)
@@ -265,13 +265,10 @@ namespace TileEngineSfmlCs.TileEngine
             return DeserializeScene(mapXmlStream);
         }
 
-        public static void SaveToMap(Scene scene, TileEngineMap map, string scenePath)
+        public static void SaveToMap(Scene scene, IMapContainer map, string scenePath)
         {
-            Stream mapXmlStream = map.GetEntry(scenePath);
-            if (mapXmlStream == null)
-            {
-                mapXmlStream = map.CreateEntry(scenePath);
-            }
+            map.DeleteEntry(scenePath);
+            var mapXmlStream = map.CreateEntry(scenePath);
             SerializeScene(scene, mapXmlStream);
             mapXmlStream.Flush();
             mapXmlStream.Close();

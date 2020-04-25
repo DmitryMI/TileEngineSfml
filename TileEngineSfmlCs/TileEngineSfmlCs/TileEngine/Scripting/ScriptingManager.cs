@@ -31,7 +31,7 @@ namespace TileEngineSfmlCs.TileEngine.Scripting
 
         }
 
-        public void LoadTypesFromMap(TileEngineMap map, string directory)
+        public void LoadTypesFromMap(IMapContainer map, string directory)
         {
             _scriptFiles.Clear();
             var customTypesDirectory = map.GetTreeNode(directory);
@@ -59,7 +59,7 @@ namespace TileEngineSfmlCs.TileEngine.Scripting
             _scriptFiles.Add(node);
         }
 
-        public void SaveTypesToMap(TileEngineMap map, string directory)
+        public void SaveTypesToMap(IMapContainer map, string directory)
         {
             foreach (var type in _pythonEntityTypes)
             {

@@ -46,6 +46,7 @@ namespace TileEngineSfmlMapEditor
 
         private void LoadMap(string fileName)
         {
+            _editor?.Dispose();
             _editor = new TileEngineEditor(RenderingCanvas);
             _editor.LoadMap(fileName);
             _mapFilePath = fileName;
@@ -118,6 +119,7 @@ namespace TileEngineSfmlMapEditor
             newMapForm.ShowDialog();
             if (newMapForm.ResultOk)
             {
+                _editor?.Dispose();
                 _editor = new TileEngineEditor(RenderingCanvas);
                 _editor.CreateMainScene(newMapForm.ResultWidth, newMapForm.ResultHeight);
 
@@ -127,8 +129,15 @@ namespace TileEngineSfmlMapEditor
 
         private void SaveMap(string path)
         {
-            _editor.SaveMap(path);
-            _mapFilePath = path;
+            if (_editor != null)
+            {
+                _editor.SaveMap(path);
+                _mapFilePath = path;
+            }
+            else
+            {
+                LogError("Nothing to save!");
+            }
         }
 
         private void SaveMap(bool resetPath)

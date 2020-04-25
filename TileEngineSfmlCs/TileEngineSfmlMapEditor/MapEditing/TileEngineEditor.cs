@@ -27,7 +27,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
         public int PixelsPerUnit = 32;
 
         private Scene _scene;
-        private TileEngineMap _tileEngineMap;
+        private IMapContainer _tileEngineMap;
         private IRenderReceiver _renderReceiver;
         private Vector2 _cameraPosition;
         private GameResources _resources;
@@ -171,7 +171,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 throw new FileNotFoundException();
             }
             _tileEngineMap?.Dispose();
-            _tileEngineMap = new TileEngineMap(filePath);
+
+            //_tileEngineMap = new ZipMapContainer(filePath);
+            CreateMapContainer(filePath);
 
             _typeManager = new TypeManager();
             TypeManager.Instance = _typeManager;
@@ -197,6 +199,17 @@ namespace TileEngineSfmlMapEditor.MapEditing
         private void ProcessNewScene()
         {
             
+        }
+
+        private void CreateMapContainer(string path)
+        {
+            _tileEngineMap?.Dispose();
+            if (MapContainerManager.Instance == null)
+            {
+                MapContainerManager.Instance = new MapContainerManager();
+            }
+
+            _tileEngineMap = MapContainerManager.Instance.GetMapContainer(path);
         }
 
 
@@ -678,9 +691,8 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 _tileEngineMap.Dispose();
             }*/
             _tileEngineMap?.Dispose();
+            CreateMapContainer(targetFile);
 
-            FileStream stream = new FileStream(targetFile, FileMode.Create, FileAccess.ReadWrite);
-            _tileEngineMap = new TileEngineMap(stream);
             Scene.SaveToMap(_scene, _tileEngineMap, "main.scene");
 
             GameResources.Instance.SaveResourcesToMap(_tileEngineMap);
