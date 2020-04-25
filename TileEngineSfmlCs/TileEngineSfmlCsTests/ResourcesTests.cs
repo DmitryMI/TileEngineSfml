@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TileEngineSfmlCs.ResourceManagement;
 using TileEngineSfmlCs.TileEngine.ResourceManagement;
 using TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes;
 

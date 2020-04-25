@@ -6,7 +6,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using SFML.Graphics;
 using SFML.System;
-using TileEngineSfmlCs.ResourceManagement;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.ResourceManagement;
