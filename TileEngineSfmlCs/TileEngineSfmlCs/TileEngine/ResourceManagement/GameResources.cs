@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
-using ResourceEntry = TileEngineSfmlCs.ResourceManagement.ResourceTypes.ResourceEntry;
+using ResourceEntry = TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes.ResourceEntry;
 
-namespace TileEngineSfmlCs.ResourceManagement
+namespace TileEngineSfmlCs.TileEngine.ResourceManagement
 {
     public class GameResources : IDisposable
     {

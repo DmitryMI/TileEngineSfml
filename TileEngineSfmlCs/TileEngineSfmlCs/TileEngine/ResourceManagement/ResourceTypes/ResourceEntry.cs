@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace TileEngineSfmlCs.ResourceManagement.ResourceTypes
+namespace TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes
 {
     public class ResourceEntry : IDisposable
     {

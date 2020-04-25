@@ -59,6 +59,7 @@ namespace TileEngineSfmlCs.TileEngine.Scripting
             _scriptFiles.Add(node);
         }
 
+        [Obsolete("GameResources manages scripts saving. Invocation will cause data duplication")]
         public void SaveTypesToMap(IMapContainer map, string directory)
         {
             foreach (var type in _pythonEntityTypes)

@@ -2,7 +2,7 @@
 using System.Xml;
 using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.Utils.Serialization;
-using GameResources = TileEngineSfmlCs.ResourceManagement.GameResources;
+using GameResources = TileEngineSfmlCs.TileEngine.ResourceManagement.GameResources;
 
 namespace TileEngineSfmlCs.Types
 {
