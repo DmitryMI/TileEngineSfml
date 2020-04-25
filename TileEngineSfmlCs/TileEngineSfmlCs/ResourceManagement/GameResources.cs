@@ -263,14 +263,15 @@ namespace TileEngineSfmlCs.ResourceManagement
             //var entryStream = map.GetEntry(path);
             map.DeleteEntry(path);
             
-            var entryStream = map.CreateEntry(path);
-
-            byte[] data = new byte[resourceNode.Data.DataStream.Length];
-            resourceNode.Data.DataStream.Seek(0, SeekOrigin.Begin);
-            resourceNode.Data.DataStream.Read(data, 0, data.Length);
-            entryStream.Write(data, 0, data.Length);
-            entryStream.Close();
-            entryStream.Dispose();
+            var entry = map.CreateEntry(path);
+            using (Stream entryStream = entry.OpenStream())
+            {
+                byte[] data = new byte[resourceNode.Data.DataStream.Length];
+                resourceNode.Data.DataStream.Seek(0, SeekOrigin.Begin);
+                resourceNode.Data.DataStream.Read(data, 0, data.Length);
+                entryStream.Write(data, 0, data.Length);
+                entryStream.Close();
+            }
         }
 
         
