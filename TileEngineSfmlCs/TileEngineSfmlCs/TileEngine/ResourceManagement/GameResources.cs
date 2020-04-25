@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
 using ResourceEntry = TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes.ResourceEntry;
@@ -43,17 +44,18 @@ namespace TileEngineSfmlCs.TileEngine.ResourceManagement
             string relativePath = entryPath.Remove(0, _resourcesRootPath.Length);
             if (File.Exists(entryPath))
             {
-                string fileName = new FileInfo(entryPath).Name;
-                FileStream fs = new FileStream(entryPath, FileMode.Open, FileAccess.ReadWrite);
-                entry = new ResourceEntry(_resourcesList.Count, fileName, fs);
+                string fileName = new FileInfo(entryPath).FullName;
+                BuiltInFileEntry fileEntry = new BuiltInFileEntry(fileName);
+                entry = new ResourceEntry(_resourcesList.Count, fileEntry);
                 _resourcesList.Add(entry);
                 TreeNode<ResourceEntry> node = new TreeNode<ResourceEntry>(entry);
                 parent.Add(node);
             }
             else if (Directory.Exists(entryPath))
             {
-                string directoryName = new DirectoryInfo(entryPath).Name;
-                entry = new ResourceEntry(_resourcesList.Count, directoryName);
+                string directoryPath = new DirectoryInfo(entryPath).FullName;
+                BuiltInFileEntry fileEntry = new BuiltInFileEntry(directoryPath);
+                entry = new ResourceEntry(_resourcesList.Count, fileEntry);
                 _resourcesList.Add(entry);
                 TreeNode<ResourceEntry> node = new TreeNode<ResourceEntry>(entry);
                 parent.Add(node);
@@ -182,21 +184,23 @@ namespace TileEngineSfmlCs.TileEngine.ResourceManagement
         private ResourceEntry AddResourceToList(IFileSystemEntry fileSystemEntry)
         {
             ResourceEntry entry;
-            if (fileSystemEntry.IsDirectory)
+            /*if (fileSystemEntry.IsDirectory)
             {
                 entry = new ResourceEntry(_resourcesList.Count, fileSystemEntry.Name);
             }
             else
             {
                 entry = new ResourceEntry(_resourcesList.Count, fileSystemEntry.Name, fileSystemEntry.OpenStream());
-            }
+            }*/
+            entry = new ResourceEntry(_resourcesList.Count, fileSystemEntry);
             _resourcesList.Add(entry);
             return entry;
         }
 
         private ResourceEntry CreateDirectory(string name)
         {
-            var entry = new ResourceEntry(_resourcesList.Count, name);
+            FakeFileEntry fileEntry = new FakeFileEntry(name, true);
+            var entry = new ResourceEntry(_resourcesList.Count, fileEntry);
             _resourcesList.Add(entry);
             return entry;
         }

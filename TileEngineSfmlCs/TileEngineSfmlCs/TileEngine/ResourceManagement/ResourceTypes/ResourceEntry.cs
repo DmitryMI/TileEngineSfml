@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes
 {
@@ -21,12 +22,26 @@ namespace TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes
 
         public Stream DataStream => _stream;
 
-        public ResourceEntry(int resourceId, string name, Stream stream)
+        public ResourceEntry(int resourceId, IFileSystemEntry fileSystemEntry)
         {
-            IsDirectory = false;
             ResourceId = resourceId;
-            Name = name;
-            CopyStream(stream);
+            if (fileSystemEntry != null)
+            {
+                IsDirectory = fileSystemEntry.IsDirectory;
+                Name = fileSystemEntry.Name;
+                if (!IsDirectory)
+                {
+                    using (Stream stream = fileSystemEntry.OpenStream())
+                    {
+                        CopyStream(stream);
+                    }
+                }
+            }
+            else
+            {
+                Name = null;
+                IsDirectory = true;
+            }
         }
 
         private void CopyStream(Stream stream)
@@ -38,20 +53,6 @@ namespace TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes
             _stream.Seek(0, SeekOrigin.Begin);
             stream.Flush();
             stream.Close();
-            stream.Dispose();
-        }
-
-        /// <summary>
-        /// Creates directory
-        /// </summary>
-        /// <param name="resourceId">Resource's Id</param>
-        /// <param name="name">Name</param>
-        public ResourceEntry(int resourceId, string name)
-        {
-            IsDirectory = true;
-            ResourceId = resourceId;
-            Name = name;
-            _stream = null;
         }
 
         public void Dispose()

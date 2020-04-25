@@ -81,6 +81,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileEngine\ResourceManagement\GameResources.cs" />
+    <Compile Include="TileEngine\ResourceManagement\ResourceTypes\BuiltInFileEntry.cs" />
+    <Compile Include="TileEngine\ResourceManagement\ResourceTypes\FakeFileEntry.cs" />
     <Compile Include="TileEngine\ResourceManagement\ResourceTypes\ResourceEntry.cs" />
     <Compile Include="TileEngine\Logging\DebugLogger.cs" />
     <Compile Include="TileEngine\Logging\ILogger.cs" />

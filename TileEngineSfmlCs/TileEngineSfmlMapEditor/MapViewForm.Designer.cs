@@ -88,28 +88,28 @@
             // newMapToolStripMenuItem
             // 
             this.newMapToolStripMenuItem.Name = "newMapToolStripMenuItem";
-            this.newMapToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.newMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newMapToolStripMenuItem.Text = "New map";
             this.newMapToolStripMenuItem.Click += new System.EventHandler(this.newMapToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save map as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // saveMapToolStripMenuItem
             // 
             this.saveMapToolStripMenuItem.Name = "saveMapToolStripMenuItem";
-            this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveMapToolStripMenuItem.Text = "Save map";
             this.saveMapToolStripMenuItem.Click += new System.EventHandler(this.saveMapToolStripMenuItem_Click);
             // 
             // openMapToolStripMenuItem
             // 
             this.openMapToolStripMenuItem.Name = "openMapToolStripMenuItem";
-            this.openMapToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.openMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openMapToolStripMenuItem.Text = "Open map";
             this.openMapToolStripMenuItem.Click += new System.EventHandler(this.openMapToolStripMenuItem_Click);
             // 
@@ -143,7 +143,7 @@
             this.snapToCellToolStripMenuItem.CheckOnClick = true;
             this.snapToCellToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.snapToCellToolStripMenuItem.Name = "snapToCellToolStripMenuItem";
-            this.snapToCellToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.snapToCellToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.snapToCellToolStripMenuItem.Text = "Snap to cell";
             // 
             // layerVisibleMenuItem
@@ -273,7 +273,7 @@
             // makeShitToolStripMenuItem
             // 
             this.makeShitToolStripMenuItem.Name = "makeShitToolStripMenuItem";
-            this.makeShitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.makeShitToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.makeShitToolStripMenuItem.Text = "Make shit";
             // 
             // MapViewForm

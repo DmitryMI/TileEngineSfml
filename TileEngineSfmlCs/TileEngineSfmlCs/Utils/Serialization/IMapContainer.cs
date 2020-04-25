@@ -12,7 +12,6 @@ namespace TileEngineSfmlCs.Utils.Serialization
         IFileSystemEntry GetEntry(string path);
         IFileSystemEntry CreateEntry(string path);
         void DeleteEntry(string path);
-        void UpdateTree();
         TreeNode<IFileSystemEntry> GetTreeNode(string directoryPath);
 
         /// <summary>

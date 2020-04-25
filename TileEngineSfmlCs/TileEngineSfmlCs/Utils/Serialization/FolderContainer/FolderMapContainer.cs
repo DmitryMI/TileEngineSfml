@@ -32,7 +32,7 @@ namespace TileEngineSfmlCs.Utils.Serialization.FolderContainer
         
         private void TraverseFileSystem(TreeNode<IFileSystemEntry> parent, FileSystemInfo entryInfo)
         {
-            FolderFileEntry fileEntry = new FolderFileEntry(entryInfo.Name);
+            FolderFileEntry fileEntry = new FolderFileEntry(entryInfo.FullName);
             _registeredEntries.Add(fileEntry);
             TreeNode<IFileSystemEntry> node = new TreeNode<IFileSystemEntry>(fileEntry);
             parent.Add(node);
@@ -72,32 +72,68 @@ namespace TileEngineSfmlCs.Utils.Serialization.FolderContainer
 
         public IFileSystemEntry GetEntry(string path)
         {
-            throw new NotImplementedException();
+            var node = TreeNode<IFileSystemEntry>.SearchPath(_treeNode, path, f => f.Name);
+            return node.Data;
         }
 
         public IFileSystemEntry CreateEntry(string path)
         {
-            throw new NotImplementedException();
+            string absolutePath = Path.Combine(_directoryInfo.FullName, path);
+            using (Stream stream = File.Create(absolutePath))
+            {
+
+            }
+
+            FolderFileEntry entry = new FolderFileEntry(absolutePath);
+            string[] pathFragments = path.Split('\\');
+            var parent =
+                TreeNode<IFileSystemEntry>.SearchPath(_treeNode, pathFragments, pathFragments.Length - 1, f => f.Name);
+            parent.Add(new TreeNode<IFileSystemEntry>(entry));
+
+            return entry;
         }
 
         public void DeleteEntry(string path)
         {
-            throw new NotImplementedException();
+            var entry =
+                TreeNode<IFileSystemEntry>.SearchPath(_treeNode, path, f => f.Name);
+            
+            if(entry == null)
+                return;
+
+            string fullPath = ((FolderFileEntry)entry.Data).AbsolutePath;
+
+            if (entry.Data.IsDirectory)
+            {
+                if (entry.Count != 0)
+                {
+                    throw new InvalidOperationException("Directory contains subentries. Delete them first");
+                }
+                else
+                {
+                    entry.ParentNode.Remove(entry);
+                    Directory.Delete(fullPath);
+                }
+            }
+            else
+            {
+                entry.ParentNode.Remove(entry);
+                File.Delete(fullPath);
+            }
         }
 
-        public void UpdateTree()
-        {
-            throw new NotImplementedException();
-        }
 
         public TreeNode<IFileSystemEntry> GetTreeNode(string directoryPath)
         {
-            throw new NotImplementedException();
+            var entry =
+                TreeNode<IFileSystemEntry>.SearchPath(_treeNode, directoryPath, f => f.Name);
+            return entry;
         }
 
         public void Reload()
         {
-            throw new NotImplementedException();
+            ClearTree();
+            CreateTree();
         }
     }
 }

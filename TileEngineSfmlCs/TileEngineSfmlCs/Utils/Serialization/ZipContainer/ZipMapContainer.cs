@@ -106,11 +106,37 @@ namespace TileEngineSfmlCs.Utils.Serialization.ZipContainer
                 TreeNode<IFileSystemEntry>.SearchPath(_mapTreeNode, pathFragments, pathFragments.Length - 1,
                     f => f.Name);
 
+            if (parent == null)
+            {
+                parent = CreatePath(pathFragments, pathFragments.Length - 1);
+            }
+
             path = path.Replace('\\', '/');
             var entry = _mapZipArchive.CreateEntry(path, CompressionLevel.Optimal);
             IFileSystemEntry fs = new ZipFileEntry(entry);
             parent.Add(new TreeNode<IFileSystemEntry>(fs));
             return fs;
+        }
+
+        private TreeNode<IFileSystemEntry> CreatePath(string[] fragments, int count)
+        {
+            int fragIndex = 0;
+            TreeNode<IFileSystemEntry> currentNode = _mapTreeNode;
+            while (fragIndex < count)
+            {
+                var parent = currentNode;
+                currentNode = currentNode.FirstOrDefault(c => c.Data.Name == fragments[fragIndex]);
+                if (currentNode == null)
+                {
+                    TreeNode<IFileSystemEntry> folder = new TreeNode<IFileSystemEntry>(new ZipFileEntry(fragments[fragIndex]));
+                    parent.Add(folder);
+                    currentNode = folder;
+                }
+
+                fragIndex++;
+            }
+
+            return currentNode;
         }
 
         public void UpdateTree()
@@ -137,9 +163,21 @@ namespace TileEngineSfmlCs.Utils.Serialization.ZipContainer
 
         public void DeleteEntry(string path)
         {
+            string[] pathFragments = path.Split('\\');
+            var entryNode =
+                TreeNode<IFileSystemEntry>.SearchPath(_mapTreeNode, pathFragments, pathFragments.Length,
+                    f => f.Name);
+
+            if(entryNode == null)
+                return;
+
+            entryNode.ParentNode?.Remove(entryNode);
+
             path = path.Replace('\\', '/');
             var entry = _mapZipArchive.GetEntry(path);
             entry?.Delete();
+
+            
         }
     }
 }

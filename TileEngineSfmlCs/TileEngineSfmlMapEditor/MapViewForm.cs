@@ -151,7 +151,7 @@ namespace TileEngineSfmlMapEditor
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.CreatePrompt = false;
                 saveFileDialog.OverwritePrompt = true;
-                saveFileDialog.Filter = "TileEngine map (*.temap)|*.temap|All files (*.*)|*.*";
+                saveFileDialog.Filter = "TileEngine map (*.temap)|*.temap|Scene maps(*.scene)|*.scene";
                 saveFileDialog.DefaultExt = "*.temap";
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -164,7 +164,7 @@ namespace TileEngineSfmlMapEditor
         private void OpenMapFile()
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "TileEngine map (*.temap)|*.temap|All files (*.*)|*.*"; ;
+            fileDialog.Filter = "TileEngine map (*.temap)|*.temap|Scene files (*.scene*)|*.scene"; ;
             fileDialog.Multiselect = false;
             fileDialog.InitialDirectory = Application.StartupPath;
             if (fileDialog.ShowDialog() == DialogResult.OK)
@@ -175,6 +175,11 @@ namespace TileEngineSfmlMapEditor
                     LoadMap(path);
                 }
             }
+        }
+
+        private void OpenDirectoryMap()
+        {
+
         }
 
         #endregion

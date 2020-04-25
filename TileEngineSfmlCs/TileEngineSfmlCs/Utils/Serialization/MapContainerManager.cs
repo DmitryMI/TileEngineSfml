@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileEngineSfmlCs.Utils.Serialization.FolderContainer;
 using TileEngineSfmlCs.Utils.Serialization.ZipContainer;
 
 namespace TileEngineSfmlCs.Utils.Serialization
@@ -24,21 +25,30 @@ namespace TileEngineSfmlCs.Utils.Serialization
 
         public IMapContainer GetMapContainer(string fileSystemPath)
         {
-            if (File.Exists(fileSystemPath))
+            FileInfo fileInfo = new FileInfo(fileSystemPath);
+
+            if (fileInfo.Extension == ".temap")
             {
-                FileInfo fileInfo = new FileInfo(fileSystemPath);
-                if (fileInfo.Extension == ".temap")
+                return new ZipMapContainer(fileSystemPath);
+            }
+            else if (fileInfo.Extension == ".scene")
+            {
+                return new FolderMapContainer(fileInfo.DirectoryName);
+            }
+            else
+            {
+                if (fileInfo.Exists)
                 {
-                    return new ZipMapContainer(fileSystemPath);
+                    throw new NotImplementedException($"File format {fileInfo.Extension} is not supported");
                 }
-                throw new NotImplementedException("Only .temap format is supported");
+                else if (Directory.Exists(fileSystemPath))
+                {
+                    return new FolderMapContainer(fileSystemPath);
+                }
             }
-            else if (Directory.Exists(fileSystemPath))
-            {
 
-            }
-
-            throw new NotImplementedException();
+            throw new NotImplementedException("Unsupported format");
         }
+
     }
 }
