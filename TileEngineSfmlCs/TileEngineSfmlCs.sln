@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{68E6B44D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HullGeneratorTest", "HullGeneratorTest\HullGeneratorTest.csproj", "{2FAA9BE7-1184-41BC-AFBA-29881FE466A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdpNetworkInterface", "UdpNetworkInterface\UdpNetworkInterface.csproj", "{4A466A27-81CD-43EB-857A-A5C7AAE84BF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{2FAA9BE7-1184-41BC-AFBA-29881FE466A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FAA9BE7-1184-41BC-AFBA-29881FE466A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FAA9BE7-1184-41BC-AFBA-29881FE466A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A466A27-81CD-43EB-857A-A5C7AAE84BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A466A27-81CD-43EB-857A-A5C7AAE84BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A466A27-81CD-43EB-857A-A5C7AAE84BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A466A27-81CD-43EB-857A-A5C7AAE84BF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

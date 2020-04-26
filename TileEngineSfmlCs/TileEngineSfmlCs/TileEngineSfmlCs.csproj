@@ -85,6 +85,9 @@
     <Compile Include="TileEngine\Logging\DebugLogger.cs" />
     <Compile Include="TileEngine\Logging\ILogger.cs" />
     <Compile Include="TileEngine\Logging\LogManager.cs" />
+    <Compile Include="TileEngine\Networking\Camera.cs" />
+    <Compile Include="TileEngine\Networking\NetworkManager.cs" />
+    <Compile Include="TileEngine\Networking\Player.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />
@@ -136,6 +139,11 @@
     <Content Include="csfml-system.dll" />
     <Content Include="csfml-window.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\UdpNetworkInterface\UdpNetworkInterface.csproj">
+      <Project>{4a466a27-81cd-43eb-857a-a5c7aae84bf7}</Project>
+      <Name>UdpNetworkInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
