@@ -10,7 +10,7 @@ namespace UdpNetworkInterface.UdpNetworkClient
 
         ulong ConnectionCode { get; }
 
-        void Connect(ulong code);
+        void Connect(string username, ulong code);
         void Disconnect();
 
         void Poll();

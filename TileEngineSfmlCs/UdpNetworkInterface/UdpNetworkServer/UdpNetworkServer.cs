@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace UdpNetworkInterface.UdpNetworkServer
@@ -22,17 +23,44 @@ namespace UdpNetworkInterface.UdpNetworkServer
         private Queue<byte[]> _receiveDataQueue = new Queue<byte[]>();
         private Queue<int> _reconnectQueue = new Queue<int>();
         private Queue<int> _newConnectionQueue = new Queue<int>();
+        private Queue<string> _usernamesQueue = new Queue<string>();
         private Queue<int> _disconnectQueue = new Queue<int>();
 
         private RandomNumberGenerator _randomNumberGenerator = RandomNumberGenerator.Create();
 
-        public event Action<int> OnNewConnection;
+        public event Action<int, string> OnNewConnection;
         public event Action<int> OnDisconnect;
         public event Action<int> OnReconnect;
         public event Action<int, byte[]> OnDataReceived;
+
+        public int[] ConnectionIds => GetConnectionIds();
+
+        private int[] GetConnectionIds()
+        {
+            List<int> result = new List<int>(_connections.Count);
+            for(int i = 0; i < _connections.Count; i++)
+            {
+                if (_connections[i] != null)
+                {
+                    result.Add(i);
+                }
+            }
+
+            return result.ToArray();
+        }
+
         public void SendData(int connectionId, byte[] data)
         {
-            
+            IPEndPoint target = _connections[connectionId];
+            if (target == null)
+            {
+                // TODO Client not found
+                return;
+            }
+            byte[] datagram = new byte[data.Length];
+            datagram[0] = (byte) UdpCommand.Data;
+            Array.Copy(data, 0, datagram, 1, data.Length);
+            _udpClient.SendAsync(datagram, datagram.Length, target);
         }
 
         private void SendData(IPEndPoint endPoint, UdpCommand command, byte[] data)
@@ -40,7 +68,7 @@ namespace UdpNetworkInterface.UdpNetworkServer
             byte[] datagramm = new byte[data.Length + 1];
             datagramm[0] = (byte)command;
             Array.Copy(data, 0, datagramm, 1, data.Length);
-            _udpClient.SendAsync(datagramm, datagramm.Length, endPoint);
+            _udpClient.Send(datagramm, datagramm.Length, endPoint);
         }
 
         public UdpNetworkServer(int port)
@@ -80,7 +108,17 @@ namespace UdpNetworkInterface.UdpNetworkServer
                 while (_newConnectionQueue.Count > 0)
                 {
                     int connectionId = _newConnectionQueue.Dequeue();
-                    OnNewConnection?.Invoke(connectionId);
+                    string username = _usernamesQueue.Dequeue();
+                    OnNewConnection?.Invoke(connectionId, username);
+                }
+            }
+
+            lock (_reconnectQueue)
+            {
+                while (_reconnectQueue.Count > 0)
+                {
+                    int connectionId = _reconnectQueue.Dequeue();
+                    OnReconnect?.Invoke(connectionId);
                 }
             }
 
@@ -89,7 +127,7 @@ namespace UdpNetworkInterface.UdpNetworkServer
                 while (_disconnectQueue.Count > 0)
                 {
                     int connectionId = _disconnectQueue.Dequeue();
-                    OnNewConnection?.Invoke(connectionId);
+                    OnDisconnect?.Invoke(connectionId);
                 }
             }
 
@@ -149,12 +187,16 @@ namespace UdpNetworkInterface.UdpNetworkServer
         private int InsertNewEndPoint(IPEndPoint endPoint, out ulong code)
         {
             code = 0;
+
+            Debug.WriteLine("Generating code...");
             while (code == 0 || _connectionCodes.Contains(code))
             {
                 byte[] randomBytes = new byte[sizeof(ulong)];
                 _randomNumberGenerator.GetNonZeroBytes(randomBytes);
                 code = BitConverter.ToUInt64(randomBytes, 0);
             }
+
+            Debug.WriteLine("Code generated.");
 
             int index = 0;
             while (index < _connections.Count)
@@ -163,6 +205,8 @@ namespace UdpNetworkInterface.UdpNetworkServer
                 {
                     break;
                 }
+
+                index++;
             }
 
             if (index == _connections.Count)
@@ -183,7 +227,15 @@ namespace UdpNetworkInterface.UdpNetworkServer
         {
             while (_listeningRunning)
             {
-                UdpListenIteration();
+                try
+                {
+                    UdpListenIteration();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.StackTrace);
+                }
             }
         }
         private void UdpListenIteration()
@@ -195,13 +247,21 @@ namespace UdpNetworkInterface.UdpNetworkServer
             byte[] data = new byte[datagramm.Length - 1];
             Array.Copy(datagramm, 1, data, 0, data.Length);
 
-            UdpCommand command = (UdpCommand) data[0];
+            UdpCommand command = (UdpCommand) datagramm[0];
             switch (command)
             {
                 case UdpCommand.Connect:
+                    int pos = 0;
+                    ulong connectionCode = BitConverter.ToUInt64(data, pos);
+                    pos += sizeof(ulong);
+                    int nameLength = BitConverter.ToInt32(data, pos);
+                    pos += sizeof(int);
+                    string username = Encoding.Unicode.GetString(data, pos, nameLength);
+                    pos += nameLength;
                     if (connectionId != -1)
                     {
                         // Client is reconnecting
+                        SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(connectionCode));
                         Debug.WriteLine($"Client {connectionId} (${endPoint.ToString()}) reconnected");
                         lock (_reconnectQueue)
                         {
@@ -211,43 +271,46 @@ namespace UdpNetworkInterface.UdpNetworkServer
                     else
                     {
                         // Check connection code. May be this is an old client trying to reconnect
-                        if (data.Length >= sizeof(ulong))
+
+
+                        int codeId = GetConnectionCodeId(connectionCode);
+                        if (codeId != -1)
                         {
-                            ulong connectionCode = BitConverter.ToUInt64(data, 0);
-                            int codeId = GetConnectionCodeId(connectionCode);
-                            if (codeId != -1)
+                            _connections[codeId] = endPoint;
+                            SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(connectionCode));
+                            // This client is reconnecting. We need to replace old EndPoint with new one
+                            Debug.WriteLine(
+                                $"Client {connectionId} (${endPoint.ToString()}) reconnected with different EndPoint");
+                            lock (_reconnectQueue)
                             {
-                                _connections[codeId] = endPoint;
-                                // This client is reconnecting. We need to replace old EndPoint with new one
-                                Debug.WriteLine($"Client {connectionId} (${endPoint.ToString()}) reconnected with different EndPoint");
-                                lock (_reconnectQueue)
-                                {
-                                    _reconnectQueue.Enqueue(codeId);
-                                }
-                                break;
+                                _reconnectQueue.Enqueue(codeId);
                             }
-                            else if(NewConnectionsEnabled)
-                            { 
-                                // New connection
-                                _connections.Add(endPoint);
-                                int newId = InsertNewEndPoint(endPoint, out ulong code);
-                                // Answering with private connection code and Connect command. This means that server accepted connection
-                                SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(code));
-                                Debug.WriteLine($"New client with id {connectionId} (${endPoint.ToString()}) reconnected");
-                                lock (_newConnectionQueue)
-                                {
-                                    _newConnectionQueue.Enqueue(newId);
-                                }
+
+                            break;
+                        }
+                        else if (NewConnectionsEnabled)
+                        {
+                            // New connection
+                            int newId = InsertNewEndPoint(endPoint, out ulong code);
+                            // Answering with private connection code and Connect command. This means that server accepted connection
+                            SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(code));
+                            Debug.WriteLine($"New client with id {newId} and name {username} ({endPoint.ToString()}) connected");
+                            lock (_newConnectionQueue)
+                            {
+                                _newConnectionQueue.Enqueue(newId);
+                                _usernamesQueue.Enqueue(username);
                             }
-                           
+
+
                         }
                         else
                         {
                             // Client didn't provide connection code. Ignoring
                             Debug.WriteLine($"Client (${endPoint.ToString()}) rejected. No connection code provided");
                         }
-                        
+
                     }
+
                     break;
                 case UdpCommand.Disconnect:
                     Debug.WriteLine($"Client with id {connectionId} (${endPoint.ToString()}) disconnected by client's will");
@@ -265,6 +328,9 @@ namespace UdpNetworkInterface.UdpNetworkServer
                         _receiveIdQueue.Enqueue(connectionId);
                         _receiveDataQueue.Enqueue(data);
                     }
+                    break;
+                default:
+                    Debug.WriteLine($"Unknown command {command}");
                     break;
             }
         }

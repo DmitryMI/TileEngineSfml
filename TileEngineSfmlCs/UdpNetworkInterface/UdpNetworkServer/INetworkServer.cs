@@ -4,7 +4,7 @@ namespace UdpNetworkInterface.UdpNetworkServer
 {
     public interface INetworkServer : IDisposable
     {
-        event Action<int> OnNewConnection;
+        event Action<int, string> OnNewConnection;
         event Action<int> OnDisconnect;
         event Action<int> OnReconnect;
         event Action<int, byte[]> OnDataReceived;
@@ -18,5 +18,7 @@ namespace UdpNetworkInterface.UdpNetworkServer
         bool NewConnectionsEnabled { get; set; }
 
         bool IsListening { get; }
+
+        int[] ConnectionIds { get; }
     }
 }

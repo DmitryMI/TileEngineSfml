@@ -27,17 +27,32 @@ namespace UdpNetworkInterface.UdpNetworkClient
 
         public UdpNetworkClient(IPEndPoint serverEndPoint)
         {
-            _udpClient = new UdpClient(AddressFamily.InterNetwork);
-
-            _listeningTask = new Task(ListeningLoop, TaskCreationOptions.LongRunning);
+            _udpClient = new UdpClient();
             _serverEndPoint = serverEndPoint;
+
+            _listeningRunning = true;
+            _listeningTask = new Task(ListeningLoop, TaskCreationOptions.LongRunning);
+            _listeningTask.Start();
+           
         }
 
-        public void Connect(ulong connectionCode = 0)
+        public void Connect(string username, ulong connectionCode = 0)
         {
-            byte[] datagram = new byte[sizeof(ulong) + 1];
-            datagram[0] = (byte)UdpCommand.Connect;
-            _udpClient.SendAsync(datagram, datagram.Length, _serverEndPoint);
+            byte[] nameBytes = Encoding.Unicode.GetBytes(username);
+            int nameLength = nameBytes.Length;
+            byte[] nameLengthBytes = BitConverter.GetBytes(nameLength);
+            byte[] datagram = new byte[1 + sizeof(ulong) + nameLengthBytes.Length + nameBytes.Length];
+            int pos = 0;
+            datagram[pos] = (byte) UdpCommand.Connect;
+            pos += 1;
+            byte[] codeBytes = BitConverter.GetBytes(connectionCode);
+            Array.Copy(codeBytes, 0, datagram, pos, codeBytes.Length);
+            pos += codeBytes.Length;
+            Array.Copy(nameLengthBytes, 0, datagram, pos, nameLengthBytes.Length);
+            pos += nameLengthBytes.Length;
+            Array.Copy(nameBytes, 0, datagram, pos, nameLength);
+
+            _udpClient.Send(datagram, datagram.Length, _serverEndPoint);
         }
 
         public void Disconnect()
@@ -76,7 +91,15 @@ namespace UdpNetworkInterface.UdpNetworkClient
         {
             while (_listeningRunning)
             {
-                ListeningIteration();
+                try
+                {
+                    ListeningIteration();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.StackTrace);
+                }
             }
         }
 
@@ -105,6 +128,7 @@ namespace UdpNetworkInterface.UdpNetworkClient
                     Debug.WriteLine($"Connected to server with code {_connectionCode}");
                     lock (_commandQueue)
                     {
+                        Debug.WriteLine($"Enqueueing connection command");
                         _commandQueue.Enqueue(UdpCommand.Connect);
                     }
                     break;

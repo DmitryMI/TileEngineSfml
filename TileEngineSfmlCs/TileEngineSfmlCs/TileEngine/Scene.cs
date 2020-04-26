@@ -19,6 +19,8 @@ namespace TileEngineSfmlCs.TileEngine
         private List<TileObject> _updateableObjects = new List<TileObject>();
         private List<TileObject> _instantiatedTileObjects = new List<TileObject>();
 
+        public List<TileObject> TileObjects => _instantiatedTileObjects;
+
         public int Width { get; }
         public int Height { get; }
 
@@ -48,7 +50,7 @@ namespace TileEngineSfmlCs.TileEngine
             }
         }
 
-        public void NextFrame()
+        public void OnNextFrame()
         {
             foreach (var updateable in _updateableObjects)
             {
