@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TileEngineSfmlCs.TileEngine.GameManagement.DialogForms.Lobby;
-using TileEngineSfmlCs.TileEngine.GameManagement.Networking;
+﻿using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
+using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 using UdpNetworkInterface.UdpNetworkServer;
 
-namespace TileEngineSfmlCs.TileEngine.GameManagement
+namespace TileEngineSfmlCs.GameManagement.ServerSide
 {
     public class GameManager
     {

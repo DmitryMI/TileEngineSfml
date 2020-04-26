@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TileEngineSfmlCs.TileEngine.GameManagement.DialogForms;
+using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
+using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
 using UdpNetworkInterface.UdpNetworkServer;
 
-namespace TileEngineSfmlCs.TileEngine.GameManagement.Networking
+namespace TileEngineSfmlCs.GameManagement.ServerSide
 {
     public class NetworkManager
     {

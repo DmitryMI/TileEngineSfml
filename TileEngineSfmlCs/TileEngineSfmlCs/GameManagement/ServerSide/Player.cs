@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using TileEngineSfmlCs.TileEngine.GameManagement.DialogForms;
-using TileEngineSfmlCs.TileEngine.GameManagement.Networking;
+using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
 
-namespace TileEngineSfmlCs.TileEngine.GameManagement
+namespace TileEngineSfmlCs.GameManagement.ServerSide
 {
     public class Player
     {

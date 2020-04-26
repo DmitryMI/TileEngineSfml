@@ -1,4 +1,4 @@
-﻿namespace TileEngineSfmlCs.TileEngine.GameManagement.Networking
+﻿namespace TileEngineSfmlCs.GameManagement
 {
     public enum NetworkAction
     {

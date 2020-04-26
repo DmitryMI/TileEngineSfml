@@ -1,7 +1,4 @@
-﻿using System;
-using TileEngineSfmlCs.TileEngine.GameManagement.Networking;
-
-namespace TileEngineSfmlCs.TileEngine.GameManagement.DialogForms
+﻿namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms
 {
     public interface IDialogForm
     {

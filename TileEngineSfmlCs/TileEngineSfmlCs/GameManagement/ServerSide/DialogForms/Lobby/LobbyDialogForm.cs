@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TileEngineSfmlCs.TileEngine.GameManagement.Networking;
-using TileEngineSfmlCs.TileEngine.Logging;
+﻿using TileEngineSfmlCs.TileEngine.Logging;
 
-namespace TileEngineSfmlCs.TileEngine.GameManagement.DialogForms.Lobby
+namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
 {
     public class LobbyDialogForm : IDialogForm
     {

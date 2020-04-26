@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using TileEngineSfmlCs.GameManagement;
+using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.TileEngine;
-using TileEngineSfmlCs.TileEngine.GameManagement;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 using UdpNetworkInterface.UdpNetworkServer;
 

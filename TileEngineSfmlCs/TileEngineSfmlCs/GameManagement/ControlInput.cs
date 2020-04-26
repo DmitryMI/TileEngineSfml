@@ -1,4 +1,4 @@
-﻿namespace TileEngineSfmlCs.TileEngine.GameManagement
+﻿namespace TileEngineSfmlCs.GameManagement
 {
     public enum ControlInput
     {

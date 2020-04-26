@@ -1,7 +1,7 @@
 ﻿using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
 
-namespace TileEngineSfmlCs.TileEngine.GameManagement.Networking
+namespace TileEngineSfmlCs.GameManagement.ServerSide
 {
     public class Camera
     {
