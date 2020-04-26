@@ -6,10 +6,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using SFML.Graphics;
 using SFML.System;
-using TileEngineSfmlCs.ResourceManagement;
-using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.TileEngine.ResourceManagement;
+using TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes;
+using TileEngineSfmlCs.TileEngine.Scripting;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
@@ -26,7 +27,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
         public int PixelsPerUnit = 32;
 
         private Scene _scene;
-        private TileEngineMap _tileEngineMap;
+        private IMapContainer _tileEngineMap;
         private IRenderReceiver _renderReceiver;
         private Vector2 _cameraPosition;
         private GameResources _resources;
@@ -118,13 +119,14 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
             if (resourceEntry.LoadedValue == null)
             {
-                Stream fs = GameResources.Instance.GetStream(resourceEntry);
-                byte[] data = new byte[fs.Length];
-                fs.Read(data, 0, data.Length);
-                fs.Close();
-                fs.Dispose();
-                Texture texture = new Texture(data);
-                resourceEntry.LoadedValue = texture;
+                using (Stream fs = GameResources.Instance.CopyStream(resourceEntry))
+                {
+                    byte[] data = new byte[fs.Length];
+                    fs.Read(data, 0, data.Length);
+
+                    Texture texture = new Texture(data);
+                    resourceEntry.LoadedValue = texture;
+                }
             }
 
             return (Texture)resourceEntry.LoadedValue;
@@ -139,17 +141,6 @@ namespace TileEngineSfmlMapEditor.MapEditing
            
         }
 
-        private void LoadUserResources()
-        {
-            if (_tileEngineMap != null)
-            {
-                TreeNode<IFileSystemEntry> mapResources =
-                    TreeNode<IFileSystemEntry>.SearchPath(_tileEngineMap.MapTree, "Resources", entry => entry.Name);
-
-                _resources.AppendToRoot(mapResources, "User");
-            }
-        }
-
         private void InitializeFields()
         {
             if (_scene != null)
@@ -157,11 +148,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 _cameraPosition = new Vector2Int(_scene.Width / 2, _scene.Height / 2);
             }
 
-            if (TypeManager.Instance == null)
-            {
-                _typeManager = new TypeManager();
-                TypeManager.Instance = _typeManager;
-            }
+            
 
             GridThickness = 0.5f;
             Color color = Color.Green;
@@ -183,7 +170,22 @@ namespace TileEngineSfmlMapEditor.MapEditing
             {
                 throw new FileNotFoundException();
             }
-            _tileEngineMap = new TileEngineMap(filePath);
+            _tileEngineMap?.Dispose();
+
+            //_tileEngineMap = new ZipMapContainer(filePath);
+            CreateMapContainer(filePath);
+
+            _typeManager = new TypeManager();
+            TypeManager.Instance = _typeManager;
+
+            ScriptingManager.Instance = new ScriptingManager();
+
+            if (_tileEngineMap != null)
+            {
+                GameResources.Instance.LoadResourcesFromMap(_tileEngineMap);
+                ScriptingManager.Instance.LoadTypesFromMap(_tileEngineMap, "Scripts");
+            }
+
             _scene = Scene.CreateFromMap(_tileEngineMap, "main.scene");
             InitializeFields();
         }
@@ -197,6 +199,17 @@ namespace TileEngineSfmlMapEditor.MapEditing
         private void ProcessNewScene()
         {
             
+        }
+
+        private void CreateMapContainer(string path)
+        {
+            _tileEngineMap?.Dispose();
+            if (MapContainerManager.Instance == null)
+            {
+                MapContainerManager.Instance = new MapContainerManager();
+            }
+
+            _tileEngineMap = MapContainerManager.Instance.GetMapContainer(path);
         }
 
 
@@ -346,6 +359,8 @@ namespace TileEngineSfmlMapEditor.MapEditing
         {
             if (!_layersVisibility[(int) to.Layer])
                 return false;
+            if (to.Icon == null)
+                return false;
             for (int i = 0; i < to.Icon.SpritesCount; i++)
             {
                 Texture texture = GetTexture(to.Icon.GetResourceId(i));
@@ -475,6 +490,10 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 return null;
 
             Texture texture = GetTexture(editorIcon.GetResourceId(0));
+            if (texture == null)
+            {
+                return null;
+            }
             Image image = texture.CopyToImage();
 
             byte[] pixels = image.Pixels;
@@ -666,14 +685,18 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         public void SaveMap(string targetFile)
         {
-            if (_tileEngineMap != null)
+            /*if (_tileEngineMap != null)
             {
                 _tileEngineMap.Save();
                 _tileEngineMap.Dispose();
-            }
-            FileStream stream = new FileStream(targetFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            _tileEngineMap = new TileEngineMap(stream);
+            }*/
+            _tileEngineMap?.Dispose();
+            CreateMapContainer(targetFile);
+
             Scene.SaveToMap(_scene, _tileEngineMap, "main.scene");
+
+            GameResources.Instance.SaveResourcesToMap(_tileEngineMap);
+
             _tileEngineMap.Save();
         }
 

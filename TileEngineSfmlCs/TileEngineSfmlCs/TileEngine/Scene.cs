@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
+using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils;
 using TileEngineSfmlCs.Utils.Serialization;
@@ -254,25 +256,33 @@ namespace TileEngineSfmlCs.TileEngine
 
         #region Scene  creation
 
-        public static Scene CreateFromMap(TileEngineMap map, string scenePath)
+        public static Scene CreateFromMap(IMapContainer map, string scenePath)
         {
-            Stream mapXmlStream = map.GetEntry(scenePath);
-            if (mapXmlStream == null)
+            var entry = map.GetEntry(scenePath);
+            if (entry == null)
             {
+                LogManager.EditorLogger.LogError("[Scene] main.scene not found!");
                 return null;
             }
-            return DeserializeScene(mapXmlStream);
+            using (Stream mapXmlStream = entry.OpenStream())
+            {
+                if (mapXmlStream == null)
+                {
+                    return null;
+                }
+                return DeserializeScene(mapXmlStream);
+            }
         }
 
-        public static void SaveToMap(Scene scene, TileEngineMap map, string scenePath)
+        public static void SaveToMap(Scene scene, IMapContainer map, string scenePath)
         {
-            Stream mapXmlStream = map.GetEntry(scenePath);
-            if (mapXmlStream == null)
+            map.DeleteEntry(scenePath);
+            using (Stream mapXmlStream = map.CreateEntry(scenePath).OpenStream())
             {
-                mapXmlStream = map.CreateEntry(scenePath);
+                SerializeScene(scene, mapXmlStream);
+                mapXmlStream.Flush();
+                mapXmlStream.Close();
             }
-            SerializeScene(scene, mapXmlStream);
-            mapXmlStream.Flush();
         }
 
         public static void SerializeScene(Scene scene, Stream serializationStream)
@@ -321,7 +331,7 @@ namespace TileEngineSfmlCs.TileEngine
             foreach (var tileObject in tileObjects)
             {
                 scene.Instantiate(tileObject);
-                Debug.WriteLine($"TileObject loaded. Position: {tileObject.Position.X}, {tileObject.Position.Y}");
+                //Debug.WriteLine($"TileObject loaded. Position: {tileObject.Position.X}, {tileObject.Position.Y}");
             }
 
             return scene;
@@ -349,12 +359,12 @@ namespace TileEngineSfmlCs.TileEngine
         private static void SerializeTileObject(TileObject tileObject, XmlElement parentElement)
         {
             XmlDocument xmlDocument = parentElement.OwnerDocument;
-            Type type = tileObject.GetType();
+            EntityType type = tileObject.GetEntityType();
             if (xmlDocument != null)
             {
                 XmlElement objectElement = xmlDocument.CreateElement("TileObject");
                 XmlAttribute typeAttribute = xmlDocument.CreateAttribute("Type");
-                string typePath = type.AssemblyQualifiedName;
+                string typePath = type.FullName;
                 typeAttribute.Value = typePath;
                 objectElement.Attributes.Append(typeAttribute);
                 tileObject.AppendFields(objectElement);
@@ -375,14 +385,19 @@ namespace TileEngineSfmlCs.TileEngine
                 return null;
             }
             string fullTypeName = typeAttribute.Value;
-            Type type = Type.GetType(fullTypeName);
+            //Type type = Type.GetType(fullTypeName);
+            EntityType type = TypeManagement.TypeManager.Instance.GetEntityType(fullTypeName);
             if (type == null)
             {
-                throw new TypeNotFound(fullTypeName);
+                Logging.LogManager.EditorLogger.LogError($"Type {fullTypeName} was not found!");
+                return null;
             }
-            TileObject instance = (TileObject)Activator.CreateInstance(type);
-            instance.ReadFields(element);
-            return instance;
+            else
+            {
+                TileObject instance = type.Activate();
+                instance.ReadFields(element);
+                return instance;
+            }
         }
 
         private static void SerializeTileObjects(List<TileObject>[,] objectMatrix, XmlElement tileObjects)

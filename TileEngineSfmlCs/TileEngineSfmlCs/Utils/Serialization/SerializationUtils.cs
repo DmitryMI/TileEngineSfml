@@ -172,7 +172,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
 
             Type type = typeof(T);
             var parser = type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .FirstOrDefault(p => p.GetParameters().Length == 1);
+                .FirstOrDefault(p => p.GetParameters().Length == 1 && p.ReturnType == typeof(T));
             if (parser == null)
             {
                 throw new ArgumentException($"{type.Name} is not parseable");

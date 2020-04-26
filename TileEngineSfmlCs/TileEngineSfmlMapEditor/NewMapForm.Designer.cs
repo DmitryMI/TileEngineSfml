@@ -72,7 +72,7 @@
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(196, 87);
+            this.OkButton.Location = new System.Drawing.Point(196, 67);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 4;
@@ -82,7 +82,7 @@
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(12, 87);
+            this.CloseButton.Location = new System.Drawing.Point(12, 67);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(75, 23);
             this.CloseButton.TabIndex = 5;
@@ -94,13 +94,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(283, 122);
+            this.ClientSize = new System.Drawing.Size(283, 115);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.HeightBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.WidthBox);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "NewMapForm";
             this.Text = "Create new map";
             this.ResumeLayout(false);

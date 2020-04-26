@@ -2,7 +2,7 @@
 using System.Xml;
 using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.Utils.Serialization;
-using GameResources = TileEngineSfmlCs.ResourceManagement.GameResources;
+using GameResources = TileEngineSfmlCs.TileEngine.ResourceManagement.GameResources;
 
 namespace TileEngineSfmlCs.Types
 {
@@ -11,6 +11,13 @@ namespace TileEngineSfmlCs.Types
         private List<int> _resourceIds = new List<int>();
         private List<ColorB> _colors = new List<ColorB>();
         private List<float> _scales = new List<float>();
+
+        public void Clear()
+        {
+            _resourceIds.Clear();
+            _colors.Clear();
+            _scales.Clear();
+        }
 
         public int SpritesCount => _resourceIds.Count;
 

@@ -80,17 +80,26 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceManagement\GameResources.cs" />
-    <Compile Include="ResourceManagement\ResourceTypes\ResourceEntry.cs" />
+    <Compile Include="TileEngine\ResourceManagement\GameResources.cs" />
+    <Compile Include="TileEngine\ResourceManagement\ResourceTypes\BuiltInFileEntry.cs" />
+    <Compile Include="TileEngine\ResourceManagement\ResourceTypes\FakeFileEntry.cs" />
+    <Compile Include="TileEngine\ResourceManagement\ResourceTypes\ResourceEntry.cs" />
     <Compile Include="TileEngine\Logging\DebugLogger.cs" />
     <Compile Include="TileEngine\Logging\ILogger.cs" />
     <Compile Include="TileEngine\Logging\LogManager.cs" />
+    <Compile Include="TileEngine\Scripting\PythonFieldDescriptor.cs" />
+    <Compile Include="TileEngine\Scripting\ScriptingManager.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />
     <Compile Include="TileEngine\Scripting\PythonObjects\PythonObject.cs" />
-    <Compile Include="TileEngine\TypeManagement\EntityTypes\PythonEntityType.cs" />
+    <Compile Include="TileEngine\Scripting\PythonEntityType.cs" />
+    <Compile Include="TileEngine\TypeManagement\EntityTypes\DirectoryEntityType.cs" />
+    <Compile Include="Utils\Serialization\FolderContainer\FolderFileEntry.cs" />
+    <Compile Include="Utils\Serialization\FolderContainer\FolderMapContainer.cs" />
     <Compile Include="Utils\Serialization\IFieldSerializer.cs" />
+    <Compile Include="Utils\Serialization\IMapContainer.cs" />
+    <Compile Include="Utils\Serialization\MapContainerManager.cs" />
     <Compile Include="Utils\Serialization\SerializationUtils.cs" />
     <Compile Include="TileEngine\Subsystem.cs" />
     <Compile Include="TileEngine\TileEngineServer.cs" />
@@ -122,8 +131,8 @@
     <Compile Include="Utils\Graphics\Polygon.cs" />
     <Compile Include="Utils\ParsingUtils.cs" />
     <Compile Include="Utils\Serialization\IFileSystemEntry.cs" />
-    <Compile Include="Utils\Serialization\MapFileEntry.cs" />
-    <Compile Include="Utils\Serialization\TileEngineMap.cs" />
+    <Compile Include="Utils\Serialization\ZipContainer\ZipFileEntry.cs" />
+    <Compile Include="Utils\Serialization\ZipContainer\ZipMapContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
