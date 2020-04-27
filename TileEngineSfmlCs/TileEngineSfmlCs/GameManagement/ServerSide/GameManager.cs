@@ -22,7 +22,6 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         #endregion
 
         private Scene _scene;
-        private ITimeProvider _timeProvider;
         private INetworkServer _networkServer;
 
         public void StartGame(Scene scene, INetworkServer server)

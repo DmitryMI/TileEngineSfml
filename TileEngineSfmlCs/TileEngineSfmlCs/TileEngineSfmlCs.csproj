@@ -78,52 +78,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameManagement\ClientSide\DialogFormSpirit.cs" />
-    <Compile Include="GameManagement\ClientSide\DialogFormType.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\AssemblyDialogFormType.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormSpirit.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormType.cs" />
     <Compile Include="GameManagement\ClientSide\TileEngineClient.cs" />
     <Compile Include="GameManagement\ClientSide\TileObjectSpirit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-
+    <Compile Include="TileEngine\Logging\DebugLogger.cs" />
+    <Compile Include="TileEngine\Logging\ILogger.cs" />
+    <Compile Include="TileEngine\Logging\LogManager.cs" />
     <Compile Include="TileEngine\ResourceManagement\GameResources.cs" />
     <Compile Include="TileEngine\ResourceManagement\ResourceTypes\BuiltInFileEntry.cs" />
     <Compile Include="TileEngine\ResourceManagement\ResourceTypes\FakeFileEntry.cs" />
     <Compile Include="TileEngine\ResourceManagement\ResourceTypes\ResourceEntry.cs" />
-    <Compile Include="TileEngine\Logging\DebugLogger.cs" />
-    <Compile Include="TileEngine\Logging\ILogger.cs" />
-    <Compile Include="TileEngine\Logging\LogManager.cs" />
     <Compile Include="TileEngine\Scripting\PythonFieldDescriptor.cs" />
     <Compile Include="TileEngine\Scripting\ScriptingManager.cs" />
-    
-    <Compile Include="ResourceManagement\GameResources.cs" />
-    <Compile Include="ResourceManagement\ResourceTypes\ResourceEntry.cs" />
     <Compile Include="GameManagement\ControlInput.cs" />
     <Compile Include="GameManagement\ServerSide\DialogForms\DialogFormType.cs" />
     <Compile Include="GameManagement\ServerSide\DialogForms\IDialogForm.cs" />
-    <Compile Include="GameManagement\ClientSide\DialogFormManager.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormManager.cs" />
     <Compile Include="GameManagement\ServerSide\DialogForms\Lobby\LobbyDialogForm.cs" />
     <Compile Include="GameManagement\ServerSide\GameManager.cs" />
     <Compile Include="GameManagement\NetworkAction.cs" />
-    <Compile Include="TileEngine\Logging\DebugLogger.cs" />
-    <Compile Include="TileEngine\Logging\ILogger.cs" />
-    <Compile Include="TileEngine\Logging\LogManager.cs" />
     <Compile Include="GameManagement\ServerSide\Camera.cs" />
     <Compile Include="GameManagement\ServerSide\NetworkManager.cs" />
     <Compile Include="GameManagement\ServerSide\Player.cs" />
-
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />
     <Compile Include="TileEngine\Scripting\PythonObjects\PythonObject.cs" />
-
     <Compile Include="TileEngine\Scripting\PythonEntityType.cs" />
     <Compile Include="TileEngine\TypeManagement\EntityTypes\DirectoryEntityType.cs" />
     <Compile Include="Utils\Serialization\FolderContainer\FolderFileEntry.cs" />
     <Compile Include="Utils\Serialization\FolderContainer\FolderMapContainer.cs" />
-    
     <Compile Include="TileEngine\TimeManagement\TimeManager.cs" />
-    <Compile Include="TileEngine\TypeManagement\EntityTypes\PythonEntityType.cs" />
-
     <Compile Include="Utils\Serialization\IFieldSerializer.cs" />
     <Compile Include="Utils\Serialization\IMapContainer.cs" />
     <Compile Include="Utils\Serialization\MapContainerManager.cs" />

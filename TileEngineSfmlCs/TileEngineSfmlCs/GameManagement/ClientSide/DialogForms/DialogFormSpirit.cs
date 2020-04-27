@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TileEngineSfmlCs.GameManagement.ClientSide
+namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
 {
     /// <summary>
     /// Represents DialogForm on client side
@@ -13,7 +9,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
     {
         public virtual DialogFormType GetDialogFormType()
         {
-
+            throw new NotImplementedException();
         }
     }
 }
