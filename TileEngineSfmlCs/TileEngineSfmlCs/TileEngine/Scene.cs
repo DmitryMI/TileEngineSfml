@@ -48,6 +48,8 @@ namespace TileEngineSfmlCs.TileEngine
                     ObjectMatrix[x, y] = new List<TileObject>();
                 }
             }
+
+            LogManager.RuntimeLogger.Log($"New scene created with dimensions {width}, {height}");
         }
 
         public void OnNextFrame()
@@ -353,6 +355,8 @@ namespace TileEngineSfmlCs.TileEngine
                 scene.Instantiate(tileObject);
                 Debug.WriteLine($"TileObject loaded. Position: {tileObject.Position.X}, {tileObject.Position.Y}");
             }
+
+            LogManager.RuntimeLogger.Log($"Scene deserialized. {scene._instantiatedTileObjects.Count} objects created");
 
             return scene;
         }

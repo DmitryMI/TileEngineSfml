@@ -1,5 +1,6 @@
 ﻿using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
 using TileEngineSfmlCs.TileEngine;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 using UdpNetworkInterface.UdpNetworkServer;
 
@@ -24,14 +25,14 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         private ITimeProvider _timeProvider;
         private INetworkServer _networkServer;
 
-        public void StartGame(Scene scene, ITimeProvider timeProvider, INetworkServer server)
+        public void StartGame(Scene scene, INetworkServer server)
         {
             _scene = scene;
             _networkServer = server;
             NetworkManager.Instance = new NetworkManager(server, _scene);
-            _timeProvider = timeProvider;
-            _timeProvider.NextFrameEvent += NextFrame;
+            TimeManager.Instance.NextFrameEvent += NextFrame;
             NetworkManager.Instance.OnPlayerConnected += OnPlayerConnected;
+            LogManager.RuntimeLogger.Log($"Game started");
         }
 
         private void NextFrame()
@@ -42,6 +43,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
 
         private void OnPlayerConnected(Player player)
         {
+            LogManager.RuntimeLogger.Log($"Player {player.Username}({player.ConnectionId}) connected.");
             LobbyDialogForm lobbyDialog = new LobbyDialogForm();
             lobbyDialog.InteractingPlayer = player;
             NetworkManager.Instance.SpawnDialogForm(lobbyDialog);

@@ -42,6 +42,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _connectionId = connectionId;
             _camera = camera;
             _isConnected = true;
+            Username = username;
         }
     }
 }
