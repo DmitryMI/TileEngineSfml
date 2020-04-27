@@ -16,10 +16,11 @@ namespace TileEngineSfmlCs.TileEngine
     {
         internal readonly List<TileObject>[,] ObjectMatrix;
 
-        private int _instanceCounter = 1;
-
         private List<Subsystem> _subsystems;
         private List<TileObject> _updateableObjects = new List<TileObject>();
+        private List<TileObject> _instantiatedTileObjects = new List<TileObject>();
+
+        public List<TileObject> TileObjects => _instantiatedTileObjects;
 
         public int Width { get; }
         public int Height { get; }
@@ -48,9 +49,11 @@ namespace TileEngineSfmlCs.TileEngine
                     ObjectMatrix[x, y] = new List<TileObject>();
                 }
             }
+
+            LogManager.RuntimeLogger.Log($"New scene created with dimensions {width}, {height}");
         }
 
-        public void NextFrame()
+        public void OnNextFrame()
         {
             foreach (var updateable in _updateableObjects)
             {
@@ -207,6 +210,28 @@ namespace TileEngineSfmlCs.TileEngine
             _updateableObjects.Remove(tileObject);
         }
 
+        private void RegisterTileObject(TileObject tileObject)
+        {
+            int instanceId = 0;
+            while (instanceId < _instantiatedTileObjects.Count)
+            {
+                if (_instantiatedTileObjects[instanceId] == null)
+                {
+                    break;
+                }
+            }
+
+            if (instanceId == _instantiatedTileObjects.Count)
+            {
+                _instantiatedTileObjects.Add(tileObject);
+            }
+            else
+            {
+                _instantiatedTileObjects[instanceId] = tileObject;
+            }
+            tileObject.SetInstanceId(instanceId);
+        }
+
         public void Instantiate(TileObject tileObject)
         {
             RegisterPosition(tileObject);
@@ -215,8 +240,9 @@ namespace TileEngineSfmlCs.TileEngine
                 RegisterUpdateable(tileObject);
             }
             tileObject.SetScene(this);
-            tileObject.SetInstanceId(_instanceCounter);
-            _instanceCounter++;
+            
+            RegisterTileObject(tileObject);
+
             tileObject.OnCreate();
         }
 
@@ -224,8 +250,7 @@ namespace TileEngineSfmlCs.TileEngine
         {
             RegisterPosition(tileObject);
             tileObject.SetScene(this);
-            tileObject.SetInstanceId(_instanceCounter);
-            _instanceCounter++;
+            RegisterTileObject(tileObject);
             tileObject.OnEditorCreate();
         }
 
@@ -234,23 +259,29 @@ namespace TileEngineSfmlCs.TileEngine
             UnregisterPosition(tileObject);
             tileObject.SetScene(null);
 
-            if (tileObject.GetInstanceId() == _instanceCounter - 1)
+            if (tileObject.GetInstanceId() == -1)
             {
-                _instanceCounter--;
+                LogManager.EditorLogger.LogError("Do not destroy objects, that are not instantiated!");
             }
+
+            _instantiatedTileObjects[tileObject.GetInstanceId()] = null;
+            tileObject.SetInstanceId(-1);
         }
 
         public void Destroy(TileObject tileObject)
         {
             UnregisterPosition(tileObject);
             UnregisterUpdateable(tileObject);
-            tileObject.SetScene(null);
             tileObject.OnDestroy();
+            tileObject.SetScene(null);
 
-            if (tileObject.GetInstanceId() == _instanceCounter + 1)
+            if (tileObject.GetInstanceId() == -1)
             {
-                _instanceCounter--;
+                LogManager.RuntimeLogger.LogError($"[Scene] {tileObject.VisibleName} is not instantiated");
             }
+
+            _instantiatedTileObjects[tileObject.GetInstanceId()] = null;
+            tileObject.SetInstanceId(-1);
         }
         #endregion
 
@@ -333,6 +364,8 @@ namespace TileEngineSfmlCs.TileEngine
                 scene.Instantiate(tileObject);
                 //Debug.WriteLine($"TileObject loaded. Position: {tileObject.Position.X}, {tileObject.Position.Y}");
             }
+
+            LogManager.RuntimeLogger.Log($"Scene deserialized. {scene._instantiatedTileObjects.Count} objects created");
 
             return scene;
         }
