@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.Utils.Serialization.ZipContainer

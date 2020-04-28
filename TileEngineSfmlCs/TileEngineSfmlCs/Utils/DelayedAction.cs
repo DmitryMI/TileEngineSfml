@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 
 namespace TileEngineSfmlCs.Utils

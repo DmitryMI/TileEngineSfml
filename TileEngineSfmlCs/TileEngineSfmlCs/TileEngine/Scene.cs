@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.GameManagement.ServerSide;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
@@ -270,6 +271,7 @@ namespace TileEngineSfmlCs.TileEngine
 
         public void Destroy(TileObject tileObject)
         {
+            NetworkManager.Instance.DestroyTileObject(tileObject);
             UnregisterPosition(tileObject);
             UnregisterUpdateable(tileObject);
             tileObject.OnDestroy();

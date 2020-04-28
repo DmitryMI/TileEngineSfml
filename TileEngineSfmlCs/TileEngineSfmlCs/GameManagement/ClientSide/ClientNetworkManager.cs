@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
+using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
 using TileEngineSfmlCs.Networking;
+using TileEngineSfmlCs.Networking.UdpNetworkClient;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 using TileEngineSfmlCs.Types;
-using UdpNetworkInterface.UdpNetworkClient;
 
 namespace TileEngineSfmlCs.GameManagement.ClientSide
 {
@@ -98,7 +99,9 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
             switch (action)
             {
                 case NetworkAction.TileObjectUpdate:
-                    // TODO Update tile object
+                    TileObjectUpdatePackage tileObjectUpdate = new TileObjectUpdatePackage();
+                    tileObjectUpdate.FromByteArray(payload, payloadPos);
+                    TileSpiritManager.Instance.UpdateTileSpirit(tileObjectUpdate);
                     break;
                 case NetworkAction.DialogFormUpdate:
                     DialogFormUpdatePackage updateDialog = new DialogFormUpdatePackage();

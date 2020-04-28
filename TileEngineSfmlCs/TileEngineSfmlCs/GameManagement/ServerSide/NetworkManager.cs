@@ -6,10 +6,10 @@ using System.Text;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
-using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
 
@@ -40,8 +40,6 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         private List<Player> _players = new List<Player>();
         private Scene _controlledScene;
 
-        
-
         public NetworkManager(INetworkServer networkServer, Scene controlledScene)
         {
             _networkServer = networkServer;
@@ -50,6 +48,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _networkServer.OnNewConnection += OnNewConnection;
             _networkServer.OnDisconnect += OnDisconnect;
             _networkServer.OnReconnect += OnReconnect;
+            _networkServer.NewConnectionResponse = NewConnectionResponse;
 
             networkServer.StartServer();
         }
@@ -75,6 +74,14 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _players.Add(player);
 
             OnPlayerConnected?.Invoke(player);
+        }
+
+        private byte[] NewConnectionResponse()
+        {
+            SceneInformationPackage informationPackage = new SceneInformationPackage(_controlledScene);
+            byte[] data = new byte[informationPackage.ByteLength];
+            informationPackage.ToByteArray(data, 0);
+            return data;
         }
 
         private void OnDisconnect(int connectionId)
@@ -139,9 +146,50 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _networkServer.Poll();
         }
 
-        public void UpdateTileObject(TileObject tileObject)
+        public void UpdateTileObject(TileObject tileObject, Reliability reliability = Reliability.Reliable)
         {
-            // TODO UpdateTileObject
+            if (tileObject.GetInstanceId() == -1)
+            {
+                // TileObject is not instantiated
+                return;
+            }
+            TileObjectUpdatePackage wrapper = new TileObjectUpdatePackage(tileObject);
+            byte[] data = new byte[1 + wrapper.ByteLength];
+            int pos = 0;
+            data[pos] = (byte) NetworkAction.TileObjectUpdate;
+            pos += 1;
+            wrapper.ToByteArray(data, pos);
+
+            foreach (var player in _players)
+            {
+                _networkServer.SendData(player.ConnectionId, data, reliability);
+            }
+        }
+
+        public void UpdatePosition(TileObject tileObject, Reliability reliability = Reliability.Unreliable)
+        {
+            if (tileObject.GetInstanceId() == -1)
+            {
+                // TileObject is not instantiated
+                return;
+            }
+
+            PositionUpdatePackage wrapper = new PositionUpdatePackage(tileObject);
+            byte[] data = new byte[1 + wrapper.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.TileObjectUpdate;
+            pos += 1;
+            wrapper.ToByteArray(data, pos);
+
+            foreach (var player in _players)
+            {
+                _networkServer.SendData(player.ConnectionId, data, reliability);
+            }
+        }
+
+        public void DestroyTileObject(TileObject tileObject, Reliability reliability = Reliability.Reliable)
+        {
+            // TODO Destroy tile object
         }
 
         public void SpawnTileObject(TileObject tileObject)

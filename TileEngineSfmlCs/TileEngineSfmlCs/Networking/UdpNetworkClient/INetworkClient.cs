@@ -1,7 +1,6 @@
 ﻿using System;
-using TileEngineSfmlCs.Networking;
 
-namespace UdpNetworkInterface.UdpNetworkClient
+namespace TileEngineSfmlCs.Networking.UdpNetworkClient
 {
     public interface INetworkClient
     {

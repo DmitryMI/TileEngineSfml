@@ -1,5 +1,5 @@
 ﻿using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 
 namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
 {

@@ -9,6 +9,9 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
         event Action<int> OnDisconnect;
         event Action<int> OnReconnect;
         event Action<int, byte[]> OnDataReceived;
+
+        Func<byte[]> NewConnectionResponse { get; set; }
+
         void SendData(int connectionId, byte[] data, Reliability reliability = Reliability.Unreliable);
 
         void StartServer();

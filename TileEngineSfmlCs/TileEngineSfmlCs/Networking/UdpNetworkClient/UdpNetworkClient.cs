@@ -6,9 +6,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Utils.RandomGenerators;
-using UdpNetworkInterface.UdpNetworkClient;
 
 namespace TileEngineSfmlCs.Networking.UdpNetworkClient
 {

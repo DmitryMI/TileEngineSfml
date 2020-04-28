@@ -1,4 +1,6 @@
 ﻿using System.Xml;
+using TileEngineSfmlCs.GameManagement.ServerSide;
+using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
@@ -18,9 +20,36 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
 
         private Scene _scene;
 
+        private Reliability _updateReliability;
 
-        protected int LayerOrderInternal { get; set; }
-        protected float RotationInternal { get; set; }
+        private float _rotation;
+
+        private int _layerOrder;
+
+
+        protected int LayerOrderInternal
+        {
+            get => _layerOrder;
+            set
+            {
+                _layerOrder = value;
+            }
+        }
+
+        protected float RotationInternal
+        {
+            get => _rotation;
+            set
+            {
+                _rotation = value;
+            }
+        }
+
+        protected Reliability UpdateReliability
+        {
+            get => _updateReliability;
+            set => _updateReliability = value;
+        }
 
         [FieldEditorReadOnly("Auto set only")]
         private int _instanceId;
@@ -46,7 +75,10 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         public Vector2 Offset
         {
             get => _offset;
-            set => _offset = value;
+            set
+            {
+                _offset = value;
+            }
         }
 
         /// <summary>
@@ -69,7 +101,11 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         public int LayerOrder
         {
             get => LayerOrderInternal;
-            set => LayerOrderInternal = value;
+            set
+            {
+                LayerOrderInternal = value;
+            }
+
         }
 
         public float Rotation => RotationInternal;
@@ -82,6 +118,12 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         public abstract Icon Icon { get; }
 
         public abstract Icon EditorIcon { get; }
+
+        public void NetworkUpdate()
+        {
+            // Simply updates everything. But may be it is good to optimize icon update?
+            NetworkManager.Instance.UpdateTileObject(this, UpdateReliability);
+        }
 
         public abstract TileLayer Layer { get; }
 

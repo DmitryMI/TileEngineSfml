@@ -8,9 +8,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TileEngineSfmlCs.GameManagement;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Utils.RandomGenerators;
-using UdpNetworkInterface;
 
 namespace TileEngineSfmlCs.Networking.UdpNetworkServer
 {
@@ -40,6 +39,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
         public event Action<int> OnDisconnect;
         public event Action<int> OnReconnect;
         public event Action<int, byte[]> OnDataReceived;
+        public Func<byte[]> NewConnectionResponse { get; set; }
 
         public int RetransmissionCount { get; set; } = 10;
         public int RetransmissionPeriodMs { get; set; } = 2000;
@@ -308,10 +308,20 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                     pos += sizeof(int);
                     string username = Encoding.Unicode.GetString(udpPackage.Payload, pos, nameLength);
                     pos += nameLength;
+                    byte[] userResponse = NewConnectionResponse?.Invoke();
+                    byte[] response;
+                    response = userResponse != null ? new byte[userResponse.Length + sizeof(ulong)] : new byte[sizeof(long)];
+                    byte[] connectionCodeBytes = BitConverter.GetBytes(connectionCode);
+                    Array.Copy(connectionCodeBytes, 0, response, 0, connectionCodeBytes.Length);
+                    if (userResponse != null)
+                    {
+                        Array.Copy(userResponse, 0, response, sizeof(ulong), userResponse.Length);
+                    }
+
                     if (connectionId != -1)
                     {
                         // Client is reconnecting
-                        SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(connectionCode), Reliability.Unreliable);
+                        SendData(endPoint, UdpCommand.Connect, response, Reliability.Unreliable);
                         Debug.WriteLine($"Client {connectionId} (${endPoint}) reconnected");
                         lock (_reconnectQueue)
                         {
@@ -321,13 +331,11 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                     else
                     {
                         // Check connection code. May be this is an old client trying to reconnect
-
-
                         int codeId = GetConnectionCodeId(connectionCode);
                         if (codeId != -1)
                         {
                             _connections[codeId] = endPoint;
-                            SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(connectionCode), Reliability.Unreliable);
+                            SendData(endPoint, UdpCommand.Connect, response, Reliability.Unreliable);
                             // This client is reconnecting. We need to replace old EndPoint with new one
                             Debug.WriteLine(
                                 $"Client {connectionId} (${endPoint}) reconnected with different EndPoint");
@@ -342,7 +350,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                             // New connection
                             int newId = InsertNewEndPoint(endPoint, out ulong code);
                             // Answering with private connection code and Connect command. This means that server accepted connection
-                            SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(code), Reliability.Unreliable);
+                            SendData(endPoint, UdpCommand.Connect, response, Reliability.Unreliable);
                             Debug.WriteLine($"New client with id {newId} and name {username} ({endPoint}) connected");
                             lock (_newConnectionQueue)
                             {

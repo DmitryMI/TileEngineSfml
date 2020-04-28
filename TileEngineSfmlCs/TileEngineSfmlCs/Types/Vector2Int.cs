@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Xml;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.Types
 {
-    public struct Vector2Int : IFieldSerializer
+    public struct Vector2Int : IFieldSerializer, IBinaryEncodable
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -107,6 +108,29 @@ namespace TileEngineSfmlCs.Types
                 return new Vector2Int(x, y);
             }
             throw new FormatException();
+        }
+
+        public int ByteLength => sizeof(int) + sizeof(int);
+        public int ToByteArray(byte[] package, int index)
+        {
+            int pos = index;
+            byte[] xBytes = BitConverter.GetBytes(X);
+            byte[] yBytes = BitConverter.GetBytes(Y);
+
+            Array.Copy(xBytes, 0, package, pos, xBytes.Length);
+            pos += sizeof(int);
+            Array.Copy(yBytes, 0, package, pos, yBytes.Length);
+            pos += sizeof(int);
+            return ByteLength;
+        }
+
+        public void FromByteArray(byte[] data, int index)
+        {
+            int pos = index;
+            X = BitConverter.ToInt32(data, pos);
+            pos += sizeof(int);
+            Y = BitConverter.ToInt32(data, pos);
+            pos += sizeof(int);
         }
     }
 }

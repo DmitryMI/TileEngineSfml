@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace TileEngineSfmlCs.TileEngine.Logging
+namespace TileEngineSfmlCs.Logging
 {
     public class DebugLogger : ILogger
     {

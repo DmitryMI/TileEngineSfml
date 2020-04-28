@@ -1,4 +1,4 @@
-﻿namespace TileEngineSfmlCs.TileEngine.Logging
+﻿namespace TileEngineSfmlCs.Logging
 {
     public static class LogManager
     {

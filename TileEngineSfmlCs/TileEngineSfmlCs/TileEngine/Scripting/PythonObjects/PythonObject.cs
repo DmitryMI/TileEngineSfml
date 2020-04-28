@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
