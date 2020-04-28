@@ -163,7 +163,7 @@
     <Compile Include="Utils\GraphicsUtils.cs" />
     <Compile Include="Types\ColorB.cs" />
     <Compile Include="Types\Icon.cs" />
-    <Compile Include="Types\Layers.cs" />
+    <Compile Include="Types\TileLayer.cs" />
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector2Int.cs" />
     <Compile Include="Utils\CollectionUtils.cs" />
