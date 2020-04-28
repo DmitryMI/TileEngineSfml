@@ -78,11 +78,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormClientClosePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormInputPackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\IBinaryEncodable.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormServerClosePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormSpawnPackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormUpdatePackage.cs" />
     <Compile Include="GameManagement\ClientSide\DialogForms\AssemblyDialogFormType.cs" />
     <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormSpirit.cs" />
     <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormType.cs" />
-    <Compile Include="GameManagement\ClientSide\TileEngineClient.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\HtmlDialogFormSpirit.cs" />
+    <Compile Include="GameManagement\ClientSide\ClientNetworkManager.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\LobbyDialogFormSpirit.cs" />
     <Compile Include="GameManagement\ClientSide\TileObjectSpirit.cs" />
+    <Compile Include="GameManagement\ServerSide\DialogForms\HtmlDialogForms\HtmlDialogForm.cs" />
+    <Compile Include="GameManagement\ServerSide\DialogForms\HtmlDialogForms\HtmlDialogFormKeys.cs" />
+    <Compile Include="GameManagement\ServerSide\DialogForms\IDialogForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileEngine\Logging\DebugLogger.cs" />
@@ -95,8 +106,6 @@
     <Compile Include="TileEngine\Scripting\PythonFieldDescriptor.cs" />
     <Compile Include="TileEngine\Scripting\ScriptingManager.cs" />
     <Compile Include="GameManagement\ControlInput.cs" />
-    <Compile Include="GameManagement\ServerSide\DialogForms\DialogFormType.cs" />
-    <Compile Include="GameManagement\ServerSide\DialogForms\IDialogForm.cs" />
     <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormManager.cs" />
     <Compile Include="GameManagement\ServerSide\DialogForms\Lobby\LobbyDialogForm.cs" />
     <Compile Include="GameManagement\ServerSide\GameManager.cs" />
@@ -149,6 +158,7 @@
     <Compile Include="Utils\Serialization\IFileSystemEntry.cs" />
     <Compile Include="Utils\Serialization\ZipContainer\ZipFileEntry.cs" />
     <Compile Include="Utils\Serialization\ZipContainer\ZipMapContainer.cs" />
+    <Compile Include="Utils\DelayedAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,14 +1,11 @@
-﻿using TileEngineSfmlCs.TileEngine.Logging;
+﻿using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
+using TileEngineSfmlCs.TileEngine.Logging;
 
 namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
 {
     public class LobbyDialogForm : IDialogForm
     {
         public Player InteractingPlayer { get; set; }
-        public void CloseForm()
-        {
-            NetworkManager.Instance.UpdateDialogForm(this, "close", "0");
-        }
 
         public int DialogInstanceId { get; set; }
         public void OnUserClose()
@@ -19,6 +16,14 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
         public void OnUserInput(string key, string input)
         {
             LogManager.RuntimeLogger.Log($"[LobbyDialogForm] Lobby#{InteractingPlayer} - Message from player {InteractingPlayer.Username}: [{key}, {input}]");
+        }
+
+        public DialogFormType SpiritType =>
+            DialogFormManager.Instance.GetByFullName(typeof(LobbyDialogFormSpirit).FullName);
+
+        public LobbyDialogForm()
+        {
+            DialogFormManager.Instance.AssignFormIndex(this);
         }
     }
 }

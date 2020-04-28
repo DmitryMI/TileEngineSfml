@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding;
+using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.TileObjects;
@@ -59,8 +61,6 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
 
             return null;
         }
-
-
 
         private void OnNewConnection(int connectionId, string username)
         {
@@ -159,12 +159,41 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
 
         public void SpawnDialogForm(IDialogForm dialogForm)
         {
-            // TODO SpawnDialogForm
+            int instanceId = dialogForm.DialogInstanceId;
+            DialogFormType spiritType = dialogForm.SpiritType;
+            int typeIndex = DialogFormManager.Instance.GetTypeIndex(spiritType);
+
+            DialogFormSpawnPackage spawnDialogPackage = new DialogFormSpawnPackage(instanceId, typeIndex);
+            byte[] data = new byte[1 + spawnDialogPackage.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.DialogFormSpawn;
+            pos += 1;
+            spawnDialogPackage.ToByteArray(data, pos);
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data);
+        }
+
+        public void KillDialogForm(IDialogForm dialogForm)
+        {
+            int instanceId = dialogForm.DialogInstanceId;
+            DialogFormServerClosePackage package = new DialogFormServerClosePackage(instanceId);
+            byte[] data = new byte[1 + package.ByteLength];
+            int pos = 0;
+            data[pos] = (byte) NetworkAction.DialogFormServerClose;
+            pos += 1;
+            package.ToByteArray(data, pos);
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data);
         }
 
         public void UpdateDialogForm(IDialogForm dialogForm, string key, string input)
         {
-            // TODO UpdateDialogForm
+            int instanceId = dialogForm.DialogInstanceId;
+            DialogFormUpdatePackage package = new DialogFormUpdatePackage(instanceId, key, input);
+            byte[] data = new byte[1 + package.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.DialogFormUpdate;
+            pos += 1;
+            package.ToByteArray(data, pos);
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data);
         }
 
     }

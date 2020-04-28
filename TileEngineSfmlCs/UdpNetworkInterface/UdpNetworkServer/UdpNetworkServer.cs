@@ -57,10 +57,10 @@ namespace UdpNetworkInterface.UdpNetworkServer
                 // TODO Client not found
                 return;
             }
-            byte[] datagram = new byte[data.Length];
+            byte[] datagram = new byte[data.Length + 1];
             datagram[0] = (byte) UdpCommand.Data;
             Array.Copy(data, 0, datagram, 1, data.Length);
-            _udpClient.SendAsync(datagram, datagram.Length, target);
+            _udpClient.Send(datagram, datagram.Length, target);
         }
 
         private void SendData(IPEndPoint endPoint, UdpCommand command, byte[] data)

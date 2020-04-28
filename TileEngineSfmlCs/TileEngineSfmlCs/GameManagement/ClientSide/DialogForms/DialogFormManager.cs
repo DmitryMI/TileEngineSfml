@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Scripting.Utils;
+using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
@@ -23,7 +25,13 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
         private TreeNode<DialogFormType> _typeTree;
         private List<DialogFormType> _registeredDialogFormTypes = new List<DialogFormType>();
 
+        private List<DialogForms.DialogFormSpirit> _activeDialogSpirits = new List<DialogFormSpirit>();
+        private List<IDialogForm> _activeDialogForms = new List<IDialogForm>();
+
         public TreeNode<DialogFormType> DialogFormTypes => _typeTree;
+
+        public event Action<DialogFormSpirit> OnDialogSpiritSpawned;
+        public event Action<DialogFormSpirit> OnDialogSpiritKilled; 
 
         public DialogFormManager()
         {
@@ -42,7 +50,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
                 where assemblyType.IsSubclassOf(typeof(DialogFormSpirit))
                 select assemblyType;
 
-            TreeNode<DialogFormType> typeTree = ProcessAssemblyType(typeof(TileObject), types.ToArray());
+            TreeNode<DialogFormType> typeTree = ProcessAssemblyType(typeof(DialogFormSpirit), types.ToArray());
 
             return typeTree;
         }
@@ -70,7 +78,28 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
 
         public DialogFormType GetByFullName(string fullName)
         {
-            return _registeredDialogFormTypes.FirstOrDefault(t => t.Name.Equals(fullName));
+            return _registeredDialogFormTypes.FirstOrDefault(t => t.SpiritName.Equals(fullName));
+        }
+
+        public DialogFormType GetTypeByIndex(int typeIndex)
+        {
+            return _registeredDialogFormTypes[typeIndex];
+        }
+
+        public int GetTypeIndex(string name)
+        {
+            return _registeredDialogFormTypes.FindIndex(t => t.SpiritName.Equals(name));
+        }
+
+        public int GetTypeIndex(DialogFormType type)
+        {
+            var index = _registeredDialogFormTypes.IndexOf(type);
+            if (index == -1)
+            {
+                throw new ArgumentException("Unregistered type!");
+            }
+
+            return index;
         }
 
         public void LoadFromMap(IMapContainer mapContainer)
@@ -82,7 +111,60 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
         {
             if (x == null || y == null)
                 return 0;
-            return String.CompareOrdinal(x.Name, y.Name);
+            return String.CompareOrdinal(x.SpiritName, y.SpiritName);
+        }
+
+        public DialogFormSpirit CreateDialogFormSpirit(DialogFormType type, int instanceId)
+        {
+            var spirit = type.ActivateSpirit(instanceId);
+            _activeDialogSpirits.Add(spirit);
+            OnDialogSpiritSpawned?.Invoke(spirit);
+            return spirit;
+        }
+
+        public void AssignFormIndex(IDialogForm dialogForm)
+        {
+            int index = 0;
+            while (index < _activeDialogForms.Count)
+            {
+                if(_activeDialogForms[index] == null)
+                    break;
+                index++;
+            }
+
+            if (index == _activeDialogForms.Count)
+            {
+                _activeDialogForms.Add(dialogForm);
+            }
+            else
+            {
+                _activeDialogForms[index] = dialogForm;
+            }
+
+            dialogForm.DialogInstanceId = index;
+        }
+
+        public void UnregisterFormIndex(IDialogForm dialogForm)
+        {
+            _activeDialogForms[dialogForm.DialogInstanceId] = null;
+            dialogForm.DialogInstanceId = -1;
+        }
+
+        public void KillDialogFormSpirit(int instanceId)
+        {
+            int index = _activeDialogSpirits.FindIndex(f => f.InstanceId == instanceId);
+            if (index != -1)
+            {
+                var spirit = _activeDialogSpirits[index];
+                spirit.Kill();
+                OnDialogSpiritKilled?.Invoke(spirit);
+                _activeDialogSpirits.RemoveAt(index);
+            }
+        }
+
+        public DialogFormSpirit GetFormSpirit(int instanceId)
+        {
+            return _activeDialogSpirits.FirstOrDefault(f => f.InstanceId == instanceId);
         }
     }
 }

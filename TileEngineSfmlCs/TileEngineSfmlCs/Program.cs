@@ -22,6 +22,7 @@ namespace TileEngineSfmlCs
             public void SendTimeSignal()
             {
                 NextFrameEvent?.Invoke();
+                Thread.Sleep(16); // 60 FPS
             }
         }
 
@@ -60,9 +61,6 @@ namespace TileEngineSfmlCs
 
             Stopwatch stopwatch = new Stopwatch();
 
-            float[] deltaTimeStats = new float[10000];
-            int dtStatPos = 0;
-
             while (true)
             {
                 stopwatch.Reset();
@@ -71,22 +69,6 @@ namespace TileEngineSfmlCs
                 stopwatch.Stop();
                 timeProvider.DeltaTime = stopwatch.ElapsedMilliseconds / 1000f;
                 timeProvider.TotalTime += timeProvider.DeltaTime;
-                deltaTimeStats[dtStatPos] = timeProvider.DeltaTime;
-
-                dtStatPos++;
-                if (dtStatPos >= deltaTimeStats.Length)
-                {
-                    dtStatPos = 0;
-                    float sumFps = 0;
-                    for (int i = 0; i < deltaTimeStats.Length; i++)
-                    {
-                        sumFps += deltaTimeStats[i];
-                    }
-
-                    sumFps /= deltaTimeStats.Length;
-                    //LogManager.RuntimeLogger.Log($"Average DT: {sumFps}");
-                }
-
             }
         }
     }

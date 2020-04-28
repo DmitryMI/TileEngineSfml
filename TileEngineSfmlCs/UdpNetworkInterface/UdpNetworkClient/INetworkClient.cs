@@ -12,6 +12,7 @@ namespace UdpNetworkInterface.UdpNetworkClient
 
         void Connect(string username, ulong token);
         void Disconnect();
+        void Send(byte[] data);
 
         void Poll();
     }

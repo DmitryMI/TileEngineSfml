@@ -40,7 +40,7 @@ namespace TileEngineSfmlCs.TileEngine.TimeManagement
         {
             long osTime = DateTime.Now.Ticks;
             float deltaTicks = osTime - _prevOsTicks;
-            DeltaTime = deltaTicks / TimeSpan.TicksPerMillisecond;
+            DeltaTime = deltaTicks / TimeSpan.TicksPerMillisecond / 1000;
             TotalTime += DeltaTime;
             NextFrameEvent?.Invoke();
         }

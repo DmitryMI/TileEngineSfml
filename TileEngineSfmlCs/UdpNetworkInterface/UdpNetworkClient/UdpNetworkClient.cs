@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UdpNetworkInterface.UdpNetworkClient
@@ -61,8 +62,17 @@ namespace UdpNetworkInterface.UdpNetworkClient
             _listeningRunning = false;
         }
 
+        public void Send(byte[] data)
+        {
+            byte[] datagram = new byte[1 + data.Length];
+            datagram[0] = (byte)UdpCommand.Data;
+            Array.Copy(data, 0, datagram, 1, data.Length);
+            _udpClient.Send(datagram, datagram.Length, _serverEndPoint);
+        }
+
         public void Poll()
         {
+            //Debug.WriteLine($"Polling in thread {Thread.CurrentThread.ManagedThreadId} started");
             lock (_commandQueue)
             {
                 while (_commandQueue.Count > 0)
@@ -78,6 +88,7 @@ namespace UdpNetworkInterface.UdpNetworkClient
                             break;
                         case UdpCommand.Data:
                             byte[] data = _dataQueue.Dequeue();
+                            //Debug.WriteLine($"[UdpNetworkClient] Invoking data handler. It is null: {OnDataReceived == null}");
                             OnDataReceived?.Invoke(data);
                             break;
                         default:
@@ -85,6 +96,7 @@ namespace UdpNetworkInterface.UdpNetworkClient
                     }
                 }
             }
+            //Debug.WriteLine($"Polling in thread {Thread.CurrentThread.ManagedThreadId} finished");
         }
 
         private void ListeningLoop()
@@ -117,6 +129,8 @@ namespace UdpNetworkInterface.UdpNetworkClient
 
             UdpCommand command = (UdpCommand)datagram[0];
 
+            Debug.WriteLine($"[UdpNetworkClient] Command {command}");
+
             byte[] data = new byte[datagram.Length - 1];
             Array.Copy(datagram, 1, data, 0, data.Length);
 
@@ -141,12 +155,17 @@ namespace UdpNetworkInterface.UdpNetworkClient
                     }
                     break;
                 case UdpCommand.Data:
-                    Debug.WriteLine($"Data from server received");
+                    Debug.WriteLine($"[UdpNetworkClient] Data from server received. Entering LOCK");
                     lock (_commandQueue)
                     {
+                        Debug.WriteLine($"[UdpNetworkClient] LOCK occupied");
                         _commandQueue.Enqueue(UdpCommand.Data);
                         _dataQueue.Enqueue(data);
+                        Debug.WriteLine($"[UdpNetworkClient] Leaving LOCK");
                     }
+                    break;
+                default:
+                    Debug.WriteLine($"Unknown command {command}");
                     break;
             }
         }

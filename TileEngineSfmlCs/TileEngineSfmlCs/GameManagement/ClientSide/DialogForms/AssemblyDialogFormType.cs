@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,18 +10,22 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
 {
     public class AssemblyDialogFormType : DialogFormType
     {
-        public AssemblyDialogFormType(Type assemblyType)
+        public AssemblyDialogFormType(Type spiritType)
         {
-            FormBaseType = assemblyType;
-            Name = assemblyType.FullName;
+            SpiritBaseType = spiritType;
+            SpiritName = spiritType.FullName;
         }
 
-        public override string Name { get; }
+        public override string SpiritName { get; }
+        public override string FormName { get; }
+        public override Type SpiritBaseType { get; }
         public override Type FormBaseType { get; }
-        public override bool CanActivate => !FormBaseType.IsAbstract;
-        public override DialogFormSpirit Activate()
+        public override bool CanActivate => !SpiritBaseType.IsAbstract;
+
+
+        public override DialogFormSpirit ActivateSpirit(int instanceId)
         {
-            object instance = Activator.CreateInstance(FormBaseType);
+            object instance = Activator.CreateInstance(SpiritBaseType, instanceId );
             return (DialogFormSpirit) instance;
         }
     }
