@@ -14,6 +14,17 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
 {
     public class ClientNetworkManager
     {
+        #region Singleton
+
+        private static ClientNetworkManager _instace;
+
+        public static ClientNetworkManager Instance
+        {
+            get => _instace;
+            set => _instace = value;
+        }
+        #endregion
+
         private INetworkClient _networkClient;
         private string _username;
         private bool _isConnected;
@@ -92,7 +103,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
                     DialogFormUpdatePackage updateDialog = new DialogFormUpdatePackage();
                     updateDialog.FromByteArray(payload, payloadPos);
                     var spirit = DialogFormManager.Instance.GetFormSpirit(updateDialog.InstanceId);
-                    spirit.OnDataUpdate(updateDialog.Key, updateDialog.Input);
+                    spirit.OnServerDataUpdate(updateDialog.Key, updateDialog.Input);
                     break;
                 case NetworkAction.TileObjectSpawn:
                     break;
@@ -131,7 +142,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
             int pos = 0;
             data[pos] = (byte)NetworkAction.DialogFormInput;
             pos += 1;
-            package.ToByteArray(data, 1);
+            package.ToByteArray(data, pos);
             _networkClient.Send(data);
         }
     }

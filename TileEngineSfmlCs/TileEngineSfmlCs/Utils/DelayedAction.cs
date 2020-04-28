@@ -43,7 +43,7 @@ namespace TileEngineSfmlCs.Utils
             {
                 Destroy();
             }
-            LogManager.RuntimeLogger.Log($"Actions count:{_delayedActions.Count}. Time: {_timeProvider.TotalTime:0.00}. Nearest action: {(_times.Count > 0 ? _times.Peek() : 0):0.00}");
+            //LogManager.RuntimeLogger.Log($"Actions count:{_delayedActions.Count}. Time: {_timeProvider.TotalTime:0.00}. Nearest action: {(_times.Count > 0 ? _times.Peek() : 0):0.00}");
             for (int i = 0; i < _delayedActions.Count; i++)
             {
                 float time = _times.Peek();

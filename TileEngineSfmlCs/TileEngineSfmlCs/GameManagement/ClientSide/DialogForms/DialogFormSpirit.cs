@@ -22,7 +22,9 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
 
         public string FormTypeName { get; }
         
-        public abstract void OnDataUpdate(string key, string input);
+        public abstract void OnServerDataUpdate(string key, string input);
+
+        public abstract void UserDataUpdate(string key, string input);
 
         public abstract void Kill();
     }

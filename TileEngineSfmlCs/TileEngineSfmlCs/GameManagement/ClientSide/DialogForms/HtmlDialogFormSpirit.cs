@@ -19,9 +19,14 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
 
         public override event Action OnKillEvent;
 
-        public override void OnDataUpdate(string key, string input)
+        public override void OnServerDataUpdate(string key, string input)
         {
             
+        }
+
+        public override void UserDataUpdate(string key, string input)
+        {
+            throw new NotImplementedException();
         }
 
         public override void Kill()

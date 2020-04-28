@@ -133,9 +133,9 @@ namespace UdpNetworkInterface.UdpNetworkServer
 
             lock (_receiveIdQueue)
             {
-                while (_reconnectQueue.Count > 0)
+                while (_receiveIdQueue.Count > 0)
                 {
-                    int connectionId = _reconnectQueue.Dequeue();
+                    int connectionId = _receiveIdQueue.Dequeue();
                     byte[] data = _receiveDataQueue.Dequeue();
                     OnDataReceived?.Invoke(connectionId, data);
                 }

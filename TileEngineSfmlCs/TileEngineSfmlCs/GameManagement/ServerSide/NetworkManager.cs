@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
 using TileEngineSfmlCs.TileEngine;
+using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
 using UdpNetworkInterface.UdpNetworkServer;
@@ -100,23 +102,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
 
         private void SendDataToDialog(Player player, int dialogInstanceId, byte[] data)
         {
-            IDialogForm dialogForm = player.DialogForms.FirstOrDefault(d => d.DialogInstanceId == dialogInstanceId);
-            if (dialogForm == null)
-            {
-                return;
-            }
-
-            int pos = 0;
-            int keySize = BitConverter.ToInt32(data, pos);
-            pos += sizeof(int);
-            int inputSize = BitConverter.ToInt32(data, pos);
-            pos += sizeof(int);
-            string key = Encoding.Unicode.GetString(data, pos, keySize);
-            pos += keySize;
-            string input = Encoding.Unicode.GetString(data, pos, inputSize);
-            pos += inputSize;
-
-            dialogForm.OnUserInput(key, input);
+            
         }
 
 
@@ -125,13 +111,21 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             Player player = GetPlayerByConnection(connectionId);
             // TODO Player data received
             NetworkAction action = (NetworkAction) packageData[0];
+            Debug.WriteLine($"Action: {action}");
             switch (action)
             {
                 case NetworkAction.DialogFormInput:
-                    int dialogInstanceId = packageData[1];
-                    byte[] dialogData = new byte[packageData.Length - 2];
-                    Array.Copy(packageData, 2, dialogData, 0, packageData.Length - 2);
-                    SendDataToDialog(player, dialogInstanceId, dialogData);
+                    DialogFormInputPackage inputPackage = new DialogFormInputPackage();
+                    inputPackage.FromByteArray(packageData, 1);
+                    IDialogForm dialogForm = player.DialogForms.FirstOrDefault(d => d.DialogInstanceId == inputPackage.InstanceId);
+                    if (dialogForm == null)
+                    {
+                        LogManager.RuntimeLogger.LogError(
+                            $"Player {connectionId} does not own dialog form with id {inputPackage.InstanceId}");
+                        return;
+                    }
+
+                    dialogForm.OnUserInput(inputPackage.Key, inputPackage.Input);
                     break;
                 case NetworkAction.ControlInput:
                     // TODO User control input
@@ -169,6 +163,11 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             data[pos] = (byte)NetworkAction.DialogFormSpawn;
             pos += 1;
             spawnDialogPackage.ToByteArray(data, pos);
+            Player player = dialogForm.InteractingPlayer;
+            if (!player.DialogForms.Contains(dialogForm))
+            {
+                player.DialogForms.Add(dialogForm);
+            }
             _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data);
         }
 

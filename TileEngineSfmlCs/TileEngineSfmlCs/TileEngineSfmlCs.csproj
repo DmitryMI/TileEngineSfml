@@ -94,6 +94,7 @@
     <Compile Include="GameManagement\ServerSide\DialogForms\HtmlDialogForms\HtmlDialogForm.cs" />
     <Compile Include="GameManagement\ServerSide\DialogForms\HtmlDialogForms\HtmlDialogFormKeys.cs" />
     <Compile Include="GameManagement\ServerSide\DialogForms\IDialogForm.cs" />
+    <Compile Include="GameManagement\ServerSide\DialogForms\Lobby\LobbyInputKeys.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileEngine\Logging\DebugLogger.cs" />

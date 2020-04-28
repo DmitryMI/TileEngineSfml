@@ -52,7 +52,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             NetworkManager.Instance.SpawnDialogForm(lobbyDialog);
 
             DelayedAction delayedAction = new DelayedAction(TimeManager.Instance);
-            delayedAction.Delay(CloseLobbyForm, lobbyDialog, 10);
+            delayedAction.Delay(CloseLobbyForm, lobbyDialog, 60);
         }
 
         private void CloseLobbyForm(DelayedAction delayedAction, object argument)
