@@ -16,8 +16,8 @@ namespace TileEngineSfmlCs
         class TimeProvider : ITimeProvider
         {
             public event Action NextFrameEvent;
-            public float DeltaTime { get; set; }
-            public float TotalTime { get; set; }
+            public double DeltaTime { get; set; }
+            public double TotalTime { get; set; }
 
             public void SendTimeSignal()
             {

@@ -30,7 +30,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
         private string _username;
         private bool _isConnected;
         private bool _connectionPending;
-        private float _connectionTimeout;
+        private double _connectionTimeout;
 
         public bool IsConnected => _isConnected;
 

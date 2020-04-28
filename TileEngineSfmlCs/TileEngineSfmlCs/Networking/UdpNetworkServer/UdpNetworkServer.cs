@@ -46,6 +46,9 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
 
         public int[] ConnectionIds => GetConnectionIds();
 
+        public bool NewConnectionsEnabled { get; set; } = true;
+        public bool IsListening => _udpListenTask != null && _udpListenTask.Status == TaskStatus.Running;
+
         private int[] GetConnectionIds()
         {
             List<int> result = new List<int>(_connections.Count);
@@ -181,8 +184,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
             }
         }
 
-        public bool NewConnectionsEnabled { get; set; } = true;
-        public bool IsListening => _udpListenTask != null && _udpListenTask.Status == TaskStatus.Running;
+      
 
         public void Dispose()
         {

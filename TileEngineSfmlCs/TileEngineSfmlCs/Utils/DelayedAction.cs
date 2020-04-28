@@ -16,7 +16,7 @@ namespace TileEngineSfmlCs.Utils
         private ITimeProvider _timeProvider;
         private Queue<Action<DelayedAction, object>> _delayedActions = new Queue<Action<DelayedAction, object>>();
         private Queue<object> _arguments = new Queue<object>();
-        private Queue<float> _times = new Queue<float>();
+        private Queue<double> _times = new Queue<double>();
         private bool _selfDestroy = true;
 
         public DelayedAction(ITimeProvider timeProvider, bool selfDestroy = true)
@@ -30,7 +30,7 @@ namespace TileEngineSfmlCs.Utils
             LogManager.RuntimeLogger.Log("[DelayedAction] Created new delayed action");
         }
 
-        public void Delay(Action<DelayedAction, object> action, object argument, float delay)
+        public void Delay(Action<DelayedAction, object> action, object argument, double delay)
         {
             _delayedActions.Enqueue(action);
             _arguments.Enqueue(argument);
@@ -46,7 +46,7 @@ namespace TileEngineSfmlCs.Utils
             //LogManager.RuntimeLogger.Log($"Actions count:{_delayedActions.Count}. Time: {_timeProvider.TotalTime:0.00}. Nearest action: {(_times.Count > 0 ? _times.Peek() : 0):0.00}");
             for (int i = 0; i < _delayedActions.Count; i++)
             {
-                float time = _times.Peek();
+                double time = _times.Peek();
                 if (_timeProvider.TotalTime >= time)
                 {
                     Debug.WriteLine("DelayedAction invocation!");
