@@ -1,6 +1,7 @@
 ﻿using System;
+using TileEngineSfmlCs.GameManagement;
 
-namespace UdpNetworkInterface.UdpNetworkServer
+namespace TileEngineSfmlCs.Networking.UdpNetworkServer
 {
     public interface INetworkServer : IDisposable
     {
@@ -8,7 +9,7 @@ namespace UdpNetworkInterface.UdpNetworkServer
         event Action<int> OnDisconnect;
         event Action<int> OnReconnect;
         event Action<int, byte[]> OnDataReceived;
-        void SendData(int connectionId, byte[] data);
+        void SendData(int connectionId, byte[] data, Reliability reliability = Reliability.Unreliable);
 
         void StartServer();
         void StopServer();

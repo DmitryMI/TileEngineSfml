@@ -1,10 +1,10 @@
 ﻿using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
+using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 using TileEngineSfmlCs.Utils;
-using UdpNetworkInterface.UdpNetworkServer;
 
 namespace TileEngineSfmlCs.GameManagement.ServerSide
 {

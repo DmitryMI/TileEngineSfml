@@ -6,11 +6,12 @@ using System.Text;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
+using TileEngineSfmlCs.Networking;
+using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
-using UdpNetworkInterface.UdpNetworkServer;
 
 namespace TileEngineSfmlCs.GameManagement.ServerSide
 {
@@ -38,6 +39,8 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         private INetworkServer _networkServer;
         private List<Player> _players = new List<Player>();
         private Scene _controlledScene;
+
+        
 
         public NetworkManager(INetworkServer networkServer, Scene controlledScene)
         {
@@ -98,11 +101,6 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
 
             player.SetConnected(true);
             // TODO Player reconnected sequence
-        }
-
-        private void SendDataToDialog(Player player, int dialogInstanceId, byte[] data)
-        {
-            
         }
 
 
@@ -168,7 +166,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             {
                 player.DialogForms.Add(dialogForm);
             }
-            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data);
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data, Reliability.Reliable);
         }
 
         public void KillDialogForm(IDialogForm dialogForm)
@@ -180,7 +178,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             data[pos] = (byte) NetworkAction.DialogFormServerClose;
             pos += 1;
             package.ToByteArray(data, pos);
-            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data);
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data, Reliability.Reliable);
         }
 
         public void UpdateDialogForm(IDialogForm dialogForm, string key, string input)
@@ -192,7 +190,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             data[pos] = (byte)NetworkAction.DialogFormUpdate;
             pos += 1;
             package.ToByteArray(data, pos);
-            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data);
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data, Reliability.Reliable);
         }
 
     }

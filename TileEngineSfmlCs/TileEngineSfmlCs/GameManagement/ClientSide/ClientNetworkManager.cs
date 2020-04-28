@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
+using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 using TileEngineSfmlCs.Types;
 using UdpNetworkInterface.UdpNetworkClient;
@@ -143,7 +144,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
             data[pos] = (byte)NetworkAction.DialogFormInput;
             pos += 1;
             package.ToByteArray(data, pos);
-            _networkClient.Send(data);
+            _networkClient.Send(data, Reliability.Reliable);
         }
     }
 }

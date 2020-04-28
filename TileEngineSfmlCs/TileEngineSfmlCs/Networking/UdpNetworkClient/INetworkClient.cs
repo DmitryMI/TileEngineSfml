@@ -1,4 +1,5 @@
 ﻿using System;
+using TileEngineSfmlCs.Networking;
 
 namespace UdpNetworkInterface.UdpNetworkClient
 {
@@ -12,7 +13,7 @@ namespace UdpNetworkInterface.UdpNetworkClient
 
         void Connect(string username, ulong token);
         void Disconnect();
-        void Send(byte[] data);
+        void Send(byte[] data, Reliability reliability = Reliability.Unreliable);
 
         void Poll();
     }

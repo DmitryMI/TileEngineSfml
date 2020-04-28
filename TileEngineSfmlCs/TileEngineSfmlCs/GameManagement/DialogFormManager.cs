@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Scripting.Utils;
+using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
-using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
 
-namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
+namespace TileEngineSfmlCs.GameManagement
 {
     public class DialogFormManager : IComparer<DialogFormType>
     {
@@ -25,7 +24,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
         private TreeNode<DialogFormType> _typeTree;
         private List<DialogFormType> _registeredDialogFormTypes = new List<DialogFormType>();
 
-        private List<DialogForms.DialogFormSpirit> _activeDialogSpirits = new List<DialogFormSpirit>();
+        private List<ClientSide.DialogForms.DialogFormSpirit> _activeDialogSpirits = new List<DialogFormSpirit>();
         private List<IDialogForm> _activeDialogForms = new List<IDialogForm>();
 
         public TreeNode<DialogFormType> DialogFormTypes => _typeTree;
@@ -116,6 +115,12 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
 
         public DialogFormSpirit CreateDialogFormSpirit(DialogFormType type, int instanceId)
         {
+            int existingIndex = _activeDialogSpirits.FindIndex(f => f.InstanceId == instanceId);
+            if (existingIndex != -1)
+            {
+                return _activeDialogSpirits[existingIndex];
+            }
+
             var spirit = type.ActivateSpirit(instanceId);
             _activeDialogSpirits.Add(spirit);
             OnDialogSpiritSpawned?.Invoke(spirit);

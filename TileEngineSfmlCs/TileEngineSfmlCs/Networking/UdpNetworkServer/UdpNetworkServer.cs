@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using TileEngineSfmlCs.GameManagement;
+using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Utils.RandomGenerators;
+using UdpNetworkInterface;
 
-namespace UdpNetworkInterface.UdpNetworkServer
+namespace TileEngineSfmlCs.Networking.UdpNetworkServer
 {
     public class UdpNetworkServer : INetworkServer
     {
@@ -15,6 +20,7 @@ namespace UdpNetworkInterface.UdpNetworkServer
         private List<IPEndPoint> _connections = new List<IPEndPoint>();
         private List<ulong> _connectionCodes = new List<ulong>();
         private Task _udpListenTask;
+        private Task _retransmitTask;
         private int _port;
 
         private bool _listeningRunning;
@@ -26,12 +32,17 @@ namespace UdpNetworkInterface.UdpNetworkServer
         private Queue<string> _usernamesQueue = new Queue<string>();
         private Queue<int> _disconnectQueue = new Queue<int>();
 
+        private List<Retransmission> _retransmissionQueue = new List<Retransmission>();
+
         private RandomNumberGenerator _randomNumberGenerator = RandomNumberGenerator.Create();
 
         public event Action<int, string> OnNewConnection;
         public event Action<int> OnDisconnect;
         public event Action<int> OnReconnect;
         public event Action<int, byte[]> OnDataReceived;
+
+        public int RetransmissionCount { get; set; } = 10;
+        public int RetransmissionPeriodMs { get; set; } = 2000;
 
         public int[] ConnectionIds => GetConnectionIds();
 
@@ -49,7 +60,7 @@ namespace UdpNetworkInterface.UdpNetworkServer
             return result.ToArray();
         }
 
-        public void SendData(int connectionId, byte[] data)
+        public void SendData(int connectionId, byte[] data, Reliability reliability = Reliability.Unreliable)
         {
             IPEndPoint target = _connections[connectionId];
             if (target == null)
@@ -57,18 +68,44 @@ namespace UdpNetworkInterface.UdpNetworkServer
                 // TODO Client not found
                 return;
             }
-            byte[] datagram = new byte[data.Length + 1];
-            datagram[0] = (byte) UdpCommand.Data;
-            Array.Copy(data, 0, datagram, 1, data.Length);
-            _udpClient.Send(datagram, datagram.Length, target);
+
+            SendData(target, UdpCommand.Data, data, reliability);
         }
 
-        private void SendData(IPEndPoint endPoint, UdpCommand command, byte[] data)
+        private ulong GenerateConfirmationToken()
         {
-            byte[] datagramm = new byte[data.Length + 1];
-            datagramm[0] = (byte)command;
-            Array.Copy(data, 0, datagramm, 1, data.Length);
-            _udpClient.Send(datagramm, datagramm.Length, endPoint);
+            ulong token = RandomUtils.GetRandomUInt64();
+            lock (_reconnectQueue)
+            {
+                while (_retransmissionQueue.Any(r => r.ConfirmationToken == token))
+                {
+                    token = RandomUtils.GetRandomUInt64();
+                }
+            }
+
+            return token;
+        }
+
+        private void SendData(IPEndPoint endPoint, UdpCommand command, byte[] data, Reliability reliability)
+        {
+            int pos = 0;
+            ulong token = reliability == Reliability.Reliable ? GenerateConfirmationToken() : 0;
+            UdpPackage udpPackage = new UdpPackage(command, reliability, token, data);
+            byte[] datagram = new byte[udpPackage.Length];
+
+            udpPackage.ToByteArray(datagram, pos);
+            pos += udpPackage.Length;
+
+            if (reliability == Reliability.Reliable)
+            {
+                Retransmission retransmission = new Retransmission(endPoint, datagram, token, RetransmissionCount);
+                lock (_retransmissionQueue)
+                {
+                    _retransmissionQueue.Add(retransmission);
+                }
+            }
+
+            _udpClient.Send(datagram, datagram.Length, endPoint);
         }
 
         public UdpNetworkServer(int port)
@@ -86,6 +123,8 @@ namespace UdpNetworkInterface.UdpNetworkServer
             _listeningRunning = true;
             _udpListenTask = new Task(UpdListenLoop, TaskCreationOptions.LongRunning);
             _udpListenTask.Start();
+            _retransmitTask = new Task(RetransmissionLoop, TaskCreationOptions.LongRunning);
+            _retransmitTask.Start();
         }
 
         public void StopServer()
@@ -148,6 +187,7 @@ namespace UdpNetworkInterface.UdpNetworkServer
         public void Dispose()
         {
             _udpClient?.Dispose();
+            _retransmitTask?.Dispose();
         }
 
         private int GetConnectionId(IPEndPoint endPoint)
@@ -241,28 +281,36 @@ namespace UdpNetworkInterface.UdpNetworkServer
         private void UdpListenIteration()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, _port);
-            byte[] datagramm = _udpClient.Receive(ref endPoint);
+            byte[] datagram = _udpClient.Receive(ref endPoint);
 
             int connectionId = GetConnectionId(endPoint);
-            byte[] data = new byte[datagramm.Length - 1];
-            Array.Copy(datagramm, 1, data, 0, data.Length);
+            
+            UdpPackage udpPackage = new UdpPackage();
+            udpPackage.FromByteArray(datagram, 0);
 
-            UdpCommand command = (UdpCommand) datagramm[0];
-            switch (command)
+            if (udpPackage.Reliability == Reliability.Reliable)
+            {
+                UdpPackage confirmationPackage = new UdpPackage(UdpCommand.Confirmation, Reliability.Unreliable, udpPackage.ConfirmationToken, null);
+                byte[] confirmationPackageBytes = new byte[confirmationPackage.Length];
+                confirmationPackage.ToByteArray(confirmationPackageBytes, 0);
+                _udpClient.Send(confirmationPackageBytes, confirmationPackageBytes.Length, endPoint);
+            }
+
+            switch (udpPackage.Command)
             {
                 case UdpCommand.Connect:
                     int pos = 0;
-                    ulong connectionCode = BitConverter.ToUInt64(data, pos);
+                    ulong connectionCode = BitConverter.ToUInt64(udpPackage.Payload, pos);
                     pos += sizeof(ulong);
-                    int nameLength = BitConverter.ToInt32(data, pos);
+                    int nameLength = BitConverter.ToInt32(udpPackage.Payload, pos);
                     pos += sizeof(int);
-                    string username = Encoding.Unicode.GetString(data, pos, nameLength);
+                    string username = Encoding.Unicode.GetString(udpPackage.Payload, pos, nameLength);
                     pos += nameLength;
                     if (connectionId != -1)
                     {
                         // Client is reconnecting
-                        SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(connectionCode));
-                        Debug.WriteLine($"Client {connectionId} (${endPoint.ToString()}) reconnected");
+                        SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(connectionCode), Reliability.Unreliable);
+                        Debug.WriteLine($"Client {connectionId} (${endPoint}) reconnected");
                         lock (_reconnectQueue)
                         {
                             _reconnectQueue.Enqueue(connectionId);
@@ -277,15 +325,14 @@ namespace UdpNetworkInterface.UdpNetworkServer
                         if (codeId != -1)
                         {
                             _connections[codeId] = endPoint;
-                            SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(connectionCode));
+                            SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(connectionCode), Reliability.Unreliable);
                             // This client is reconnecting. We need to replace old EndPoint with new one
                             Debug.WriteLine(
-                                $"Client {connectionId} (${endPoint.ToString()}) reconnected with different EndPoint");
+                                $"Client {connectionId} (${endPoint}) reconnected with different EndPoint");
                             lock (_reconnectQueue)
                             {
                                 _reconnectQueue.Enqueue(codeId);
                             }
-
                             break;
                         }
                         else if (NewConnectionsEnabled)
@@ -293,27 +340,25 @@ namespace UdpNetworkInterface.UdpNetworkServer
                             // New connection
                             int newId = InsertNewEndPoint(endPoint, out ulong code);
                             // Answering with private connection code and Connect command. This means that server accepted connection
-                            SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(code));
-                            Debug.WriteLine($"New client with id {newId} and name {username} ({endPoint.ToString()}) connected");
+                            SendData(endPoint, UdpCommand.Connect, BitConverter.GetBytes(code), Reliability.Unreliable);
+                            Debug.WriteLine($"New client with id {newId} and name {username} ({endPoint}) connected");
                             lock (_newConnectionQueue)
                             {
                                 _newConnectionQueue.Enqueue(newId);
                                 _usernamesQueue.Enqueue(username);
                             }
-
-
                         }
                         else
                         {
                             // Client didn't provide connection code. Ignoring
-                            Debug.WriteLine($"Client (${endPoint.ToString()}) rejected. No connection code provided");
+                            Debug.WriteLine($"Client (${endPoint}) rejected. No connection code provided");
                         }
 
                     }
 
                     break;
                 case UdpCommand.Disconnect:
-                    Debug.WriteLine($"Client with id {connectionId} (${endPoint.ToString()}) disconnected by client's will");
+                    Debug.WriteLine($"Client with id {connectionId} (${endPoint}) disconnected by client's will");
                     lock (_disconnectQueue)
                     {
                         _disconnectQueue.Enqueue(connectionId);
@@ -322,16 +367,60 @@ namespace UdpNetworkInterface.UdpNetworkServer
                     _connections[connectionId] = null;
                     break;
                 case UdpCommand.Data:
-                    Debug.WriteLine($"Client with id {connectionId} (${endPoint.ToString()}) data received");
+                    Debug.WriteLine($"Client with id {connectionId} (${endPoint}) data received");
                     lock (_receiveDataQueue)
                     {
                         _receiveIdQueue.Enqueue(connectionId);
-                        _receiveDataQueue.Enqueue(data);
+                        _receiveDataQueue.Enqueue(udpPackage.Payload);
                     }
                     break;
-                default:
-                    Debug.WriteLine($"Unknown command {command}");
+                case UdpCommand.Confirmation:
+                    ulong token = udpPackage.ConfirmationToken;
+                    lock (_retransmissionQueue)
+                    {
+                        int retransmissionIndex = _retransmissionQueue.FindIndex(r => r.ConfirmationToken == token && r.EndPoint.Equals(endPoint));
+                        _retransmissionQueue.RemoveAt(retransmissionIndex);
+                    }
+                    LogManager.RuntimeLogger.Log($"Confirmation token {token} received!");
                     break;
+                default:
+                    Debug.WriteLine($"Unknown command {udpPackage.Command}");
+                    break;
+            }
+        }
+
+        private async void RetransmissionLoop()
+        {
+            while (_listeningRunning)
+            {
+                Retransmission retransmission = null;
+
+                lock (_retransmissionQueue)
+                {
+                    if (_retransmissionQueue.Count > 0)
+                    {
+                        retransmission = _retransmissionQueue[0];
+                    }
+                }
+
+                if (retransmission != null)
+                {
+                    LogManager.RuntimeLogger.Log($"[UdpNetworkServer] Retrying token {retransmission.ConfirmationToken}");
+                    _udpClient.Send(retransmission.DataBuffer, retransmission.DataBuffer.Length,
+                        retransmission.EndPoint);
+                    retransmission.RetriesRemaining--;
+                    if (retransmission.RetriesRemaining == 0)
+                    {
+                        LogManager.RuntimeLogger.Log($"[UdpNetworkServer] Retransmission failed. Too many retries");
+                        // TODO Mark player as disconnected?
+                        lock (_retransmissionQueue)
+                        {
+                            _retransmissionQueue.RemoveAt(0);
+                        }
+                    }
+                }
+
+                await Task.Delay(RetransmissionPeriodMs);
             }
         }
     }

@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Threading;
 using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ServerSide;
+using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.Logging;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
-using UdpNetworkInterface.UdpNetworkServer;
 
 namespace TileEngineSfmlCs
 {
