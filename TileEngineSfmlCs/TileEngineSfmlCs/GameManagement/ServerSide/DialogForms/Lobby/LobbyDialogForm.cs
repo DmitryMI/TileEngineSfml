@@ -15,7 +15,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
 
         public void OnUserInput(string key, string input)
         {
-            LogManager.RuntimeLogger.Log($"[LobbyDialogForm] Lobby#{InteractingPlayer} - Message from player {InteractingPlayer.Username}: [{key}, {input}]");
+            LogManager.RuntimeLogger.Log($"[LobbyDialogForm] LobbyForm - Message from player {InteractingPlayer.Username}({InteractingPlayer.ConnectionId}): [{key}, {input}]");
         }
 
         public DialogFormType SpiritType =>
