@@ -14,7 +14,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals
     public class Corgi : Living
     {
         private string _dogName = "Unnamed doggo";
-        private double _cellsPerSecond = 1;
+        private double _cellsPerSecond = 2;
 
         [FieldEditorReadOnly("This is determined by the Mob during runtime")]
         private bool _isLying = false;

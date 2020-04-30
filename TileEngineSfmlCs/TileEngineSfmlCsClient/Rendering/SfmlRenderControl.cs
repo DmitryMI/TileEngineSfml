@@ -10,7 +10,11 @@ using System.Windows.Forms;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding.ControlInput;
+using TileEngineSfmlCs.GameManagement.ClientControlInput;
+using TileEngineSfmlCs.GameManagement.ClientSide;
 using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
+using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.TileEngine.ResourceManagement;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 using TileEngineSfmlCs.Types;
@@ -79,7 +83,38 @@ namespace TileEngineSfmlCsClient.Rendering
 
         public void OnNextFrame()
         {
-           
+            InputKeyState ctrl = Keyboard.IsKeyPressed(Keyboard.Key.LControl) ? InputKeyState.KeyDown : InputKeyState.KeyUp;
+            InputKeyState shift = Keyboard.IsKeyPressed(Keyboard.Key.LShift) ? InputKeyState.KeyDown : InputKeyState.KeyUp;
+            InputKeyState alt = Keyboard.IsKeyPressed(Keyboard.Key.LAlt) ? InputKeyState.KeyDown : InputKeyState.KeyUp;
+            /*
+            InputKeyState up = Keyboard.IsKeyPressed(Keyboard.Key.W) ? InputKeyState.KeyDown : InputKeyState.KeyUp;
+            InputKeyState right = Keyboard.IsKeyPressed(Keyboard.Key.D) ? InputKeyState.KeyDown : InputKeyState.KeyUp;
+            InputKeyState down = Keyboard.IsKeyPressed(Keyboard.Key.S) ? InputKeyState.KeyDown : InputKeyState.KeyUp;
+            InputKeyState left = Keyboard.IsKeyPressed(Keyboard.Key.A) ? InputKeyState.KeyDown : InputKeyState.KeyUp;
+            */
+            MovementKey movementKey = MovementKey.None;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
+            {
+                movementKey = MovementKey.Up;
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            {
+                movementKey = MovementKey.Right;
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+            {
+                movementKey = MovementKey.Down;
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.A))
+            {
+                movementKey = MovementKey.Left;
+            }
+
+            if (movementKey != MovementKey.None)
+            {
+                ControlInputPackage updatePackage = new ControlInputPackage(movementKey);
+                ClientNetworkManager.Instance?.SendUserInput(updatePackage, Reliability.Unreliable);
+            }
         }
     }
 }

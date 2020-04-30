@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding.ControlInput;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
 using TileEngineSfmlCs.Logging;
@@ -133,7 +134,11 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
                     dialogForm.OnUserInput(inputPackage.Key, inputPackage.Input);
                     break;
                 case NetworkAction.ControlInput:
-                    // TODO User control input
+                    ControlInputPackage controlInput = new ControlInputPackage();
+                    controlInput.FromByteArray(packageData, 1);
+                    // TODO Clicks
+                    //LogManager.RuntimeLogger.Log("Input received. Movement: " + controlInput.MovementKey);
+                    player?.ControlledMob?.Move(controlInput.MovementKey);
                     break;
                 default:
                     // Player in not eligible to perform other network actions

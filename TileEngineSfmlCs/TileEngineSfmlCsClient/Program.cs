@@ -63,7 +63,7 @@ namespace TileEngineSfmlCsClient
 
         private static void Initialization(string serverIp, int serverPort, string username, string resourcePath)
         {
-#if DEBUG
+#if DEBUG || !DEBUG
             resourcePath = "C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlCs\\Resources";
             username = "Dmitry";
 #endif

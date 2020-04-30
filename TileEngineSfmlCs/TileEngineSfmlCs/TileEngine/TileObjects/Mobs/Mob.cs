@@ -1,6 +1,8 @@
 ﻿using System;
 using TileEngineSfmlCs.GameManagement.ClientControlInput;
+using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
 using TileEngineSfmlCs.Types;
 
@@ -53,19 +55,22 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
 
         public void Move(MovementKey movement)
         {
+            //LogManager.RuntimeLogger.Log("Movement: " + movement);
             if (Scene == null || InstanceId == -1)
             {
-                LogManager.RuntimeLogger.LogError("Trying to move mob that is not instantiated!");
+                //LogManager.RuntimeLogger.LogError("Trying to move mob that is not instantiated!");
                 return;
             }
 
             if (!CanMove)
             {
+                //LogManager.RuntimeLogger.Log("Mob cannot move!");
                 return;
             }
 
             if (_isMoving)
             {
+                //LogManager.RuntimeLogger.Log("Mob is already moving!");
                 return;
             }
 
@@ -75,7 +80,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
                 case MovementKey.None:
                     break;
                 case MovementKey.Up:
-                    deltaY = 1;
+                    deltaY = -1; // TODO Project Y axis
                     _activeIcon = UpFacingIcon;
                     break;
                 case MovementKey.Right:
@@ -84,7 +89,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
                     break;
                 case MovementKey.Down:
                     _activeIcon = DownFacingIcon;
-                    deltaY = -1;
+                    deltaY = 1;
                     break;
                 case MovementKey.Left:
                     _activeIcon = LeftFacingIcon;
@@ -95,8 +100,10 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
             }
 
             Vector2Int nextCell = Position + new Vector2Int(deltaX, deltaY);
+            //LogManager.RuntimeLogger.Log("Next cell: " + nextCell);
             if (!Scene.IsInBounds(nextCell))
             {
+                //LogManager.RuntimeLogger.Log("Next cell not in bounds!");
                 return;
             }
 
@@ -104,6 +111,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
             {
                 if (Scene.IsPassable(nextCell))
                 {
+                    //LogManager.RuntimeLogger.Log("MoveInternal:" + nextCell);
                     MoveInternal(nextCell);
                 }
                 else
@@ -155,6 +163,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
                 Offset = _movingOffset;
             }
 
+            NetworkManager.Instance.UpdateTileObject(this, Reliability.Unreliable);
             
             OnMobUpdate();
         }
