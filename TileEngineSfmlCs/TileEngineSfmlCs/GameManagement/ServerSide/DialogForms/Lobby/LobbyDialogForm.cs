@@ -6,11 +6,16 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
 {
     public class LobbyDialogForm : IDialogForm
     {
+        private string _firstName;
+        private string _lastName;
+
         public Player InteractingPlayer { get; set; }
 
         public int DialogInstanceId { get; set; }
 
         public Action<LobbyDialogForm> PlayerJoinCallback { get; set; }
+
+        
 
         public void OnUserClose()
         {
@@ -27,10 +32,10 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
                 switch (keyValue)
                 {
                     case LobbyInputKeys.InputFirstName:
-                        // TODO Setup character name
+                        _firstName = input;
                         break;
                     case LobbyInputKeys.InputLastName:
-                        // TODO Setup character name
+                        _lastName = input;
                         break;
                     case LobbyInputKeys.Join:
                         // TODO Validate user data
@@ -44,6 +49,10 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
 
         public DialogFormType SpiritType =>
             DialogFormManager.Instance.GetByFullName(typeof(LobbyDialogFormSpirit).FullName);
+
+        public string FirstName => _firstName;
+
+        public string LastName => _lastName;
 
         public LobbyDialogForm()
         {

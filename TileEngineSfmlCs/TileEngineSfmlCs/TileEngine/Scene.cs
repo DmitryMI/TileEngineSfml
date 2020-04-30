@@ -163,6 +163,18 @@ namespace TileEngineSfmlCs.TileEngine
 
             return true;
         }
+
+        public void SendTryPass(Vector2Int cell, TileObject sender)
+        {
+            foreach (var obj in ObjectMatrix[cell.X, cell.Y])
+            {
+                if (!obj.IsPassable)
+                {
+                    obj.TryPass(sender);
+                }
+            }
+        }
+
         public bool IsLightTransparent(Vector2Int cell)
         {
             foreach (var obj in ObjectMatrix[cell.X, cell.Y])

@@ -131,7 +131,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
                 spirit.Position = updatePackage.Position;
                 _spiritsHashTable[instanceId] = spirit;
                 RegisterPosition(spirit);
-                //LogManager.RuntimeLogger.Log($"New TileObject spawned on coordinates {spirit.Position.X}, {spirit.Position.Y}");
+                LogManager.RuntimeLogger.Log($"TileObject {updatePackage.VisibleName} spawned on coordinates {spirit.Position.X}, {spirit.Position.Y}");
             }
             else
             {
@@ -150,6 +150,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
             spirit.Icon = updatePackage.Icon;
             spirit.IsPassable = updatePackage.IsPassable;
             spirit.IsLightTransparent = updatePackage.IsLightTransparent;
+            spirit.VisibleName = updatePackage.VisibleName;
         }
 
         public void UpdatePosition(PositionUpdatePackage updatePackage)
@@ -213,8 +214,8 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
         {
             var layers = Enum.GetValues(typeof(TileLayer));
             // Drawing
-            int width = TileSpiritManager.Instance.PlayerCamera.Size.X;
-            int height = TileSpiritManager.Instance.PlayerCamera.Size.Y;
+            int width = PlayerCamera.Size.X;
+            int height = PlayerCamera.Size.Y;
             Vector2Int cameraCenter = GetCameraCenter();
             int minX = cameraCenter.X - width / 2;
             int maxX = cameraCenter.X + width / 2;

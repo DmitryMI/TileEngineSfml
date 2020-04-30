@@ -3,7 +3,9 @@ using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
+using TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils;
 
 namespace TileEngineSfmlCs.GameManagement.ServerSide
@@ -59,6 +61,16 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             Player player = sender.InteractingPlayer;
             NetworkManager.Instance.KillDialogForm(sender);
             LogManager.RuntimeLogger.Log($"Player {player.Username}({player.ConnectionId}) joined the game!");
+
+            Corgi corgi = new Corgi();
+            // TODO Get player spawn position!
+            corgi.Position = new Vector2Int(_scene.Width / 2, _scene.Height / 2);
+            corgi.SetDogName(sender.FirstName + " " + sender.LastName);
+
+            _scene.Instantiate(corgi);
+
+            player.ControlledMob = corgi;
+
             NetworkManager.Instance.UpdateScene(player);
         }
     }

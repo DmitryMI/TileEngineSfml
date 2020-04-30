@@ -12,6 +12,11 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Floors
     {
         public override Icon Icon { get; } = new Icon("Images\\Floors\\MetalFloor.png");
         public override Icon EditorIcon { get; } = new Icon("Images\\Floors\\MetalFloor.png");
+        public override void TryPass(TileObject sender)
+        {
+            
+        }
+
         public override string VisibleName { get; } = "Metal floor";
         public override string ExamineDescription { get; } = "Metal floor that covers wires and ventilation";
         public override bool RequiresUpdates { get; } = false;

@@ -11,6 +11,8 @@ namespace TileEngineSfmlCs.Networking
 
         public bool MarkedAsCanceled { get; set; }
 
+        public bool MarkedAsSuccessful { get; set; }
+
         public Retransmission(IPEndPoint endPoint, byte[] data, ulong token, int retries)
         {
             EndPoint = endPoint;

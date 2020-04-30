@@ -12,10 +12,14 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
         public int InstanceId { get; set; }
         public Vector2Int Position { get; set; }
         public Vector2 Offset { get; set; }
-        public Icon Icon { get; set; }
         public TileLayer Layer { get; set; }
         public int LayerOrder { get; set; }
         public bool IsPassable { get; set; }
         public bool IsLightTransparent { get; set; }
+
+        public string VisibleName { get; set; }
+
+        public Icon Icon { get; set; }
+       
     }
 }

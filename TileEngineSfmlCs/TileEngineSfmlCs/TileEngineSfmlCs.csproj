@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameManagement\BinaryEncoding\CameraUpdatePackage.cs" />
+    <Compile Include="GameManagement\ClientControlInput\MovementKey.cs" />
+    <Compile Include="GameManagement\ClientControlInput\InputKeyState.cs" />
     <Compile Include="GameManagement\BinaryEncoding\DialogFormClientClosePackage.cs" />
     <Compile Include="GameManagement\BinaryEncoding\DialogFormInputPackage.cs" />
     <Compile Include="GameManagement\BinaryEncoding\IBinaryEncodable.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="GameManagement\BinaryEncoding\PositionUpdatePackage.cs" />
     <Compile Include="GameManagement\BinaryEncoding\SceneInformationPackage.cs" />
     <Compile Include="GameManagement\BinaryEncoding\TileObjectUpdatePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\ControlInput\ControlInputPackage.cs" />
     <Compile Include="GameManagement\ClientSide\DialogForms\AssemblyDialogFormType.cs" />
     <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormSpirit.cs" />
     <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormType.cs" />
@@ -129,6 +132,10 @@
     <Compile Include="GameManagement\Camera.cs" />
     <Compile Include="GameManagement\ServerSide\NetworkManager.cs" />
     <Compile Include="GameManagement\ServerSide\Player.cs" />
+    <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Humanoids\Humanoid.cs" />
+    <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Humanoids\Humans\Human.cs" />
+    <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Mammals\Corgi.cs" />
+    <Compile Include="TileEngine\TileObjects\Mobs\Livings\Living.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />

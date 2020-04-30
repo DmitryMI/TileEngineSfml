@@ -152,6 +152,16 @@ namespace TileEngineSfmlCs.Utils.Serialization
             return int.Parse(value);
         }
 
+        public static string ReadString(string name, XmlElement parentElement, string defaultValue)
+        {
+            string value = GetNodeText(name, parentElement);
+            if (value == null)
+            {
+                return defaultValue;
+            }
+            return value;
+        }
+
         public static float ReadFloat(string name, XmlElement parentElement, float defaultValue)
         {
             string value = GetNodeText(name, parentElement);

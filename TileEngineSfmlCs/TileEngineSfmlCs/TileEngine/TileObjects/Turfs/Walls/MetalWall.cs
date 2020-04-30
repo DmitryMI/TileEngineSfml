@@ -12,6 +12,11 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Walls
     {
         public override Icon Icon { get; } = new Icon("Images\\Walls\\MetalWall.png");
         public override Icon EditorIcon { get; } = new Icon("Images\\Walls\\MetalWall.png");
+        public override void TryPass(TileObject sender)
+        {
+            
+        }
+
         public override string VisibleName { get; } = "Metal wall";
         public override string ExamineDescription { get; } = "A wall made of some metal. Very solid";
         public override bool RequiresUpdates { get; } = false;

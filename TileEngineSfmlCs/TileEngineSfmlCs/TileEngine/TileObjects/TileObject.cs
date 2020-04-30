@@ -2,6 +2,7 @@
 using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Networking;
+using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
@@ -121,6 +122,12 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         public abstract Icon Icon { get; }
 
         public abstract Icon EditorIcon { get; }
+
+        /// <summary>
+        /// May be invoked by mob, that is trying to go through this tile object. For example, a door can check human's ID Card
+        /// </summary>
+        /// <param name="sender">Object, that is willing to pass</param>
+        public abstract void TryPass(TileObject sender);
 
         public void NetworkUpdate()
         {

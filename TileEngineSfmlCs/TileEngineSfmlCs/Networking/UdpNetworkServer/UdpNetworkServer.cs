@@ -52,7 +52,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
         private int[] GetConnectionIds()
         {
             List<int> result = new List<int>(_connections.Count);
-            for(int i = 0; i < _connections.Count; i++)
+            for (int i = 0; i < _connections.Count; i++)
             {
                 if (_connections[i] != null)
                 {
@@ -122,6 +122,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
             {
                 throw new InvalidOperationException("Server was already listening");
             }
+
             _udpClient = new UdpClient(_port, AddressFamily.InterNetwork);
             _listeningRunning = true;
             _udpListenTask = new Task(UpdListenLoop, TaskCreationOptions.LongRunning);
@@ -184,7 +185,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
             }
         }
 
-      
+
 
         public void Dispose()
         {
@@ -197,9 +198,9 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
             for (var i = 0; i < _connections.Count; i++)
             {
                 var connection = _connections[i];
-                if(connection == null)
+                if (connection == null)
                     continue;
-                
+
                 if (connection.Address.Equals(endPoint.Address) && connection.Port == endPoint.Port)
                 {
                     return i;
@@ -280,19 +281,21 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                 }
             }
         }
+
         private void UdpListenIteration()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, _port);
             byte[] datagram = _udpClient.Receive(ref endPoint);
 
             int connectionId = GetConnectionId(endPoint);
-            
+
             UdpPackage udpPackage = new UdpPackage();
             udpPackage.FromByteArray(datagram, 0);
 
             if (udpPackage.Reliability == Reliability.Reliable)
             {
-                UdpPackage confirmationPackage = new UdpPackage(UdpCommand.Confirmation, Reliability.Unreliable, udpPackage.ConfirmationToken, null);
+                UdpPackage confirmationPackage = new UdpPackage(UdpCommand.Confirmation, Reliability.Unreliable,
+                    udpPackage.ConfirmationToken, null);
                 byte[] confirmationPackageBytes = new byte[confirmationPackage.Length];
                 confirmationPackage.ToByteArray(confirmationPackageBytes, 0);
                 _udpClient.Send(confirmationPackageBytes, confirmationPackageBytes.Length, endPoint);
@@ -310,7 +313,9 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                     pos += nameLength;
                     byte[] userResponse = NewConnectionResponse?.Invoke();
                     byte[] response;
-                    response = userResponse != null ? new byte[userResponse.Length + sizeof(ulong)] : new byte[sizeof(long)];
+                    response = userResponse != null
+                        ? new byte[userResponse.Length + sizeof(ulong)]
+                        : new byte[sizeof(long)];
                     byte[] connectionCodeBytes = BitConverter.GetBytes(connectionCode);
                     Array.Copy(connectionCodeBytes, 0, response, 0, connectionCodeBytes.Length);
                     if (userResponse != null)
@@ -343,6 +348,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                             {
                                 _reconnectQueue.Enqueue(codeId);
                             }
+
                             break;
                         }
                         else if (NewConnectionsEnabled)
@@ -383,14 +389,25 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                         _receiveIdQueue.Enqueue(connectionId);
                         _receiveDataQueue.Enqueue(udpPackage.Payload);
                     }
+
                     break;
                 case UdpCommand.Confirmation:
                     ulong token = udpPackage.ConfirmationToken;
                     lock (_retransmissionQueue)
                     {
-                        int retransmissionIndex = _retransmissionQueue.FindIndex(r => r.ConfirmationToken == token && r.EndPoint.Equals(endPoint));
-                        _retransmissionQueue.RemoveAt(retransmissionIndex);
+                        int retransmissionIndex = _retransmissionQueue.FindIndex(r =>
+                            r.ConfirmationToken == token);
+                        if (retransmissionIndex == -1)
+                        {
+                            
+                        }
+                        else
+                        {
+                            _retransmissionQueue[retransmissionIndex].MarkedAsSuccessful = true;
+                            _retransmissionQueue.RemoveAt(retransmissionIndex);
+                        }
                     }
+
                     //LogManager.RuntimeLogger.Log($"Confirmation token {token} received!");
                     break;
                 default:
@@ -399,44 +416,51 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
             }
         }
 
-        private async void RetransmissionLoop()
+        private void RetransmitAll()
         {
-            while (_listeningRunning)
+            lock (_retransmissionQueue)
             {
-                Retransmission retransmission = null;
-
-                lock (_retransmissionQueue)
+                for (int i = 0; i < _retransmissionQueue.Count; i++)
                 {
-                    if (_retransmissionQueue.Count > 0)
+                    Retransmission retransmission = _retransmissionQueue[i];
+                    
+                    if (retransmission.RetriesRemaining == 0 || retransmission.MarkedAsCanceled || retransmission.MarkedAsSuccessful)
                     {
-                        retransmission = _retransmissionQueue[0];
-                    }
-                }
-
-                if (retransmission != null)
-                {
-                    LogManager.RuntimeLogger.Log($"[UdpNetworkServer] Retrying token {retransmission.ConfirmationToken}");
-                    _udpClient.Send(retransmission.DataBuffer, retransmission.DataBuffer.Length,
-                        retransmission.EndPoint);
-                    retransmission.RetriesRemaining--;
-                    if (retransmission.RetriesRemaining == 0 || retransmission.MarkedAsCanceled)
-                    {
-                        LogManager.RuntimeLogger.Log($"[UdpNetworkServer] Retransmission failed. Too many retries");
-                        // TODO Mark player as disconnected?
-                        lock (_retransmissionQueue)
+                        if (!retransmission.MarkedAsSuccessful)
                         {
-                            _retransmissionQueue.RemoveAt(0);
+                            LogManager.RuntimeLogger.Log(
+                                $"[UdpNetworkServer] Retransmission failed. Too many retries");
                             foreach (var entry in _retransmissionQueue)
                             {
                                 if (entry.EndPoint.Equals(retransmission.EndPoint))
                                 {
-                                    entry.MarkedAsCanceled = true; // Discard all retransmissions associated with this EndPoint.
+                                    entry.MarkedAsCanceled =
+                                        true; // Discard all retransmissions associated with this EndPoint.
                                 }
                             }
+                            // TODO Mark player as disconnected?
                         }
+
+                        _retransmissionQueue.RemoveAt(i);
+                        i--;
+                    }
+                    else
+                    {
+                        //LogManager.RuntimeLogger.Log($"[UdpNetworkServer] Retrying token {retransmission.ConfirmationToken}");
+                        _udpClient.Send(retransmission.DataBuffer, retransmission.DataBuffer.Length,
+                            retransmission.EndPoint);
+                        retransmission.RetriesRemaining--;
                     }
                 }
 
+            }
+        }
+
+        private async void RetransmissionLoop()
+        {
+            while (_listeningRunning)
+            {
+                RetransmitAll();
                 await Task.Delay(RetransmissionPeriodMs);
             }
         }

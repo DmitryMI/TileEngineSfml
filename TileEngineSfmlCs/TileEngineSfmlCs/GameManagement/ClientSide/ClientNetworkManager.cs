@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding.ControlInput;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
 using TileEngineSfmlCs.Logging;
@@ -163,6 +164,14 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
             pos += 1;
             package.ToByteArray(data, pos);
             _networkClient.Send(data, Reliability.Reliable);
+        }
+
+        public void SendUserInput(ControlInputPackage inputPackage, Reliability reliability)
+        {
+            byte[] data = new byte[1 + inputPackage.ByteLength];
+            data[0] = (byte) NetworkAction.ControlInput;
+            inputPackage.ToByteArray(data, 1);
+            _networkClient.Send(data, reliability);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
@@ -11,6 +12,11 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         public override Icon Icon { get; } = new Icon("Images\\EditorFloor.png");
         public override Icon EditorIcon { get; } = new Icon("Images\\EditorFloor.png");
+        public override void TryPass(TileObject sender)
+        {
+            
+        }
+
         public override TileLayer Layer => TileLayer.Floor;
         public override string VisibleName => "Editor floor";
         public override string ExamineDescription => "This is an example floor tile for editor usage only";

@@ -9,6 +9,7 @@
         OnFloor,
         Walls,
         Objects,
+        LyingMobs,
         Items,
         Mobs,
     }

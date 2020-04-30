@@ -32,6 +32,7 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
         public int LayerOrder { get; private set; }
         public bool IsPassable { get; private set; }
         public bool IsLightTransparent { get; private set; }
+        public string VisibleName { get; private set; }
         public Icon Icon { get; private set; }
 
         public TileObjectUpdatePackage(TileObject tileObject)
@@ -44,6 +45,7 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
             Icon = tileObject.Icon;
             IsPassable = tileObject.IsPassable;
             IsLightTransparent = tileObject.IsLightTransparent;
+            VisibleName = tileObject.VisibleName;
             FillBuffer();
         }
 
@@ -93,6 +95,12 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
             IsLightTransparent = data[pos] == 1 ? true : false;
             pos++;
 
+            // VisibleName
+            int nameLength = BitConverter.ToInt32(data, pos);
+            pos += sizeof(int);
+            VisibleName = Encoding.Unicode.GetString(data, pos, nameLength);
+            pos += nameLength;
+
             // Icon
             Icon = new Icon();
             Icon.FromByteArray(data, pos);
@@ -101,15 +109,26 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
 
         private void FillBuffer()
         {
-            int length = 
-                sizeof(int) +           // InstanceId
-                _position.ByteLength +   // _position
-                _offset.ByteLength +     // _offset
-                sizeof(byte) +          // Layer
-                sizeof(int) +           // LayerOrder
-                sizeof(byte) +          // IsPassable
-                sizeof(byte) +          // IsLightTransparent
-                Icon.ByteLength;
+            byte[] nameBytes = Encoding.Unicode.GetBytes(VisibleName);
+            byte[] nameLengthBytes = BitConverter.GetBytes(nameBytes.Length);
+
+            int length =
+                sizeof(int) + // InstanceId
+                _position.ByteLength + // _position
+                _offset.ByteLength + // _offset
+                sizeof(byte) + // Layer
+                sizeof(int) + // LayerOrder
+                sizeof(byte) + // IsPassable
+                sizeof(byte) + // IsLightTransparent
+                sizeof(int) + // Length of VisibleName
+                nameBytes.Length; // VisibleName
+            if (Icon == null)
+            {
+                Icon = new Icon();
+            }
+
+            length += Icon.ByteLength;  // Icon
+
             _buffer = new byte[length];
 
             int pos = 0;
@@ -145,7 +164,13 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
             byte isLightTransparentByte = (byte)(IsLightTransparent ? 1 : 0);
             _buffer[pos] = isLightTransparentByte;
             pos++;
-            
+
+            // VisibleName
+            Array.Copy(nameLengthBytes, 0, _buffer, pos, nameLengthBytes.Length);
+            pos += nameLengthBytes.Length;
+            Array.Copy(nameBytes, 0, _buffer, pos, nameBytes.Length);
+            pos += nameBytes.Length;
+
             // Icon
             Icon.ToByteArray(_buffer, pos);
             pos += Icon.ByteLength;

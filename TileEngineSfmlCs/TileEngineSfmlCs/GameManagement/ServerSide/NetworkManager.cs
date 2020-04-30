@@ -268,7 +268,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
                 pos += 1;
                 wrapper.ToByteArray(data, pos);
 
-                _networkServer.SendData(player.ConnectionId, data, Reliability.Unreliable);
+                _networkServer.SendData(player.ConnectionId, data, Reliability.Reliable);
             }
         }
 

@@ -91,6 +91,10 @@ namespace TileEngineSfmlCs.TileEngine.Scripting.PythonObjects
 
         public override Icon Icon => _icon;
         public override Icon EditorIcon => new Icon(_scriptScope.GetVariable("editor_icon"));
+        public override void TryPass(TileObject sender)
+        {
+            // TODO Transmit to script
+        }
 
         public override TileLayer Layer =>
             Enum.Parse(typeof(TileLayer), _scriptScope.GetVariable("layer"), true);
