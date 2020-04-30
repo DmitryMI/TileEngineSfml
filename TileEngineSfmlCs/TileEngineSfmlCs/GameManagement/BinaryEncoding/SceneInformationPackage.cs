@@ -5,7 +5,14 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
 {
     public struct SceneInformationPackage : IBinaryEncodable
     {
-        public Vector2Int Size { get; set; }
+        private Vector2Int _size;
+
+        public Vector2Int Size
+        {
+            get => _size;
+            set => _size = value;
+        }
+
         public int ByteLength => Size.ByteLength;
         public int ToByteArray(byte[] package, int index)
         {
@@ -15,13 +22,13 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
 
         public void FromByteArray(byte[] data, int index)
         {
-            Size = new Vector2Int();
-            Size.FromByteArray(data, index);
+            _size = new Vector2Int(50, 50);
+            _size.FromByteArray(data, index);
         }
 
         public SceneInformationPackage(Scene scene)
         {
-            Size = new Vector2Int(scene.Width, scene.Height);
+            _size = new Vector2Int(scene.Width, scene.Height);
         }
 
     }

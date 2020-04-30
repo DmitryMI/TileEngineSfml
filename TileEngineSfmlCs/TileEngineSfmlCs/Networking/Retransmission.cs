@@ -9,12 +9,15 @@ namespace TileEngineSfmlCs.Networking
         public ulong ConfirmationToken { get; set; }
         public int RetriesRemaining { get; set; }
 
+        public bool MarkedAsCanceled { get; set; }
+
         public Retransmission(IPEndPoint endPoint, byte[] data, ulong token, int retries)
         {
             EndPoint = endPoint;
             DataBuffer = data;
             ConfirmationToken = token;
             RetriesRemaining = retries;
+            MarkedAsCanceled = false;
         }
     }
 }

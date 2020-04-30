@@ -220,6 +220,8 @@ namespace TileEngineSfmlCs.TileEngine
                 {
                     break;
                 }
+
+                instanceId++;
             }
 
             if (instanceId == _instantiatedTileObjects.Count)

@@ -7,7 +7,10 @@ using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
+using TileEngineSfmlCs.TileEngine.ResourceManagement;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs
 {
@@ -52,8 +55,13 @@ namespace TileEngineSfmlCs
             LogManager.RuntimeLogger = new ConsoleLogger();
 
             GameManager.Instance = new GameManager();
+            GameResources.Instance = new GameResources("C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlCs\\Resources");
+            MapContainerManager.Instance = new MapContainerManager();
+            TypeManager.Instance = new TypeManager();
+            IMapContainer container = MapContainerManager.Instance.GetMapContainer("C:\\Users\\Dmitry\\Downloads\\_DELETE\\MapExample");
+            Scene scene = Scene.CreateFromMap(container, "main.scene");
             
-            Scene scene = new Scene(50, 50);
+            //Scene scene = new Scene(50, 50);
             UdpNetworkServer server = new UdpNetworkServer(25565);
             GameManager.Instance.StartGame(scene, server);
 

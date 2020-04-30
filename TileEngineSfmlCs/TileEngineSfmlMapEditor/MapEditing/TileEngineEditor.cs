@@ -134,7 +134,11 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         private void LoadResources()
         {
+#if DEBUG
+            string resourcesPath = "C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlCs\\Resources";
+#else
             string resourcesPath = Path.Combine(Environment.CurrentDirectory, "Resources");
+#endif
             _resources = new GameResources(resourcesPath);
             GameResources.Instance = _resources;
 
@@ -213,9 +217,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
         }
 
 
-        #endregion
+#endregion
 
-        #region Drawing
+#region Drawing
 
         private void DrawSpriteResource(Icon icon, int orderIndex, Vector2f position)
         {
@@ -351,9 +355,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
             HighlightTempCells();
         }
 
-        #endregion
+#endregion
 
-        #region Utils
+#region Utils
 
         private bool IsUnderCursor(TileObject to, Vector2f cursorProjection)
         {
@@ -531,9 +535,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
             return null;
         }
         
-        #endregion
+#endregion
 
-        #region CellSelecting
+#region CellSelecting
 
         public Color SelectionColor { get; set; }
 
@@ -575,15 +579,15 @@ namespace TileEngineSfmlMapEditor.MapEditing
             HighlightCell(cellStart);
         }
 
-        #endregion
+#endregion
 
-        #region Grid
+#region Grid
         public bool ShowGrid { get; set; }
         public float GridThickness { get; set; }
 
-        #endregion
+#endregion
 
-        #region Transformations
+#region Transformations
 
         public CellRect GetCellRect(int x0, int y0, int x1, int y1)
         {
@@ -677,9 +681,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
             return new Vector2Int((int)(pixelWidth / PixelsPerUnit), (int)(pixelHeight / PixelsPerUnit));
         }
 
-        #endregion
+#endregion
 
-        #region MapEditor
+#region MapEditor
 
         public TreeNode<EntityType> TypeTreeRoot => TypeManager.Instance.TreeRoot;
 
@@ -744,9 +748,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
             ForEachSelectedCell(ForEach);
         }
 
-        #endregion
+#endregion
 
-        #region Object data manipulation
+#region Object data manipulation
 
         public FieldDescriptor[] GetFieldDescriptors(TileObject tileObject)
         {
@@ -755,7 +759,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
 
 
-        #endregion
+#endregion
 
         public void Dispose()
         {

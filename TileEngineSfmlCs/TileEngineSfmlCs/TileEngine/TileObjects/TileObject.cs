@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
@@ -11,7 +12,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
     /// <summary>
     /// Base class for all in-game objects
     /// </summary>
-    public abstract class TileObject : IFieldSerializer
+    public abstract class TileObject : IFieldSerializer, IPositionProvider
     {
         [FieldEditorReadOnly("Use special replacing tool instead")]
         private Vector2Int _position;
@@ -80,6 +81,8 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
                 _offset = value;
             }
         }
+
+        public int InstanceId => GetInstanceId();
 
         /// <summary>
         /// Defines coordinate in cell map

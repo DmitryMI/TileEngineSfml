@@ -11,21 +11,34 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
     public class TileObjectUpdatePackage : IBinaryEncodable
     {
         private byte[] _buffer;
-        
+        private Vector2Int _position;
+        private Vector2 _offset;
+
         public int InstanceId { get; private set; }
-        public Vector2Int Position { get; private set; }
-        public Vector2 Offset { get; private set; }
+
+        public Vector2Int Position
+        {
+            get => _position;
+            private set => _position = value;
+        }
+
+        public Vector2 Offset
+        {
+            get => _offset;
+            private set => _offset = value;
+        }
+
         public TileLayer Layer { get; private set; }
         public int LayerOrder { get; private set; }
-        public Icon Icon { get; private set; }
         public bool IsPassable { get; private set; }
         public bool IsLightTransparent { get; private set; }
+        public Icon Icon { get; private set; }
 
         public TileObjectUpdatePackage(TileObject tileObject)
         {
             InstanceId = tileObject.GetInstanceId();
-            Position = tileObject.Position;
-            Offset = tileObject.Offset;
+            _position = tileObject.Position;
+            _offset = tileObject.Offset;
             Layer = tileObject.Layer;
             LayerOrder = tileObject.LayerOrder;
             Icon = tileObject.Icon;
@@ -50,27 +63,37 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
         {
             int pos = index;
 
+            // InstanceId
             InstanceId = BitConverter.ToInt32(data, pos);
             pos += sizeof(int);
 
-            Position = new Vector2Int();
-            Position.FromByteArray(data, pos);
-            pos += Position.ByteLength;
+            // _position
+            _position = new Vector2Int();
+            _position.FromByteArray(data, pos);
+            pos += _position.ByteLength;
 
-            Offset = new Vector2();
-            Offset.FromByteArray(data, pos);
-            pos += Offset.ByteLength;
+            // _offset
+            _offset = new Vector2();
+            _offset.FromByteArray(data, pos);
+            pos += _offset.ByteLength;
 
+            // Layer
             Layer = (TileLayer) data[pos];
             pos++;
+
+            // LayerOrder
             LayerOrder = BitConverter.ToInt32(data, pos);
             pos += sizeof(int);
 
+            // IsPassable
             IsPassable = data[pos] == 1 ? true : false;
             pos++;
+
+            // IsLightTransparent
             IsLightTransparent = data[pos] == 1 ? true : false;
             pos++;
 
+            // Icon
             Icon = new Icon();
             Icon.FromByteArray(data, pos);
             pos += Icon.ByteLength;
@@ -78,33 +101,52 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
 
         private void FillBuffer()
         {
-            int length = sizeof(int) + Position.ByteLength + Offset.ByteLength + sizeof(byte) + sizeof(byte) + Icon.ByteLength;
+            int length = 
+                sizeof(int) +           // InstanceId
+                _position.ByteLength +   // _position
+                _offset.ByteLength +     // _offset
+                sizeof(byte) +          // Layer
+                sizeof(int) +           // LayerOrder
+                sizeof(byte) +          // IsPassable
+                sizeof(byte) +          // IsLightTransparent
+                Icon.ByteLength;
             _buffer = new byte[length];
 
             int pos = 0;
 
+            // InstanceId
             byte[] instanceIdBytes = BitConverter.GetBytes(InstanceId);
             Array.Copy(instanceIdBytes, 0, _buffer, pos, instanceIdBytes.Length);
             pos += instanceIdBytes.Length;
 
-            Position.ToByteArray(_buffer, pos);
-            pos += Position.ByteLength;
-            Offset.ToByteArray(_buffer, pos);
-            pos += Offset.ByteLength;
+            // _position
+            _position.ToByteArray(_buffer, pos);
+            pos += _position.ByteLength;
 
+            // _offset
+            _offset.ToByteArray(_buffer, pos);
+            pos += _offset.ByteLength;
+
+            // Layer
             _buffer[pos] = (byte)Layer;
             pos++;
+
+            // LayerOrder
             byte[] layerOrderBytes = BitConverter.GetBytes(LayerOrder);
             Array.Copy(layerOrderBytes, 0, _buffer, pos, layerOrderBytes.Length);
             pos += sizeof(int);
 
+            // IsPassable
             byte isPassableByte =  (byte)(IsPassable ? 1 : 0);
-            byte isLightTransparentByte = (byte)(IsLightTransparent ? 1 : 0);
             _buffer[pos] = isPassableByte;
             pos++;
+
+            // IsLightTransparent
+            byte isLightTransparentByte = (byte)(IsLightTransparent ? 1 : 0);
             _buffer[pos] = isLightTransparentByte;
             pos++;
             
+            // Icon
             Icon.ToByteArray(_buffer, pos);
             pos += Icon.ByteLength;
         }

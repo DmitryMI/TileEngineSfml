@@ -118,7 +118,8 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
                     switch (command)
                     {
                         case UdpCommand.Connect:
-                            OnConnectionAccepted?.Invoke();
+                            byte[] connectionData = _dataQueue.Dequeue();
+                            OnConnectionAccepted?.Invoke(connectionData);
                             break;
                         case UdpCommand.Disconnect:
                             OnDisconnect?.Invoke();
@@ -183,11 +184,14 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
                 case UdpCommand.Connect:
                     _isConnected = true;
                     _connectionCode = BitConverter.ToUInt64(udpPackage.Payload, 0);
+                    byte[] serverResponseAux = new byte[udpPackage.Payload.Length - sizeof(ulong)];
+                    Array.Copy(udpPackage.Payload, sizeof(ulong), serverResponseAux, 0, serverResponseAux.Length);
                     Debug.WriteLine($"Connected to server with code {_connectionCode}");
                     lock (_commandQueue)
                     {
                         Debug.WriteLine($"Enqueueing connection command");
                         _commandQueue.Enqueue(UdpCommand.Connect);
+                        _dataQueue.Enqueue(serverResponseAux);
                     }
                     break;
                 case UdpCommand.Disconnect:
@@ -202,10 +206,8 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
                     Debug.WriteLine($"[UdpNetworkClient] Data from server received. Entering LOCK");
                     lock (_commandQueue)
                     {
-                        Debug.WriteLine($"[UdpNetworkClient] LOCK occupied");
                         _commandQueue.Enqueue(UdpCommand.Data);
                         _dataQueue.Enqueue(udpPackage.Payload);
-                        Debug.WriteLine($"[UdpNetworkClient] Leaving LOCK");
                     }
                     break;
                 case UdpCommand.Confirmation:
@@ -264,7 +266,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
             _listeningTask?.Dispose();
         }
 
-        public event Action OnConnectionAccepted;
+        public event Action<byte[]> OnConnectionAccepted;
         public event Action OnDisconnect;
         public event Action<byte[]> OnDataReceived;
     }

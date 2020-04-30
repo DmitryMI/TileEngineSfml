@@ -10,6 +10,9 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
         public abstract event Action OnKillEvent;
 
         public int InstanceId { get; }
+
+        public object Wrapper { get; set; }
+
         public virtual DialogFormType GetDialogFormType()
         {
             return DialogFormManager.Instance.GetByFullName(GetType().FullName);

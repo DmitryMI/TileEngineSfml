@@ -1,4 +1,4 @@
-﻿namespace TileEngineSfmlCsClient
+﻿namespace TileEngineSfmlCsClient.Rendering
 {
     partial class SfmlRenderControl
     {

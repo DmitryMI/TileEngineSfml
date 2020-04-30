@@ -1,11 +1,11 @@
 ﻿using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
 
-namespace TileEngineSfmlCs.GameManagement.ServerSide
+namespace TileEngineSfmlCs.GameManagement
 {
     public class Camera
     {
-        public TileObject TrackingTarget { get; set; }
+        public IPositionProvider TrackingTarget { get; set; }
         public Vector2Int Center { get; set; }
         public Vector2Int Size { get; set; }
 
@@ -19,6 +19,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         {
             Center = center;
             Size = size;
+            TrackingTarget = null;
         }
     }
 }

@@ -2,7 +2,8 @@
 {
     public enum LobbyInputKeys
     {
-        InputName,
-        InputSurname
+        InputFirstName,
+        InputLastName,
+        Join
     }
 }

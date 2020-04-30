@@ -1,9 +1,11 @@
 ﻿using System.Xml;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs;
+using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlMapEditor.MapEditing
 {
+    [TypeManagerIgnore(IgnoranceReason.TestObject)]
     public class EditorFloor : Turf
     {
 

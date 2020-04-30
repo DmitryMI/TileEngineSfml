@@ -40,7 +40,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         private void NextFrame()
         {
             NetworkManager.Instance.OnNextFrame();
-            _scene.OnNextFrame();
+            _scene?.OnNextFrame();
         }
 
         private void OnPlayerConnected(Player player)
@@ -48,19 +48,18 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             LogManager.RuntimeLogger.Log($"Player {player.Username}({player.ConnectionId}) connected.");
             LobbyDialogForm lobbyDialog = new LobbyDialogForm();
             lobbyDialog.InteractingPlayer = player;
+            lobbyDialog.PlayerJoinCallback = PlayerJoinCallback;
             DialogFormManager.Instance.AssignFormIndex(lobbyDialog);
             NetworkManager.Instance.SpawnDialogForm(lobbyDialog);
-
-            DelayedAction delayedAction = new DelayedAction(TimeManager.Instance);
-            delayedAction.Delay(CloseLobbyForm, lobbyDialog, 60);
         }
+        
 
-        private void CloseLobbyForm(DelayedAction delayedAction, object argument)
+        private void PlayerJoinCallback(LobbyDialogForm sender)
         {
-            LobbyDialogForm lobbyDialog = (LobbyDialogForm) argument;
-            NetworkManager.Instance.KillDialogForm(lobbyDialog);
-            DialogFormManager.Instance.UnregisterFormIndex(lobbyDialog);
-            LogManager.RuntimeLogger.Log($"[GameManager] Lobby killed for player {lobbyDialog.InteractingPlayer.Username}({lobbyDialog.InteractingPlayer.ConnectionId})");
+            Player player = sender.InteractingPlayer;
+            NetworkManager.Instance.KillDialogForm(sender);
+            LogManager.RuntimeLogger.Log($"Player {player.Username}({player.ConnectionId}) joined the game!");
+            NetworkManager.Instance.UpdateScene(player);
         }
     }
 }

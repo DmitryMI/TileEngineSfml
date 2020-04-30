@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameManagement\BinaryEncoding\CameraUpdatePackage.cs" />
     <Compile Include="GameManagement\BinaryEncoding\DialogFormClientClosePackage.cs" />
     <Compile Include="GameManagement\BinaryEncoding\DialogFormInputPackage.cs" />
     <Compile Include="GameManagement\BinaryEncoding\IBinaryEncodable.cs" />
@@ -93,9 +94,10 @@
     <Compile Include="GameManagement\ClientSide\DialogForms\HtmlDialogFormSpirit.cs" />
     <Compile Include="GameManagement\ClientSide\ClientNetworkManager.cs" />
     <Compile Include="GameManagement\ClientSide\DialogForms\LobbyDialogFormSpirit.cs" />
-    <Compile Include="GameManagement\ClientSide\TileObjectSpirit.cs" />
+    <Compile Include="GameManagement\ClientSide\TileObjects\ISpiritRenderer.cs" />
     <Compile Include="GameManagement\ClientSide\TileObjects\TileObjectSpirit.cs" />
     <Compile Include="GameManagement\ClientSide\TileObjects\TileSpiritManager.cs" />
+    <Compile Include="GameManagement\IPositionProvider.cs" />
     <Compile Include="Networking\Reliability.cs" />
     <Compile Include="Networking\Retransmission.cs" />
     <Compile Include="GameManagement\ServerSide\DialogForms\HtmlDialogForms\HtmlDialogForm.cs" />
@@ -124,7 +126,7 @@
     <Compile Include="GameManagement\ServerSide\DialogForms\Lobby\LobbyDialogForm.cs" />
     <Compile Include="GameManagement\ServerSide\GameManager.cs" />
     <Compile Include="GameManagement\NetworkAction.cs" />
-    <Compile Include="GameManagement\ServerSide\Camera.cs" />
+    <Compile Include="GameManagement\Camera.cs" />
     <Compile Include="GameManagement\ServerSide\NetworkManager.cs" />
     <Compile Include="GameManagement\ServerSide\Player.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
@@ -132,6 +134,10 @@
     <Compile Include="TileEngine\SceneManager.cs" />
     <Compile Include="TileEngine\Scripting\PythonObjects\PythonObject.cs" />
     <Compile Include="TileEngine\Scripting\PythonEntityType.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Floors\Floor.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Floors\MetalFloor.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Walls\MetalWall.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Walls\Wall.cs" />
     <Compile Include="TileEngine\TypeManagement\EntityTypes\DirectoryEntityType.cs" />
     <Compile Include="Utils\RandomGenerators\RandomUtils.cs" />
     <Compile Include="Utils\RandomGenerators\XorShift64.cs" />
@@ -187,6 +193,8 @@
     <Content Include="csfml-system.dll" />
     <Content Include="csfml-window.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

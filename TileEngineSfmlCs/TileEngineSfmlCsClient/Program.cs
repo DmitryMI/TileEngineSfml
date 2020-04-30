@@ -1,14 +1,26 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using TileEngineSfmlCs.GameManagement;
+using TileEngineSfmlCs.GameManagement.ClientSide;
+using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
+using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
 using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.Networking.UdpNetworkClient;
+using TileEngineSfmlCs.TileEngine.ResourceManagement;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.Types;
+using TileEngineSfmlCsClient.DialogFormWrappers;
 
 namespace TileEngineSfmlCsClient
 {
     class Program
     {
+        private static MainForm _mainForm;
+
         class LoopTimeProvider : ITimeProvider
         {
             public event Action NextFrameEvent;
@@ -40,6 +52,50 @@ namespace TileEngineSfmlCsClient
             }
         }
 
+        private static void OnDialogFormSpawned(DialogFormSpirit spirit)
+        {
+            if (spirit is LobbyDialogFormSpirit lobbyDialogFormSpirit)
+            {
+                LobbyDialogWrapper wrapper = new LobbyDialogWrapper(lobbyDialogFormSpirit);
+                wrapper.Show();
+            }
+        }
+
+        private static void Initialization(string serverIp, int serverPort, string username, string resourcePath)
+        {
+#if DEBUG
+            resourcePath = "C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlCs\\Resources";
+            username = "Dmitry";
+#endif
+            GameResources.Instance = new GameResources(resourcePath);
+            DialogFormManager.Instance = new DialogFormManager();
+            DialogFormManager.Instance.OnDialogSpiritSpawned += OnDialogFormSpawned;
+
+
+            IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse(serverIp), serverPort );
+            UdpNetworkClient networkClient = new UdpNetworkClient(serverEp);
+            ClientNetworkManager.Instance = new ClientNetworkManager(networkClient, username);
+            ClientNetworkManager.Instance.OnConnectionAcceptedEvent += OnConnectionAccepted;
+            ClientNetworkManager.Instance.OnConnectionTimeoutEvent += OnConnectionTimeout;
+            ClientNetworkManager.Instance.Connect(5);
+        }
+
+        private static void OnConnectionAccepted(Vector2Int sceneSize)
+        {
+            TileSpiritManager.Instance = new TileSpiritManager(sceneSize.X, sceneSize.Y, _mainForm);
+        }
+
+        private static void OnConnectionTimeout()
+        {
+            LogManager.RuntimeLogger.LogError("Connection timeout!");
+            _mainForm.Close();
+        }
+
+        static void OnMainFormClose(object senser, EventArgs args)
+        {
+            Environment.Exit(0);
+        }
+
         static void Main(string[] args)
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -48,8 +104,12 @@ namespace TileEngineSfmlCsClient
             TimeManager.Instance = new TimeManager(timeProvider);
             double minimalDeltaTime = 0.02;
 
-            MainForm mainForm = new MainForm();
-            mainForm.Show();
+            _mainForm = new MainForm();
+            _mainForm.Closed += OnMainFormClose;
+            _mainForm.Show();
+
+            Initialization("192.168.1.9", 25565, "Dmitry", "Resources");
+
             while (true)
             {
                 Application.EnableVisualStyles();
@@ -59,18 +119,16 @@ namespace TileEngineSfmlCsClient
                     stopwatch.Restart();
                     Application.DoEvents();
                     timeProvider.SendTimeSignal();
-                    stopwatch.Stop();
 
-                    double deltaTime = stopwatch.ElapsedMilliseconds / 1000.0;
-                    timeProvider.DeltaTime = deltaTime;
-                    timeProvider.TotalTime += deltaTime;
-
-                    double auxDelay = minimalDeltaTime - deltaTime;
+                    double auxDelay = minimalDeltaTime - timeProvider.DeltaTime;
                     if (auxDelay > 0)
                     {
                         Thread.Sleep((int) (auxDelay * 1000));
                     }
-
+                    stopwatch.Stop();
+                    double deltaTime = stopwatch.ElapsedMilliseconds / 1000.0;
+                    timeProvider.DeltaTime = deltaTime;
+                    timeProvider.TotalTime += deltaTime;
                 }
             }
         }

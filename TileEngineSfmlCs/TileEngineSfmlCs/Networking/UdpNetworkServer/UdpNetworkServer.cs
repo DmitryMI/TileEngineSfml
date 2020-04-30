@@ -78,7 +78,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
         private ulong GenerateConfirmationToken()
         {
             ulong token = RandomUtils.GetRandomUInt64();
-            lock (_reconnectQueue)
+            lock (_retransmissionQueue)
             {
                 while (_retransmissionQueue.Any(r => r.ConfirmationToken == token))
                 {
@@ -419,13 +419,20 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                     _udpClient.Send(retransmission.DataBuffer, retransmission.DataBuffer.Length,
                         retransmission.EndPoint);
                     retransmission.RetriesRemaining--;
-                    if (retransmission.RetriesRemaining == 0)
+                    if (retransmission.RetriesRemaining == 0 || retransmission.MarkedAsCanceled)
                     {
                         LogManager.RuntimeLogger.Log($"[UdpNetworkServer] Retransmission failed. Too many retries");
                         // TODO Mark player as disconnected?
                         lock (_retransmissionQueue)
                         {
                             _retransmissionQueue.RemoveAt(0);
+                            foreach (var entry in _retransmissionQueue)
+                            {
+                                if (entry.EndPoint.Equals(retransmission.EndPoint))
+                                {
+                                    entry.MarkedAsCanceled = true; // Discard all retransmissions associated with this EndPoint.
+                                }
+                            }
                         }
                     }
                 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.Networking.UdpNetworkClient;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
@@ -35,7 +36,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
 
         public bool IsConnected => _isConnected;
 
-        public event Action OnConnectionAcceptedEvent;
+        public event Action<Vector2Int> OnConnectionAcceptedEvent;
         public event Action OnConnectionTimeoutEvent;
         public event Action OnDisconnectEvent;
 
@@ -63,6 +64,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
             if (_connectionTimeout > 0 && !_isConnected)
             {
                 _connectionTimeout -= TimeManager.Instance.DeltaTime;
+                //LogManager.RuntimeLogger.Log("Connection time left: " + _connectionTimeout);
             }
             else if ((!_isConnected) && _connectionPending)
             {
@@ -74,10 +76,13 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
             _networkClient.Poll();
         }
 
-        private void OnConnectionAccepted()
+        private void OnConnectionAccepted(byte[] serverPayload)
         {
             _isConnected = true;
-            OnConnectionAcceptedEvent?.Invoke();
+            SceneInformationPackage informationPackage = new SceneInformationPackage();
+            informationPackage.FromByteArray(serverPayload, 0);
+
+            OnConnectionAcceptedEvent?.Invoke(informationPackage.Size);
         }
 
         private void OnDisconnect()
@@ -90,6 +95,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
         {
             // TODO TileObjects, DialogForms and stuff
             // Dialog forms
+
             NetworkAction action = (NetworkAction) data[0];
             Debug.WriteLine("NetworkAction: " + action.ToString());
             byte[] payload = new byte[data.Length - 1];
@@ -131,6 +137,15 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
                     DialogFormManager.Instance.KillDialogFormSpirit(dialogFormServerClosePackage.InstanceId);
                     break;
                 case NetworkAction.DialogFormUserClose:
+                    break;
+                case NetworkAction.CameraUpdate:
+                    CameraUpdatePackage updatePackage = new CameraUpdatePackage();
+                    updatePackage.FromByteArray(payload, payloadPos);
+                    TileSpiritManager.Instance.UpdateCamera(updatePackage);
+                    break;
+                case NetworkAction.TileObjectDestroy:
+                    break;
+                case NetworkAction.PositionUpdate:
                     break;
                 default:
                     Debug.WriteLine("Unknown command");

@@ -131,6 +131,7 @@ namespace TileEngineSfmlCs.Types
             pos += sizeof(int);
             Y = BitConverter.ToInt32(data, pos);
             pos += sizeof(int);
+            //return this;
         }
     }
 }

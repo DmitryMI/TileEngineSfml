@@ -25,7 +25,9 @@ namespace TileEngineSfmlCs.Types
 
         public Icon()
         {
-
+            _resourceIds = new List<int>();
+            _colors = new List<ColorB>();
+            _scales = new List<float>();
         }
 
         public Icon(params string[] images)
@@ -115,9 +117,10 @@ namespace TileEngineSfmlCs.Types
                 byte[] idBytes = BitConverter.GetBytes(_resourceIds[i]);
                 Array.Copy(idBytes, 0, package, pos, idBytes.Length);
                 pos += idBytes.Length;
-                byte[] colorBytes = new byte[_colors[i].ByteLength];
+               
                 _colors[i].ToByteArray(package, pos);
-                pos += colorBytes.Length;
+                pos += _colors[i].ByteLength;
+
                 byte[] scaleBytes = BitConverter.GetBytes(_scales[i]);
                 Array.Copy(scaleBytes, 0, package, pos, scaleBytes.Length);
                 pos += scaleBytes.Length;
@@ -128,6 +131,7 @@ namespace TileEngineSfmlCs.Types
 
         public void FromByteArray(byte[] data, int index)
         {
+
             int pos = index;
             int spritesCount = BitConverter.ToInt32(data, pos);
             pos += sizeof(int);
@@ -140,6 +144,10 @@ namespace TileEngineSfmlCs.Types
                 pos += color.ByteLength;
                 float scale = BitConverter.ToSingle(data, pos);
                 pos += sizeof(float);
+
+                _resourceIds.Add(id);
+                _colors.Add(color);
+                _scales.Add(scale);
             }
         }
     }

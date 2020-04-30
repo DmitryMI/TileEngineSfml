@@ -8,10 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheArtOfDev.HtmlRenderer.WinForms;
+using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
+using TileEngineSfmlCs.Types;
+using TileEngineSfmlCsClient.Rendering;
+using Icon = TileEngineSfmlCs.Types.Icon;
 
 namespace TileEngineSfmlCsClient
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, ISpiritRenderer
     {
         private SfmlRenderControl _sfmlRenderControl;
         private HtmlPanel _chatPanel;
@@ -69,15 +73,34 @@ namespace TileEngineSfmlCsClient
         {
             _sfmlRenderControl = new SfmlRenderControl();
             _sfmlRenderControl.Location = new Point(0, 0);
-            _sfmlRenderControl.Size = new Size(Size.Width / 2, Size.Height);
+             _sfmlRenderControl.Size = new Size(Size.Width / 2, Size.Height);
+            //_sfmlRenderControl.Location = new Point(50, 50);
+            //_sfmlRenderControl.Size = new Size(800, 600);
             _sfmlRenderControl.BackColor = Color.Black;
             Controls.Add(_sfmlRenderControl);
+
+            _sfmlRenderControl.Initialize();
         }
 
         private void AdjustUi()
         {
             UiControlPanel.Location = new Point(Size.Width / 2, 0);
             UiControlPanel.Size = new Size(Size.Width / 2, Size.Height);
+        }
+
+        public void PreRendering()
+        {
+            _sfmlRenderControl.PreRendering();
+        }
+
+        public void Render(Vector2 cameraPosition, Vector2 iconPosition, Icon icon)
+        {
+            _sfmlRenderControl.Render(cameraPosition, iconPosition, icon);
+        }
+
+        public void PostRendering()
+        {
+            _sfmlRenderControl.PostRendering();
         }
     }
 }

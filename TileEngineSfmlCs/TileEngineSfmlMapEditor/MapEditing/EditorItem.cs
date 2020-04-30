@@ -1,10 +1,12 @@
 ﻿using System.Xml;
 using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
+using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlMapEditor.MapEditing
 {
+    [TypeManagerIgnore(IgnoranceReason.TestObject)]
     public class EditorItem : Item
     {
         private float _power = 100;

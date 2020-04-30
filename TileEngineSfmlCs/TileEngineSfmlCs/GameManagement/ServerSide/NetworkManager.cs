@@ -166,6 +166,17 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             }
         }
 
+        public void UpdateCamera(Player player, Reliability reliability = Reliability.Reliable)
+        {
+            CameraUpdatePackage updatePackage = new CameraUpdatePackage(player.Camera);
+            byte[] data = new byte[1 + updatePackage.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.CameraUpdate;
+            pos += 1;
+            updatePackage.ToByteArray(data, pos);
+            _networkServer.SendData(player.ConnectionId, data, reliability);
+        }
+
         public void UpdatePosition(TileObject tileObject, Reliability reliability = Reliability.Unreliable)
         {
             if (tileObject.GetInstanceId() == -1)
@@ -239,6 +250,26 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             pos += 1;
             package.ToByteArray(data, pos);
             _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data, Reliability.Reliable);
+        }
+
+        public void UpdateScene(Player player)
+        {
+            foreach (var tileObject in _controlledScene.TileObjects)
+            {
+                if (tileObject.GetInstanceId() == -1)
+                {
+                    return;
+                }
+
+                TileObjectUpdatePackage wrapper = new TileObjectUpdatePackage(tileObject);
+                byte[] data = new byte[1 + wrapper.ByteLength];
+                int pos = 0;
+                data[pos] = (byte) NetworkAction.TileObjectUpdate;
+                pos += 1;
+                wrapper.ToByteArray(data, pos);
+
+                _networkServer.SendData(player.ConnectionId, data, Reliability.Reliable);
+            }
         }
 
     }

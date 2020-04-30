@@ -46,7 +46,7 @@ namespace TileEngineSfmlCs.Types
             A = (byte)SerializationUtils.ReadInt(nameof(A), parentElement, A);
         }
 
-        public int ByteLength => 3;
+        public int ByteLength => 4;
         public int ToByteArray(byte[] package, int index)
         {
             int pos = index;
@@ -55,6 +55,8 @@ namespace TileEngineSfmlCs.Types
             package[pos] = G;
             pos++;
             package[pos] = B;
+            pos++;
+            package[pos] = A;
             pos++;
             return 3;
         }
@@ -67,6 +69,8 @@ namespace TileEngineSfmlCs.Types
             G = data[pos];
             pos++;
             B = data[pos];
+            pos++;
+            A = data[pos];
             pos++;
         }
     }

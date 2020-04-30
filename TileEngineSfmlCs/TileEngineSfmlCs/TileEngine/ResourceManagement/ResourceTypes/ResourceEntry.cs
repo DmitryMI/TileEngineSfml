@@ -59,5 +59,19 @@ namespace TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes
         {
             _stream?.Dispose();
         }
+
+        public byte[] ToByteArray()
+        {
+            byte[] data = new byte[_stream.Length];
+            ToByteArray(data, 0);
+            return data;
+        }
+
+        public void ToByteArray(byte[] array, int position)
+        {
+            _stream.Seek(0, SeekOrigin.Begin);
+            _stream.Read(array, position, (int)_stream.Length);
+            _stream.Seek(0, SeekOrigin.Begin);
+        }
     }
 }

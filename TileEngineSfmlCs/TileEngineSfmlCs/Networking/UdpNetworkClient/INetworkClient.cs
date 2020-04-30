@@ -4,7 +4,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
 {
     public interface INetworkClient
     {
-        event Action OnConnectionAccepted;
+        event Action<byte[]> OnConnectionAccepted;
         event Action OnDisconnect;
         event Action<byte[]> OnDataReceived;
 
