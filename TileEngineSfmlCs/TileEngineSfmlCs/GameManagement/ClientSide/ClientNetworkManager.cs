@@ -98,7 +98,6 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
             // Dialog forms
 
             NetworkAction action = (NetworkAction) data[0];
-            Debug.WriteLine("NetworkAction: " + action.ToString());
             byte[] payload = new byte[data.Length - 1];
             Array.Copy(data, 1, payload, 0, payload.Length);
             int payloadPos = 0;

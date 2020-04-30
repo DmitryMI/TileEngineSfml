@@ -1,6 +1,7 @@
 ﻿using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
 using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals;
@@ -70,8 +71,10 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _scene.Instantiate(corgi);
 
             player.ControlledMob = corgi;
+            player.Camera.TrackingTarget = corgi;
 
             NetworkManager.Instance.UpdateScene(player);
+            NetworkManager.Instance.UpdateCamera(player, Reliability.Reliable);
         }
     }
 }

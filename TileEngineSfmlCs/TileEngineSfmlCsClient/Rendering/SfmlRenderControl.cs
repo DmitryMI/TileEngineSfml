@@ -26,6 +26,7 @@ namespace TileEngineSfmlCsClient.Rendering
     public partial class SfmlRenderControl : UserControl, ISpiritRenderer
     {
         private RenderWindow _renderWindow;
+        private Vector2 _cameraCenter;
         public SfmlRenderControl()
         {
             InitializeComponent();
@@ -48,7 +49,7 @@ namespace TileEngineSfmlCsClient.Rendering
             _renderWindow.Clear(Color.Black);
         }
 
-        public void Render(Vector2 cameraPosition, Vector2 iconPosition, Icon icon)
+        public void Render(Vector2 iconPosition, Icon icon)
         {
             for (int i = 0; i < icon.SpritesCount; i++)
             {
@@ -68,11 +69,16 @@ namespace TileEngineSfmlCsClient.Rendering
                 };
                 //Vector2 projection = (iconPosition - cameraPosition) * 32.0f;
                 var view = _renderWindow.GetView();
-                view.Center = new Vector2f(cameraPosition.X * 32, cameraPosition.Y * 32);
+                view.Center = new Vector2f(_cameraCenter.X * 32, _cameraCenter.Y * 32);
                 _renderWindow.SetView(view);
                 sprite.Position = new Vector2f(iconPosition.X * 32, iconPosition.Y * 32);
                 _renderWindow.Draw(sprite);
             }
+        }
+
+        public void SetViewCenter(Vector2 viewCenter)
+        {
+            _cameraCenter = viewCenter;
         }
 
         public void PostRendering()

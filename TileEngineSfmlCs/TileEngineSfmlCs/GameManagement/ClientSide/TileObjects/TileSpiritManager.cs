@@ -188,11 +188,11 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
             return x.LayerOrder - y.LayerOrder;
         }
 
-        private Vector2Int GetCameraCenter()
+        private Vector2 GetCameraCenter()
         {
             if (PlayerCamera.TrackingTarget != null)
             {
-                return PlayerCamera.TrackingTarget.Position;
+                return PlayerCamera.TrackingTarget.Position + PlayerCamera.TrackingTarget.Offset;
             }
             else
             {
@@ -216,11 +216,11 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
             // Drawing
             int width = PlayerCamera.Size.X;
             int height = PlayerCamera.Size.Y;
-            Vector2Int cameraCenter = GetCameraCenter();
-            int minX = cameraCenter.X - width / 2;
-            int maxX = cameraCenter.X + width / 2;
-            int minY = cameraCenter.Y - height / 2;
-            int maxY = cameraCenter.Y + height / 2;
+            Vector2 cameraCenter = GetCameraCenter();
+            int minX = (int)Math.Floor(cameraCenter.X - width / 2);
+            int maxX = (int)Math.Ceiling(cameraCenter.X + width / 2);
+            int minY = (int)Math.Floor(cameraCenter.Y - height / 2);
+            int maxY = (int)Math.Ceiling(cameraCenter.Y + height / 2);
 
             if (minX < 0)
             {
@@ -239,8 +239,10 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
 
             if (maxY >= Height)
             {
-                minY = Height - 1;
+                maxY = Height - 1;
             }
+
+            _renderer.SetViewCenter(cameraCenter);
 
             _renderer.PreRendering();
             
@@ -254,7 +256,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
                         {
                             var spirit = _sceneMatrix[x, y, layer][order];
                             Vector2 position = spirit.Position + spirit.Offset;
-                            _renderer.Render(cameraCenter, position, spirit.Icon);
+                            _renderer.Render(position, spirit.Icon);
                         }
                     }
                 }
