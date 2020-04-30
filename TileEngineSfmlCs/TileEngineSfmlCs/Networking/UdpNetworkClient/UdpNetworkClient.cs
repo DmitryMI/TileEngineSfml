@@ -89,7 +89,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
         public void Send(byte[] data, Reliability reliability = Reliability.Unreliable)
         {
             ulong token = reliability == Reliability.Reliable ? GenerateConfirmationToken() : 0;
-            Debug.WriteLine($"Confirmation token generated: {token}. Reliability: {reliability}");
+            //Debug.WriteLine($"Confirmation token generated: {token}. Reliability: {reliability}");
 
             UdpPackage package = new UdpPackage(UdpCommand.Data, reliability, token, data);
             byte[] datagram = new byte[package.Length];
@@ -109,7 +109,6 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
 
         public void Poll()
         {
-            //Debug.WriteLine($"Polling in thread {Thread.CurrentThread.ManagedThreadId} started");
             lock (_commandQueue)
             {
                 while (_commandQueue.Count > 0)
@@ -126,7 +125,6 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
                             break;
                         case UdpCommand.Data:
                             byte[] data = _dataQueue.Dequeue();
-                            //Debug.WriteLine($"[UdpNetworkClient] Invoking data handler. It is null: {OnDataReceived == null}");
                             OnDataReceived?.Invoke(data);
                             break;
                         default:
@@ -134,7 +132,6 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
                     }
                 }
             }
-            //Debug.WriteLine($"Polling in thread {Thread.CurrentThread.ManagedThreadId} finished");
         }
 
         private void ListeningLoop()
@@ -168,7 +165,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
             UdpPackage udpPackage = new UdpPackage();
             udpPackage.FromByteArray(datagram, 0);
 
-            Debug.WriteLine($"[UdpNetworkClient] Command {udpPackage.Command}");
+            //Debug.WriteLine($"[UdpNetworkClient] Command {udpPackage.Command}");
 
             if (udpPackage.Reliability == Reliability.Reliable)
             {
@@ -186,7 +183,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
                     _connectionCode = BitConverter.ToUInt64(udpPackage.Payload, 0);
                     byte[] serverResponseAux = new byte[udpPackage.Payload.Length - sizeof(ulong)];
                     Array.Copy(udpPackage.Payload, sizeof(ulong), serverResponseAux, 0, serverResponseAux.Length);
-                    Debug.WriteLine($"Connected to server with code {_connectionCode}");
+                    //Debug.WriteLine($"Connected to server with code {_connectionCode}");
                     lock (_commandQueue)
                     {
                         Debug.WriteLine($"Enqueueing connection command");
@@ -196,14 +193,14 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
                     break;
                 case UdpCommand.Disconnect:
                     _isConnected = false;
-                    Debug.WriteLine($"Server sent disconnect command");
+                    //Debug.WriteLine($"Server sent disconnect command");
                     lock (_commandQueue)
                     {
                         _commandQueue.Enqueue(UdpCommand.Disconnect);
                     }
                     break;
                 case UdpCommand.Data:
-                    Debug.WriteLine($"[UdpNetworkClient] Data from server received. Entering LOCK");
+                    //Debug.WriteLine($"[UdpNetworkClient] Data from server received. Entering LOCK");
                     lock (_commandQueue)
                     {
                         _commandQueue.Enqueue(UdpCommand.Data);
@@ -212,7 +209,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkClient
                     break;
                 case UdpCommand.Confirmation:
                     ulong token = udpPackage.ConfirmationToken;
-                    Debug.WriteLine($"[UdpNetworkClient] Confirmation for token {token} received");
+                    //Debug.WriteLine($"[UdpNetworkClient] Confirmation for token {token} received");
                     lock (_retransmissions)
                     {
                         int retransmissionIndex = _retransmissions.FindIndex(r => r.ConfirmationToken == token);

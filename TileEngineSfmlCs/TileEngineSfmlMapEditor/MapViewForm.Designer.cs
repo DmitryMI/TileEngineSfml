@@ -51,9 +51,9 @@
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.ErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.UnderCursorLabel = new System.Windows.Forms.Label();
-            this.RenderingCanvas = new TileEngineSfmlMapEditor.SfmlRenderControl();
             this.MapEditorMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.makeShitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RenderingCanvas = new TileEngineSfmlMapEditor.SfmlRenderControl();
             this.MainMenyStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SelectedTypePreviewBox)).BeginInit();
             this.MainStatusStrip.SuspendLayout();
@@ -70,7 +70,7 @@
             this.layersActiveToolStripMenuItem});
             this.MainMenyStrip.Location = new System.Drawing.Point(0, 0);
             this.MainMenyStrip.Name = "MainMenyStrip";
-            this.MainMenyStrip.Size = new System.Drawing.Size(1182, 24);
+            this.MainMenyStrip.Size = new System.Drawing.Size(1904, 24);
             this.MainMenyStrip.TabIndex = 1;
             this.MainMenyStrip.Text = "menuStrip1";
             // 
@@ -88,28 +88,28 @@
             // newMapToolStripMenuItem
             // 
             this.newMapToolStripMenuItem.Name = "newMapToolStripMenuItem";
-            this.newMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newMapToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.newMapToolStripMenuItem.Text = "New map";
             this.newMapToolStripMenuItem.Click += new System.EventHandler(this.newMapToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.saveAsToolStripMenuItem.Text = "Save map as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // saveMapToolStripMenuItem
             // 
             this.saveMapToolStripMenuItem.Name = "saveMapToolStripMenuItem";
-            this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.saveMapToolStripMenuItem.Text = "Save map";
             this.saveMapToolStripMenuItem.Click += new System.EventHandler(this.saveMapToolStripMenuItem_Click);
             // 
             // openMapToolStripMenuItem
             // 
             this.openMapToolStripMenuItem.Name = "openMapToolStripMenuItem";
-            this.openMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openMapToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.openMapToolStripMenuItem.Text = "Open map";
             this.openMapToolStripMenuItem.Click += new System.EventHandler(this.openMapToolStripMenuItem_Click);
             // 
@@ -174,7 +174,7 @@
             this.TileObjectsListView.MultiSelect = false;
             this.TileObjectsListView.Name = "TileObjectsListView";
             this.TileObjectsListView.ShowGroups = false;
-            this.TileObjectsListView.Size = new System.Drawing.Size(220, 456);
+            this.TileObjectsListView.Size = new System.Drawing.Size(220, 839);
             this.TileObjectsListView.TabIndex = 3;
             this.TileObjectsListView.UseCompatibleStateImageBehavior = false;
             this.TileObjectsListView.View = System.Windows.Forms.View.List;
@@ -199,7 +199,7 @@
             // 
             // CoordinateLabel
             // 
-            this.CoordinateLabel.Location = new System.Drawing.Point(987, 9);
+            this.CoordinateLabel.Location = new System.Drawing.Point(1709, 9);
             this.CoordinateLabel.Name = "CoordinateLabel";
             this.CoordinateLabel.Size = new System.Drawing.Size(183, 13);
             this.CoordinateLabel.TabIndex = 6;
@@ -208,7 +208,7 @@
             // 
             // SelectedTypePreviewBox
             // 
-            this.SelectedTypePreviewBox.Location = new System.Drawing.Point(12, 536);
+            this.SelectedTypePreviewBox.Location = new System.Drawing.Point(12, 919);
             this.SelectedTypePreviewBox.Name = "SelectedTypePreviewBox";
             this.SelectedTypePreviewBox.Size = new System.Drawing.Size(32, 32);
             this.SelectedTypePreviewBox.TabIndex = 7;
@@ -218,7 +218,7 @@
             // 
             this.SelectedTypeNameBox.AutoSize = true;
             this.SelectedTypeNameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SelectedTypeNameBox.Location = new System.Drawing.Point(47, 543);
+            this.SelectedTypeNameBox.Location = new System.Drawing.Point(47, 926);
             this.SelectedTypeNameBox.Name = "SelectedTypeNameBox";
             this.SelectedTypeNameBox.Size = new System.Drawing.Size(35, 20);
             this.SelectedTypeNameBox.TabIndex = 8;
@@ -228,9 +228,9 @@
             // 
             this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ErrorLabel});
-            this.MainStatusStrip.Location = new System.Drawing.Point(0, 572);
+            this.MainStatusStrip.Location = new System.Drawing.Point(0, 1019);
             this.MainStatusStrip.Name = "MainStatusStrip";
-            this.MainStatusStrip.Size = new System.Drawing.Size(1182, 22);
+            this.MainStatusStrip.Size = new System.Drawing.Size(1904, 22);
             this.MainStatusStrip.TabIndex = 9;
             this.MainStatusStrip.Text = "statusStrip1";
             // 
@@ -242,26 +242,12 @@
             // 
             // UnderCursorLabel
             // 
-            this.UnderCursorLabel.Location = new System.Drawing.Point(801, 9);
+            this.UnderCursorLabel.Location = new System.Drawing.Point(1523, 9);
             this.UnderCursorLabel.Name = "UnderCursorLabel";
             this.UnderCursorLabel.Size = new System.Drawing.Size(180, 13);
             this.UnderCursorLabel.TabIndex = 10;
             this.UnderCursorLabel.Text = "N/A";
             this.UnderCursorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // RenderingCanvas
-            // 
-            this.RenderingCanvas.BackColor = System.Drawing.Color.White;
-            this.RenderingCanvas.Location = new System.Drawing.Point(238, 27);
-            this.RenderingCanvas.Name = "RenderingCanvas";
-            this.RenderingCanvas.OnMouseGrabEvent = null;
-            this.RenderingCanvas.Size = new System.Drawing.Size(932, 541);
-            this.RenderingCanvas.TabIndex = 2;
-            this.RenderingCanvas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RenderingCanvas_KeyDown);
-            this.RenderingCanvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseClick);
-            this.RenderingCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseDown);
-            this.RenderingCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseMove);
-            this.RenderingCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseUp);
             // 
             // MapEditorMenuStrip
             // 
@@ -276,11 +262,25 @@
             this.makeShitToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.makeShitToolStripMenuItem.Text = "Make shit";
             // 
+            // RenderingCanvas
+            // 
+            this.RenderingCanvas.BackColor = System.Drawing.Color.White;
+            this.RenderingCanvas.Location = new System.Drawing.Point(238, 27);
+            this.RenderingCanvas.Name = "RenderingCanvas";
+            this.RenderingCanvas.OnMouseGrabEvent = null;
+            this.RenderingCanvas.Size = new System.Drawing.Size(1654, 886);
+            this.RenderingCanvas.TabIndex = 2;
+            this.RenderingCanvas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RenderingCanvas_KeyDown);
+            this.RenderingCanvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseClick);
+            this.RenderingCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseDown);
+            this.RenderingCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseMove);
+            this.RenderingCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RenderingCanvas_MouseUp);
+            // 
             // MapViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1182, 594);
+            this.ClientSize = new System.Drawing.Size(1904, 1041);
             this.Controls.Add(this.UnderCursorLabel);
             this.Controls.Add(this.MainStatusStrip);
             this.Controls.Add(this.SelectedTypeNameBox);

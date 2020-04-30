@@ -115,7 +115,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
         {
             int instanceId = updatePackage.InstanceId;
 
-            if (instanceId > _spiritsHashTable.Length)
+            if (instanceId >= _spiritsHashTable.Length)
             {
                 ResizeTable();
             }
@@ -226,9 +226,9 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
                 minX = 0;
             }
 
-            if (maxX >= TileSpiritManager.Instance.Width)
+            if (maxX >= Width)
             {
-                maxX = TileSpiritManager.Instance.Width - 1;
+                maxX = Width - 1;
             }
 
             if (minY < 0)
@@ -236,30 +236,13 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
                 minY = 0;
             }
 
-            if (maxY >= TileSpiritManager.Instance.Height)
+            if (maxY >= Height)
             {
-                minY = TileSpiritManager.Instance.Height - 1;
+                minY = Height - 1;
             }
 
             _renderer.PreRendering();
-
-            /*for (int i = 0; i < 50; i++)
-            {
-                var randomSpirit = _spiritsHashTable[i];
-                if (randomSpirit != null)
-                {
-                    Vector2Int oldPosition = randomSpirit.Position;
-                    Vector2Int newPosition = oldPosition +
-                                             new Vector2Int(RandomUtils.GetRandomInt(-1, 2),
-                                                 RandomUtils.GetRandomInt(-1, 2));
-                    if (IsInBounds(newPosition))
-                    {
-                        randomSpirit.Position = newPosition;
-                        ChangePosition(randomSpirit, oldPosition, randomSpirit.Layer);
-                    }
-                }
-            }
-            */
+            
             for (int layer = 0; layer < layers.Length; layer++)
             {
                 for (int x = minX; x < maxX; x++)

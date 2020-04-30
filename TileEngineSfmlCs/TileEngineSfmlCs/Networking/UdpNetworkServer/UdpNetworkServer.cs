@@ -391,7 +391,7 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                         int retransmissionIndex = _retransmissionQueue.FindIndex(r => r.ConfirmationToken == token && r.EndPoint.Equals(endPoint));
                         _retransmissionQueue.RemoveAt(retransmissionIndex);
                     }
-                    LogManager.RuntimeLogger.Log($"Confirmation token {token} received!");
+                    //LogManager.RuntimeLogger.Log($"Confirmation token {token} received!");
                     break;
                 default:
                     Debug.WriteLine($"Unknown command {udpPackage.Command}");

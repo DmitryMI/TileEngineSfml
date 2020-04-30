@@ -714,14 +714,35 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
+        private bool IsInBounds(Vector2Int cell)
+        {
+            if (_scene == null)
+            {
+                return false;
+            }
+            if (cell.X < 0 || cell.Y < 0 || cell.X >= _scene.Width || cell.Y >= _scene.Height)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public void InsertTileObject(EntityType tileObjectType, Vector2Int cell, Vector2 offset)
         {
-            if (tileObjectType.CanActivate)
+            if (IsInBounds(cell))
             {
-                TileObject instance = tileObjectType.Activate();
-                instance.Position = cell;
-                instance.Offset = offset;
-                _scene.InstantiateEditor(instance);
+                if (tileObjectType.CanActivate)
+                {
+                    TileObject instance = tileObjectType.Activate();
+                    instance.Position = cell;
+                    instance.Offset = offset;
+                    _scene.InstantiateEditor(instance);
+                }
+            }
+            else
+            {
+                LogManager.EditorLogger.LogError($"Position {cell.X}, {cell.Y} is outside of scene bounds");
             }
         }
 

@@ -118,7 +118,11 @@ namespace TileEngineSfmlCs.TileEngine
 
         public TileObject[] GetObjects(Vector2Int cell)
         {
-            return ObjectMatrix[cell.X, cell.Y].ToArray();
+            if (!IsInBounds(cell))
+            {
+                return new TileObject[0];
+            }
+            return ObjectMatrix[cell.X, cell.Y]?.ToArray();
         }
 
         public TileObject[] GetObjects(Vector2Int cell, Func<TileObject, bool> filter)

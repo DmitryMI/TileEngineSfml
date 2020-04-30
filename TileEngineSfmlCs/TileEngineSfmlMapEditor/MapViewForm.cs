@@ -42,6 +42,8 @@ namespace TileEngineSfmlMapEditor
             }
 
             _typeTreeNode = TypeManager.Instance.TreeRoot;
+
+            WindowState = FormWindowState.Maximized;
         }
 
         private void LoadMap(string fileName)
