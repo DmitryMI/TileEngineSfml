@@ -117,13 +117,18 @@ namespace TileEngineSfmlCsClient
                 while (true)
                 {
                     stopwatch.Restart();
-                    Application.DoEvents();
-                    timeProvider.SendTimeSignal();
-
-                    double auxDelay = minimalDeltaTime - timeProvider.DeltaTime;
-                    if (auxDelay > 0)
                     {
-                        Thread.Sleep((int) (auxDelay * 1000));
+
+                        Application.DoEvents();
+                        timeProvider.SendTimeSignal();
+
+                        GC.Collect();
+
+                        double auxDelay = minimalDeltaTime - timeProvider.DeltaTime;
+                        if (auxDelay > 0)
+                        {
+                            //Thread.Sleep((int) (auxDelay * 1000));
+                        }
                     }
                     stopwatch.Stop();
                     double deltaTime = stopwatch.ElapsedMilliseconds / 1000.0;
