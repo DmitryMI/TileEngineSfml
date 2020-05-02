@@ -10,6 +10,7 @@ namespace TileEngineSfmlCs.Types
     public struct Vector2 : IFieldSerializer, IBinaryEncodable
     {
         public const float ComparisonTolerance = 0.001f;
+        public static Vector2 Zero { get; } = new Vector2(0, 0);
 
         public float X { get; set; }
         public float Y { get; set; }
