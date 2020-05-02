@@ -93,9 +93,9 @@ namespace TileEngineSfmlCsClient
             _sfmlRenderControl.PreRendering();
         }
 
-        public void Render(Vector2 iconPosition, Icon icon)
+        public void Render(Vector2 iconPosition, Icon icon, TileObjectSpirit spirit)
         {
-            _sfmlRenderControl.Render(iconPosition, icon);
+            _sfmlRenderControl.Render(iconPosition, icon, spirit);
         }
 
         public void SetViewCenter(Vector2 viewCenter)

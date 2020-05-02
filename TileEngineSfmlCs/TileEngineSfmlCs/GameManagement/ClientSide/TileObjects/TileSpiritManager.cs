@@ -256,7 +256,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
                         {
                             var spirit = _sceneMatrix[x, y, layer][order];
                             Vector2 position = spirit.Position + spirit.Offset;
-                            _renderer.Render(position, spirit.Icon);
+                            _renderer.Render(position, spirit.Icon, spirit);
                         }
                     }
                 }

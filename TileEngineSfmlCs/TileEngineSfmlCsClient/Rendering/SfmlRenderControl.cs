@@ -26,7 +26,6 @@ namespace TileEngineSfmlCsClient.Rendering
     public partial class SfmlRenderControl : UserControl, ISpiritRenderer
     {
         private RenderWindow _renderWindow;
-        private Vector2 _cameraCenter;
         public SfmlRenderControl()
         {
             InitializeComponent();
@@ -49,36 +48,77 @@ namespace TileEngineSfmlCsClient.Rendering
             _renderWindow.Clear(Color.Black);
         }
 
-        public void Render(Vector2 iconPosition, Icon icon)
+        public void Render(Vector2 iconPosition, Icon icon, TileObjectSpirit spirit)
         {
             for (int i = 0; i < icon.SpritesCount; i++)
             {
-                var resourceEntry = GameResources.Instance.GetEntry(icon.ResourceIds[i]);
-                ColorB color = icon.Colors[i];
-                float scale = icon.Scales[i];
-                if (resourceEntry.LoadedValue == null)
+                Sprite sprite;
+
+                if (spirit.Tag == null)
                 {
-                    byte[] textureBytes = resourceEntry.ToByteArray();
-                    Texture texture = new Texture(textureBytes);
-                    resourceEntry.LoadedValue = texture;
+                    IconSpriteCache cache = new IconSpriteCache();
+                    var resourceEntry = GameResources.Instance.GetEntry(icon.ResourceIds[i]);
+                    ColorB color = icon.Colors[i];
+                    float scale = icon.Scales[i];
+                    if (resourceEntry.LoadedValue == null)
+                    {
+                        byte[] textureBytes = resourceEntry.ToByteArray();
+                        Texture texture = new Texture(textureBytes);
+                        resourceEntry.LoadedValue = texture;
+                    }
+
+                    sprite = new Sprite((Texture)resourceEntry.LoadedValue)
+                    {
+                        Color = new Color(color.R, color.G, color.B, color.A),
+                        Scale = new Vector2f(scale, scale)
+                    };
+
+                    cache.Sprites.Add(sprite);
+                    spirit.Tag = cache;
+                    spirit.IconDirty = false;
+                }
+                
+                if (spirit.IconDirty)
+                {
+                    var resourceEntry = GameResources.Instance.GetEntry(icon.ResourceIds[i]);
+                    ColorB color = icon.Colors[i];
+                    float scale = icon.Scales[i];
+
+                    if (resourceEntry.LoadedValue == null)
+                    {
+                        byte[] textureBytes = resourceEntry.ToByteArray();
+                        Texture texture = new Texture(textureBytes);
+                        resourceEntry.LoadedValue = texture;
+                    }
+
+                    sprite = new Sprite((Texture)resourceEntry.LoadedValue)
+                    {
+                        Color = new Color(color.R, color.G, color.B, color.A),
+                        Scale = new Vector2f(scale, scale)
+                    };
+                    ((IconSpriteCache) spirit.Tag).Sprites[i] = sprite;
+                    spirit.IconDirty = false;
+                }
+                else
+                {
+                    sprite = ((IconSpriteCache)spirit.Tag).Sprites[i];
                 }
 
-                Sprite sprite = new Sprite((Texture) resourceEntry.LoadedValue)
+                if (spirit.LocationDirty)
                 {
-                    Color = new Color(color.R, color.G, color.B, color.A), Scale = new Vector2f(scale, scale)
-                };
-                //Vector2 projection = (iconPosition - cameraPosition) * 32.0f;
-                var view = _renderWindow.GetView();
-                view.Center = new Vector2f(_cameraCenter.X * 32, _cameraCenter.Y * 32);
-                _renderWindow.SetView(view);
-                sprite.Position = new Vector2f(iconPosition.X * 32, iconPosition.Y * 32);
+                    sprite.Position = new Vector2f(iconPosition.X * 32, iconPosition.Y * 32);
+                    spirit.LocationDirty = false;
+                }
+
                 _renderWindow.Draw(sprite);
             }
         }
 
         public void SetViewCenter(Vector2 viewCenter)
         {
-            _cameraCenter = viewCenter;
+            var view = _renderWindow.GetView();
+            view.Center = new Vector2f(viewCenter.X * 32, viewCenter.Y * 32);
+            _renderWindow.SetView(view);
         }
 
         public void PostRendering()
