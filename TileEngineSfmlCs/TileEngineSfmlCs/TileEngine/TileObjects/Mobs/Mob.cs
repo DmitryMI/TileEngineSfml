@@ -154,7 +154,8 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
                         if (_movingOffset.Magnitude > 0.5f)
                         {
                             Position = _movingFinish;
-                            _movingOffset = -_movingOffset;
+                            _movingOffset = -((_movingFinish - _movingStart) - _movingOffset);
+                            //_movingOffset = -_movingOffset;
                         }
                     }
                 }
