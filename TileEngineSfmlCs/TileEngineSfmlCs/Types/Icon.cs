@@ -58,6 +58,9 @@ namespace TileEngineSfmlCs.Types
 
         public void ReadFields(XmlElement parentElement)
         {
+            _resourceIds.Clear();
+            _colors.Clear();
+            _scales.Clear();
             int[] resources = SerializationUtils.ReadParseables<int>(nameof(_resourceIds), parentElement, null);
             _resourceIds.AddRange(resources);
 
@@ -131,7 +134,9 @@ namespace TileEngineSfmlCs.Types
 
         public void FromByteArray(byte[] data, int index)
         {
-
+            _resourceIds.Clear();
+            _colors.Clear();
+            _scales.Clear();
             int pos = index;
             int spritesCount = BitConverter.ToInt32(data, pos);
             pos += sizeof(int);
