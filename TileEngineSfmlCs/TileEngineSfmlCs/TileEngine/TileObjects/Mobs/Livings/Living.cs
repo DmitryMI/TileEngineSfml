@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings
 {
@@ -12,5 +13,15 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings
     public abstract class Living : Mob
     {
         public abstract bool IsAlive { get; }
+
+        protected override void OnMoveStartMob(Vector2Int nextCell)
+        {
+            OnMoveStartLiving(nextCell);
+        }
+
+        protected virtual void OnMoveStartLiving(Vector2Int nextCell)
+        {
+
+        }
     }
 }

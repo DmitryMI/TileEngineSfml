@@ -7,6 +7,7 @@ using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding.ControlInput;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;
@@ -40,6 +41,8 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         private INetworkServer _networkServer;
         private List<Player> _players = new List<Player>();
         private Scene _controlledScene;
+
+        public Player[] GetPlayers() => _players.ToArray();
 
         public NetworkManager(INetworkServer networkServer, Scene controlledScene)
         {
@@ -274,6 +277,20 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
                 wrapper.ToByteArray(data, pos);
 
                 _networkServer.SendData(player.ConnectionId, data, Reliability.Reliable);
+            }
+        }
+
+        public void UpdateSound(SoundClipInstance clipInstance, IEnumerable<Player> players, Reliability reliability)
+        {
+            byte[] data = new byte[1 + clipInstance.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.SoundUpdate;
+            pos += 1;
+            clipInstance.ToByteArray(data, pos);
+
+            foreach (var player in players)
+            {
+                _networkServer.SendData(player.ConnectionId, data, reliability);
             }
         }
 

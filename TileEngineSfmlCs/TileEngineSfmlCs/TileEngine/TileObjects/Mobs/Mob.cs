@@ -1,6 +1,7 @@
 ﻿using System;
 using TileEngineSfmlCs.GameManagement.ClientControlInput;
 using TileEngineSfmlCs.GameManagement.ServerSide;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
@@ -35,7 +36,6 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
         protected abstract bool IgnoreObstacles { get; }
         protected abstract double CellsPerSecond { get; }
         protected abstract bool CanMove { get; }
-       
 
         /// <summary>
         /// Is guaranteed to be invoked after base OnUpdate() in the same frame
@@ -131,6 +131,12 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
             _movingFinish = nextCell;
             _movingTimeRemaining = (nextCell - Position).Magnitude / CellsPerSecond;
             _isMoving = true;
+            OnMoveStartMob(nextCell);
+        }
+
+        protected virtual void OnMoveStartMob(Vector2Int nextCell)
+        {
+
         }
 
         internal override void OnUpdate()

@@ -8,6 +8,7 @@ using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding.ControlInput;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.Networking.UdpNetworkClient;
@@ -146,6 +147,11 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide
                 case NetworkAction.TileObjectDestroy:
                     break;
                 case NetworkAction.PositionUpdate:
+                    break;
+                case NetworkAction.SoundUpdate:
+                    SoundClipInstance soundClipInstance = new SoundClipInstance();
+                    soundClipInstance.FromByteArray(payload, payloadPos);
+                    ClientSoundManager.Instance.OnSoundUpdate(soundClipInstance);
                     break;
                 default:
                     Debug.WriteLine("Unknown command");

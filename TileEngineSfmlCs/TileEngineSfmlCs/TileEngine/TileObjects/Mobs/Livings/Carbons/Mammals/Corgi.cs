@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Passable;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.Types;
+using TileEngineSfmlCs.Utils;
 using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals
@@ -62,6 +65,18 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals
         internal override void OnCreate()
         {
             LogManager.RuntimeLogger.Log("Corgi created! Woof woof!");
+        }
+
+        protected override void OnMoveStartLiving(Vector2Int nextCell)
+        {
+            OnMoveStartCorgi(nextCell);
+        }
+
+        protected virtual void OnMoveStartCorgi(Vector2Int nextCell)
+        {
+            PassableTurf turf = Scene.GetTopMost<PassableTurf>(nextCell);
+            SoundClip clip = CollectionUtils.GetRandomItem(turf.FootstepClips);
+            SoundManager.Instance.PlaySound(null, clip, 1, this);
         }
     }
 }

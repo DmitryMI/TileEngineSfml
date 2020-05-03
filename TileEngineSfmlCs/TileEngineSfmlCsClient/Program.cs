@@ -4,10 +4,12 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SFML.Audio;
 using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ClientSide;
 using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking.UdpNetworkClient;
 using TileEngineSfmlCs.TileEngine.ResourceManagement;
@@ -70,7 +72,7 @@ namespace TileEngineSfmlCsClient
             GameResources.Instance = new GameResources(resourcePath);
             DialogFormManager.Instance = new DialogFormManager();
             DialogFormManager.Instance.OnDialogSpiritSpawned += OnDialogFormSpawned;
-
+            ClientSoundManager.Instance = new ClientSoundManager();
 
             IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse(serverIp), serverPort );
             UdpNetworkClient networkClient = new UdpNetworkClient(serverEp);

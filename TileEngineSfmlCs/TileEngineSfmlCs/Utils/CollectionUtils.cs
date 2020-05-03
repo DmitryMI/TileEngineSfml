@@ -1,10 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TileEngineSfmlCs.Utils.RandomGenerators;
 
 namespace TileEngineSfmlCs.Utils
 {
     public static class CollectionUtils
     {
+
+        public static T GetRandomItem<T>(IEnumerable<T> enumerable)
+        {
+            T[] array = enumerable.ToArray();
+            int index = RandomUtils.GetRandomInt(0, array.Length);
+            return array[index];
+        }
+
         public static ICollection<T> GetItemsBytIndexes<T>(T[] array, params int[] indexes)
         {
             List<T> result = new List<T>(indexes.Length);

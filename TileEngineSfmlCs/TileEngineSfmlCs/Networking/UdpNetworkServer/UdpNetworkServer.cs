@@ -179,8 +179,15 @@ namespace TileEngineSfmlCs.Networking.UdpNetworkServer
                 while (_receiveIdQueue.Count > 0)
                 {
                     int connectionId = _receiveIdQueue.Dequeue();
-                    byte[] data = _receiveDataQueue.Dequeue();
-                    OnDataReceived?.Invoke(connectionId, data);
+                    if (_receiveDataQueue.Count > 0)
+                    {
+                        byte[] data = _receiveDataQueue.Dequeue();
+                        OnDataReceived?.Invoke(connectionId, data);
+                    }
+                    else
+                    {
+                        LogManager.RuntimeLogger.LogError("Network error! Data queue is empty!");
+                    }
                 }
             }
         }

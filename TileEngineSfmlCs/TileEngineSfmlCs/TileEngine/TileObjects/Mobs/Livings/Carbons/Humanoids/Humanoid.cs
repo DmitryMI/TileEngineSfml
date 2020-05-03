@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Humanoids
 {
@@ -11,5 +12,14 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Humanoids
     /// </summary>
     public abstract class Humanoid : Living
     {
+        protected override void OnMoveStartLiving(Vector2Int nextCell)
+        {
+            OnMoveStartHumanoid(nextCell);
+        }
+
+        protected virtual void OnMoveStartHumanoid(Vector2Int nextCell)
+        {
+
+        }
     }
 }

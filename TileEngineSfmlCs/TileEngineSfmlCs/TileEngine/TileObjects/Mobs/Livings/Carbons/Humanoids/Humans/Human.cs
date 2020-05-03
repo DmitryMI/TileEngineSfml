@@ -4,7 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
+using TileEngineSfmlCs.TileEngine.TileObjects.Turfs;
+using TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Passable;
 using TileEngineSfmlCs.Types;
+using TileEngineSfmlCs.Utils;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Humanoids.Humans
 {
@@ -44,7 +48,19 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Humanoids
 
         protected override void OnMobUpdate()
         {
-            throw new NotImplementedException();
+            
+        }
+
+        protected virtual void OnMoveStartHuman(Vector2Int nextCell)
+        {
+            PassableTurf turf = Scene.GetTopMost<PassableTurf>(nextCell);
+            SoundClip clip = CollectionUtils.GetRandomItem(turf.FootstepClips);
+            SoundManager.Instance.PlaySound(null, clip, 1, this);
+        }
+
+        protected override void OnMoveStartHumanoid(Vector2Int nextCell)
+        {
+            OnMoveStartHuman(nextCell);
         }
 
         public override bool IsAlive { get; }

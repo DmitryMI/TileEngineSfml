@@ -16,6 +16,8 @@
         TileObjectDestroy = 107,
         PositionUpdate = 108,
 
+        SoundUpdate = 109,
+
         // Client -> Server
         ControlInput = 201,
         DialogFormInput = 202,

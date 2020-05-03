@@ -102,6 +102,31 @@ namespace TileEngineSfmlCs.TileEngine
             return result.ToArray();
         }
 
+        public T GetTopMost<T>(Vector2Int cell) where T: TileObject
+        {
+            T topMost = null;
+            foreach (var obj in ObjectMatrix[cell.X, cell.Y])
+            {
+                if (obj is T t)
+                {
+                    if (topMost == null)
+                    {
+                        topMost = t;
+                    }
+                    else if (topMost.Layer < t.Layer)
+                    {
+                        topMost = t;
+                    }
+                    else if (topMost.Layer == t.Layer && topMost.LayerOrder < t.LayerOrder)
+                    {
+                        topMost = t;
+                    }
+                }
+            }
+
+            return topMost;
+        }
+
         public T[] GetObjectsOfType<T>(Vector2Int cell, Func<T, bool> filter)
         {
             List<T> result = new List<T>();

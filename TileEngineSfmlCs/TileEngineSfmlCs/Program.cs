@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ServerSide;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
@@ -58,6 +59,8 @@ namespace TileEngineSfmlCs
             GameResources.Instance = new GameResources("C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlCs\\Resources");
             MapContainerManager.Instance = new MapContainerManager();
             TypeManager.Instance = new TypeManager();
+            SoundManager.Instance = new SoundManager();
+
             IMapContainer container = MapContainerManager.Instance.GetMapContainer("C:\\Users\\Dmitry\\Downloads\\_DELETE\\MapExample");
             Scene scene = Scene.CreateFromMap(container, "main.scene");
             

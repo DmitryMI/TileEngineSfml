@@ -8,6 +8,8 @@ namespace TileEngineSfmlCs.Types
 {
     public struct Vector2Int : IFieldSerializer, IBinaryEncodable
     {
+        public static Vector2Int NegativeOne = new Vector2Int(-1, -1);
+        public static Vector2Int Zero = new Vector2Int(0, 0);
         public int X { get; set; }
         public int Y { get; set; }
 
