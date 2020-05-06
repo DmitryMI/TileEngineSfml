@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
@@ -42,10 +42,13 @@ namespace TileEngineSfmlMapEditor
             }
 
             _typeTreeNode = TypeManager.Instance.TreeRoot;
+
+            WindowState = FormWindowState.Maximized;
         }
 
         private void LoadMap(string fileName)
         {
+            _editor?.Dispose();
             _editor = new TileEngineEditor(RenderingCanvas);
             _editor.LoadMap(fileName);
             _mapFilePath = fileName;
@@ -103,6 +106,7 @@ namespace TileEngineSfmlMapEditor
 
         private void OnEditorCreated()
         {
+            _typeTreeNode = TypeManager.Instance.TreeRoot;
             InitLayerMenuItems();
         }
 
@@ -117,17 +121,25 @@ namespace TileEngineSfmlMapEditor
             newMapForm.ShowDialog();
             if (newMapForm.ResultOk)
             {
+                _editor?.Dispose();
                 _editor = new TileEngineEditor(RenderingCanvas);
-            }
-            _editor.CreateMainScene(newMapForm.ResultWidth, newMapForm.ResultHeight);
+                _editor.CreateMainScene(newMapForm.ResultWidth, newMapForm.ResultHeight);
 
-            OnEditorCreated();
+                OnEditorCreated();
+            }
         }
 
         private void SaveMap(string path)
         {
-            _editor.SaveMap(path);
-            _mapFilePath = path;
+            if (_editor != null)
+            {
+                _editor.SaveMap(path);
+                _mapFilePath = path;
+            }
+            else
+            {
+                LogError("Nothing to save!");
+            }
         }
 
         private void SaveMap(bool resetPath)
@@ -141,7 +153,7 @@ namespace TileEngineSfmlMapEditor
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.CreatePrompt = false;
                 saveFileDialog.OverwritePrompt = true;
-                saveFileDialog.Filter = "TileEngine map (*.temap)|*.temap|All files (*.*)|*.*";
+                saveFileDialog.Filter = "TileEngine map (*.temap)|*.temap|Scene maps(*.scene)|*.scene";
                 saveFileDialog.DefaultExt = "*.temap";
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -154,7 +166,7 @@ namespace TileEngineSfmlMapEditor
         private void OpenMapFile()
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "TileEngine map (*.temap)|*.temap|All files (*.*)|*.*"; ;
+            fileDialog.Filter = "TileEngine map (*.temap)|*.temap|Scene files (*.scene*)|*.scene"; ;
             fileDialog.Multiselect = false;
             fileDialog.InitialDirectory = Application.StartupPath;
             if (fileDialog.ShowDialog() == DialogResult.OK)
@@ -165,6 +177,11 @@ namespace TileEngineSfmlMapEditor
                     LoadMap(path);
                 }
             }
+        }
+
+        private void OpenDirectoryMap()
+        {
+
         }
 
         #endregion

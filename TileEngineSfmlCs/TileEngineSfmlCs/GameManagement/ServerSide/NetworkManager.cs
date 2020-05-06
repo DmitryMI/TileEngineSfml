@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding.ControlInput;
+using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
+using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.Networking;
+using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Types;
-using UdpNetworkInterface.UdpNetworkServer;
 
 namespace TileEngineSfmlCs.GameManagement.ServerSide
 {
@@ -35,6 +42,8 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         private List<Player> _players = new List<Player>();
         private Scene _controlledScene;
 
+        public Player[] GetPlayers() => _players.ToArray();
+
         public NetworkManager(INetworkServer networkServer, Scene controlledScene)
         {
             _networkServer = networkServer;
@@ -43,6 +52,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _networkServer.OnNewConnection += OnNewConnection;
             _networkServer.OnDisconnect += OnDisconnect;
             _networkServer.OnReconnect += OnReconnect;
+            _networkServer.NewConnectionResponse = NewConnectionResponse;
 
             networkServer.StartServer();
         }
@@ -60,8 +70,6 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             return null;
         }
 
-
-
         private void OnNewConnection(int connectionId, string username)
         {
             Vector2Int center = new Vector2Int(_controlledScene.Width / 2, _controlledScene.Height / 2);
@@ -70,6 +78,14 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _players.Add(player);
 
             OnPlayerConnected?.Invoke(player);
+        }
+
+        private byte[] NewConnectionResponse()
+        {
+            SceneInformationPackage informationPackage = new SceneInformationPackage(_controlledScene);
+            byte[] data = new byte[informationPackage.ByteLength];
+            informationPackage.ToByteArray(data, 0);
+            return data;
         }
 
         private void OnDisconnect(int connectionId)
@@ -98,43 +114,34 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             // TODO Player reconnected sequence
         }
 
-        private void SendDataToDialog(Player player, int dialogInstanceId, byte[] data)
-        {
-            IDialogForm dialogForm = player.DialogForms.FirstOrDefault(d => d.DialogInstanceId == dialogInstanceId);
-            if (dialogForm == null)
-            {
-                return;
-            }
-
-            int pos = 0;
-            int keySize = BitConverter.ToInt32(data, pos);
-            pos += sizeof(int);
-            int inputSize = BitConverter.ToInt32(data, pos);
-            pos += sizeof(int);
-            string key = Encoding.Unicode.GetString(data, pos, keySize);
-            pos += keySize;
-            string input = Encoding.Unicode.GetString(data, pos, inputSize);
-            pos += inputSize;
-
-            dialogForm.OnUserInput(key, input);
-        }
-
 
         private void OnDataReceived(int connectionId, byte[] packageData)
         {
             Player player = GetPlayerByConnection(connectionId);
             // TODO Player data received
             NetworkAction action = (NetworkAction) packageData[0];
+            Debug.WriteLine($"Action: {action}");
             switch (action)
             {
                 case NetworkAction.DialogFormInput:
-                    int dialogInstanceId = packageData[1];
-                    byte[] dialogData = new byte[packageData.Length - 2];
-                    Array.Copy(packageData, 2, dialogData, 0, packageData.Length - 2);
-                    SendDataToDialog(player, dialogInstanceId, dialogData);
+                    DialogFormInputPackage inputPackage = new DialogFormInputPackage();
+                    inputPackage.FromByteArray(packageData, 1);
+                    IDialogForm dialogForm = player.DialogForms.FirstOrDefault(d => d.DialogInstanceId == inputPackage.InstanceId);
+                    if (dialogForm == null)
+                    {
+                        LogManager.RuntimeLogger.LogError(
+                            $"Player {connectionId} does not own dialog form with id {inputPackage.InstanceId}");
+                        return;
+                    }
+
+                    dialogForm.OnUserInput(inputPackage.Key, inputPackage.Input);
                     break;
                 case NetworkAction.ControlInput:
-                    // TODO User control input
+                    ControlInputPackage controlInput = new ControlInputPackage();
+                    controlInput.FromByteArray(packageData, 1);
+                    // TODO Clicks
+                    //LogManager.RuntimeLogger.Log("Input received. Movement: " + controlInput.MovementKey);
+                    player?.ControlledMob?.Move(controlInput.MovementKey);
                     break;
                 default:
                     // Player in not eligible to perform other network actions
@@ -147,9 +154,61 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _networkServer.Poll();
         }
 
-        public void UpdateTileObject(TileObject tileObject)
+        public void UpdateTileObject(TileObject tileObject, Reliability reliability = Reliability.Reliable)
         {
-            // TODO UpdateTileObject
+            if (tileObject.GetInstanceId() == -1)
+            {
+                // TileObject is not instantiated
+                return;
+            }
+            TileObjectUpdatePackage wrapper = new TileObjectUpdatePackage(tileObject);
+            byte[] data = new byte[1 + wrapper.ByteLength];
+            int pos = 0;
+            data[pos] = (byte) NetworkAction.TileObjectUpdate;
+            pos += 1;
+            wrapper.ToByteArray(data, pos);
+
+            foreach (var player in _players)
+            {
+                _networkServer.SendData(player.ConnectionId, data, reliability);
+            }
+        }
+
+        public void UpdateCamera(Player player, Reliability reliability = Reliability.Reliable)
+        {
+            CameraUpdatePackage updatePackage = new CameraUpdatePackage(player.Camera);
+            byte[] data = new byte[1 + updatePackage.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.CameraUpdate;
+            pos += 1;
+            updatePackage.ToByteArray(data, pos);
+            _networkServer.SendData(player.ConnectionId, data, reliability);
+        }
+
+        public void UpdatePosition(TileObject tileObject, Reliability reliability = Reliability.Unreliable)
+        {
+            if (tileObject.GetInstanceId() == -1)
+            {
+                // TileObject is not instantiated
+                return;
+            }
+
+            PositionUpdatePackage wrapper = new PositionUpdatePackage(tileObject);
+            byte[] data = new byte[1 + wrapper.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.TileObjectUpdate;
+            pos += 1;
+            wrapper.ToByteArray(data, pos);
+
+            foreach (var player in _players)
+            {
+                _networkServer.SendData(player.ConnectionId, data, reliability);
+            }
+        }
+
+        public void DestroyTileObject(TileObject tileObject, Reliability reliability = Reliability.Reliable)
+        {
+            // TODO Destroy tile object
         }
 
         public void SpawnTileObject(TileObject tileObject)
@@ -159,12 +218,80 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
 
         public void SpawnDialogForm(IDialogForm dialogForm)
         {
-            // TODO SpawnDialogForm
+            int instanceId = dialogForm.DialogInstanceId;
+            DialogFormType spiritType = dialogForm.SpiritType;
+            int typeIndex = DialogFormManager.Instance.GetTypeIndex(spiritType);
+
+            DialogFormSpawnPackage spawnDialogPackage = new DialogFormSpawnPackage(instanceId, typeIndex);
+            byte[] data = new byte[1 + spawnDialogPackage.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.DialogFormSpawn;
+            pos += 1;
+            spawnDialogPackage.ToByteArray(data, pos);
+            Player player = dialogForm.InteractingPlayer;
+            if (!player.DialogForms.Contains(dialogForm))
+            {
+                player.DialogForms.Add(dialogForm);
+            }
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data, Reliability.Reliable);
+        }
+
+        public void KillDialogForm(IDialogForm dialogForm)
+        {
+            int instanceId = dialogForm.DialogInstanceId;
+            DialogFormServerClosePackage package = new DialogFormServerClosePackage(instanceId);
+            byte[] data = new byte[1 + package.ByteLength];
+            int pos = 0;
+            data[pos] = (byte) NetworkAction.DialogFormServerClose;
+            pos += 1;
+            package.ToByteArray(data, pos);
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data, Reliability.Reliable);
         }
 
         public void UpdateDialogForm(IDialogForm dialogForm, string key, string input)
         {
-            // TODO UpdateDialogForm
+            int instanceId = dialogForm.DialogInstanceId;
+            DialogFormUpdatePackage package = new DialogFormUpdatePackage(instanceId, key, input);
+            byte[] data = new byte[1 + package.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.DialogFormUpdate;
+            pos += 1;
+            package.ToByteArray(data, pos);
+            _networkServer.SendData(dialogForm.InteractingPlayer.ConnectionId, data, Reliability.Reliable);
+        }
+
+        public void UpdateScene(Player player)
+        {
+            foreach (var tileObject in _controlledScene.TileObjects)
+            {
+                if (tileObject.GetInstanceId() == -1)
+                {
+                    return;
+                }
+
+                TileObjectUpdatePackage wrapper = new TileObjectUpdatePackage(tileObject);
+                byte[] data = new byte[1 + wrapper.ByteLength];
+                int pos = 0;
+                data[pos] = (byte) NetworkAction.TileObjectUpdate;
+                pos += 1;
+                wrapper.ToByteArray(data, pos);
+
+                _networkServer.SendData(player.ConnectionId, data, Reliability.Reliable);
+            }
+        }
+
+        public void UpdateSound(SoundClipInstance clipInstance, IEnumerable<Player> players, Reliability reliability)
+        {
+            byte[] data = new byte[1 + clipInstance.ByteLength];
+            int pos = 0;
+            data[pos] = (byte)NetworkAction.SoundUpdate;
+            pos += 1;
+            clipInstance.ToByteArray(data, pos);
+
+            foreach (var player in players)
+            {
+                _networkServer.SendData(player.ConnectionId, data, reliability);
+            }
         }
 
     }

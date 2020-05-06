@@ -1,4 +1,4 @@
-﻿using TileEngineSfmlCs.TileEngine.Logging;
+﻿using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs

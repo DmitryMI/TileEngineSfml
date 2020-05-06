@@ -4,8 +4,8 @@ using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using TileEngineSfmlCs.Types;
-using GameResources = TileEngineSfmlCs.ResourceManagement.GameResources;
-using ResourceEntry = TileEngineSfmlCs.ResourceManagement.ResourceTypes.ResourceEntry;
+using GameResources = TileEngineSfmlCs.TileEngine.ResourceManagement.GameResources;
+using ResourceEntry = TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes.ResourceEntry;
 
 namespace TileEngineSfmlCs.Utils.Graphics
 {
@@ -31,13 +31,15 @@ namespace TileEngineSfmlCs.Utils.Graphics
           
             if (resourceEntry.LoadedValue == null)
             {
-                Stream fs = GameResources.Instance.GetStream(resourceEntry);
-                byte[] data = new byte[fs.Length];
-                fs.Read(data, 0, data.Length);
-                fs.Close();
-                fs.Dispose();
-                Texture texture = new Texture(data);
-                resourceEntry.LoadedValue = texture;
+                using (Stream fs = GameResources.Instance.CopyStream(resourceEntry))
+                {
+                    byte[] data = new byte[fs.Length];
+                    fs.Read(data, 0, data.Length);
+                    fs.Close();
+                    fs.Dispose();
+                    Texture texture = new Texture(data);
+                    resourceEntry.LoadedValue = texture;
+                }
             }
 
             Image image = ((Texture) (resourceEntry.LoadedValue)).CopyToImage();

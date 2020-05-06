@@ -1,9 +1,10 @@
 ﻿using System.Xml;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.Types
 {
-    public struct ColorB : IFieldSerializer
+    public struct ColorB : IFieldSerializer, IBinaryEncodable
     {
         public static ColorB White { get; } = new ColorB(255, 255, 255, 255);
 
@@ -43,6 +44,34 @@ namespace TileEngineSfmlCs.Types
             G = (byte)SerializationUtils.ReadInt(nameof(G), parentElement, G);
             B = (byte)SerializationUtils.ReadInt(nameof(B), parentElement, B);
             A = (byte)SerializationUtils.ReadInt(nameof(A), parentElement, A);
+        }
+
+        public int ByteLength => 4;
+        public int ToByteArray(byte[] package, int index)
+        {
+            int pos = index;
+            package[pos] = R;
+            pos++;
+            package[pos] = G;
+            pos++;
+            package[pos] = B;
+            pos++;
+            package[pos] = A;
+            pos++;
+            return 3;
+        }
+
+        public void FromByteArray(byte[] data, int index)
+        {
+            int pos = index;
+            R = data[pos];
+            pos++;
+            G = data[pos];
+            pos++;
+            B = data[pos];
+            pos++;
+            A = data[pos];
+            pos++;
         }
     }
 }

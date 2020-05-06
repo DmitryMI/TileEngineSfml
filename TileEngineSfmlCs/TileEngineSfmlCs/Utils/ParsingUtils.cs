@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 
 namespace TileEngineSfmlCs.Utils
 {

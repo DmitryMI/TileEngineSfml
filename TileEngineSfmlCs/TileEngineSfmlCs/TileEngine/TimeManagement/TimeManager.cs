@@ -38,12 +38,12 @@ namespace TileEngineSfmlCs.TileEngine.TimeManagement
 
         public event Action NextFrameEvent;
 
-        public float DeltaTime
+        public double DeltaTime
         {
             get => _timeProvider.DeltaTime;
         }
 
-        public float TotalTime
+        public double TotalTime
         {
             get => _timeProvider.TotalTime;
         }

@@ -1,11 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace TileEngineSfmlCs.Utils.Serialization
 {
-    public interface IFileSystemEntry
+    public interface IFileSystemEntry : IDisposable
     {
         string Name { get; }
         bool IsDirectory { get; }
-        Stream GetStream();
+        Stream OpenStream();
     }
 }

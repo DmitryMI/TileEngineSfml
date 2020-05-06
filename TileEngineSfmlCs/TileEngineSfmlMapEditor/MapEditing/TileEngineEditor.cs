@@ -6,10 +6,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using SFML.Graphics;
 using SFML.System;
-using TileEngineSfmlCs.ResourceManagement;
-using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.TileEngine.ResourceManagement;
+using TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes;
+using TileEngineSfmlCs.TileEngine.Scripting;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
@@ -26,7 +27,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
         public int PixelsPerUnit = 32;
 
         private Scene _scene;
-        private TileEngineMap _tileEngineMap;
+        private IMapContainer _tileEngineMap;
         private IRenderReceiver _renderReceiver;
         private Vector2 _cameraPosition;
         private GameResources _resources;
@@ -118,13 +119,14 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
             if (resourceEntry.LoadedValue == null)
             {
-                Stream fs = GameResources.Instance.GetStream(resourceEntry);
-                byte[] data = new byte[fs.Length];
-                fs.Read(data, 0, data.Length);
-                fs.Close();
-                fs.Dispose();
-                Texture texture = new Texture(data);
-                resourceEntry.LoadedValue = texture;
+                using (Stream fs = GameResources.Instance.CopyStream(resourceEntry))
+                {
+                    byte[] data = new byte[fs.Length];
+                    fs.Read(data, 0, data.Length);
+
+                    Texture texture = new Texture(data);
+                    resourceEntry.LoadedValue = texture;
+                }
             }
 
             return (Texture)resourceEntry.LoadedValue;
@@ -132,22 +134,15 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
         private void LoadResources()
         {
+#if DEBUG
+            string resourcesPath = "C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlCs\\Resources";
+#else
             string resourcesPath = Path.Combine(Environment.CurrentDirectory, "Resources");
+#endif
             _resources = new GameResources(resourcesPath);
             GameResources.Instance = _resources;
 
            
-        }
-
-        private void LoadUserResources()
-        {
-            if (_tileEngineMap != null)
-            {
-                TreeNode<IFileSystemEntry> mapResources =
-                    TreeNode<IFileSystemEntry>.SearchPath(_tileEngineMap.MapTree, "Resources", entry => entry.Name);
-
-                _resources.AppendToRoot(mapResources, "User");
-            }
         }
 
         private void InitializeFields()
@@ -157,11 +152,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 _cameraPosition = new Vector2Int(_scene.Width / 2, _scene.Height / 2);
             }
 
-            if (TypeManager.Instance == null)
-            {
-                _typeManager = new TypeManager();
-                TypeManager.Instance = _typeManager;
-            }
+            
 
             GridThickness = 0.5f;
             Color color = Color.Green;
@@ -183,7 +174,22 @@ namespace TileEngineSfmlMapEditor.MapEditing
             {
                 throw new FileNotFoundException();
             }
-            _tileEngineMap = new TileEngineMap(filePath);
+            _tileEngineMap?.Dispose();
+
+            //_tileEngineMap = new ZipMapContainer(filePath);
+            CreateMapContainer(filePath);
+
+            _typeManager = new TypeManager();
+            TypeManager.Instance = _typeManager;
+
+            ScriptingManager.Instance = new ScriptingManager();
+
+            if (_tileEngineMap != null)
+            {
+                GameResources.Instance.LoadResourcesFromMap(_tileEngineMap);
+                ScriptingManager.Instance.LoadTypesFromMap(_tileEngineMap, "Scripts");
+            }
+
             _scene = Scene.CreateFromMap(_tileEngineMap, "main.scene");
             InitializeFields();
         }
@@ -199,10 +205,21 @@ namespace TileEngineSfmlMapEditor.MapEditing
             
         }
 
+        private void CreateMapContainer(string path)
+        {
+            _tileEngineMap?.Dispose();
+            if (MapContainerManager.Instance == null)
+            {
+                MapContainerManager.Instance = new MapContainerManager();
+            }
 
-        #endregion
+            _tileEngineMap = MapContainerManager.Instance.GetMapContainer(path);
+        }
 
-        #region Drawing
+
+#endregion
+
+#region Drawing
 
         private void DrawSpriteResource(Icon icon, int orderIndex, Vector2f position)
         {
@@ -338,13 +355,15 @@ namespace TileEngineSfmlMapEditor.MapEditing
             HighlightTempCells();
         }
 
-        #endregion
+#endregion
 
-        #region Utils
+#region Utils
 
         private bool IsUnderCursor(TileObject to, Vector2f cursorProjection)
         {
             if (!_layersVisibility[(int) to.Layer])
+                return false;
+            if (to.Icon == null)
                 return false;
             for (int i = 0; i < to.Icon.SpritesCount; i++)
             {
@@ -475,6 +494,10 @@ namespace TileEngineSfmlMapEditor.MapEditing
                 return null;
 
             Texture texture = GetTexture(editorIcon.GetResourceId(0));
+            if (texture == null)
+            {
+                return null;
+            }
             Image image = texture.CopyToImage();
 
             byte[] pixels = image.Pixels;
@@ -512,9 +535,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
             return null;
         }
         
-        #endregion
+#endregion
 
-        #region CellSelecting
+#region CellSelecting
 
         public Color SelectionColor { get; set; }
 
@@ -556,15 +579,15 @@ namespace TileEngineSfmlMapEditor.MapEditing
             HighlightCell(cellStart);
         }
 
-        #endregion
+#endregion
 
-        #region Grid
+#region Grid
         public bool ShowGrid { get; set; }
         public float GridThickness { get; set; }
 
-        #endregion
+#endregion
 
-        #region Transformations
+#region Transformations
 
         public CellRect GetCellRect(int x0, int y0, int x1, int y1)
         {
@@ -658,22 +681,26 @@ namespace TileEngineSfmlMapEditor.MapEditing
             return new Vector2Int((int)(pixelWidth / PixelsPerUnit), (int)(pixelHeight / PixelsPerUnit));
         }
 
-        #endregion
+#endregion
 
-        #region MapEditor
+#region MapEditor
 
         public TreeNode<EntityType> TypeTreeRoot => TypeManager.Instance.TreeRoot;
 
         public void SaveMap(string targetFile)
         {
-            if (_tileEngineMap != null)
+            /*if (_tileEngineMap != null)
             {
                 _tileEngineMap.Save();
                 _tileEngineMap.Dispose();
-            }
-            FileStream stream = new FileStream(targetFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            _tileEngineMap = new TileEngineMap(stream);
+            }*/
+            _tileEngineMap?.Dispose();
+            CreateMapContainer(targetFile);
+
             Scene.SaveToMap(_scene, _tileEngineMap, "main.scene");
+
+            GameResources.Instance.SaveResourcesToMap(_tileEngineMap);
+
             _tileEngineMap.Save();
         }
 
@@ -687,14 +714,35 @@ namespace TileEngineSfmlMapEditor.MapEditing
             }
         }
 
+        private bool IsInBounds(Vector2Int cell)
+        {
+            if (_scene == null)
+            {
+                return false;
+            }
+            if (cell.X < 0 || cell.Y < 0 || cell.X >= _scene.Width || cell.Y >= _scene.Height)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public void InsertTileObject(EntityType tileObjectType, Vector2Int cell, Vector2 offset)
         {
-            if (tileObjectType.CanActivate)
+            if (IsInBounds(cell))
             {
-                TileObject instance = tileObjectType.Activate();
-                instance.Position = cell;
-                instance.Offset = offset;
-                _scene.InstantiateEditor(instance);
+                if (tileObjectType.CanActivate)
+                {
+                    TileObject instance = tileObjectType.Activate();
+                    instance.Position = cell;
+                    instance.Offset = offset;
+                    _scene.InstantiateEditor(instance);
+                }
+            }
+            else
+            {
+                LogManager.EditorLogger.LogError($"Position {cell.X}, {cell.Y} is outside of scene bounds");
             }
         }
 
@@ -721,9 +769,9 @@ namespace TileEngineSfmlMapEditor.MapEditing
             ForEachSelectedCell(ForEach);
         }
 
-        #endregion
+#endregion
 
-        #region Object data manipulation
+#region Object data manipulation
 
         public FieldDescriptor[] GetFieldDescriptors(TileObject tileObject)
         {
@@ -732,7 +780,7 @@ namespace TileEngineSfmlMapEditor.MapEditing
 
 
 
-        #endregion
+#endregion
 
         public void Dispose()
         {

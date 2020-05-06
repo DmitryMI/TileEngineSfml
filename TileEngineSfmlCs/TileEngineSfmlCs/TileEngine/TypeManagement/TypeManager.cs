@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Microsoft.Scripting.Utils;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
@@ -22,22 +24,38 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
         #endregion
 
         private TreeNode<EntityType> _treeRoot;
+
+        private List<EntityType> _registeredEntityTypes = new List<EntityType>();
+
         private Type[] _tileObjectDerivatives;
+
+        public TypeManager()
+        {
+            _treeRoot = GetAssemblyTileObjectTree();
+        }
 
         public TreeNode<EntityType> TreeRoot
         {
             get
             {
-                if (_treeRoot == null)
-                {
-                    _treeRoot = GetAssemblyTileObjectTree();
-                }
-
                 return _treeRoot;
             }
         }
 
         public Type[] TileObjectDerivatives => _tileObjectDerivatives;
+
+        public EntityType GetEntityType(string typeName)
+        {
+            foreach (var type in _registeredEntityTypes)
+            {
+                if (type.FullName == typeName)
+                {
+                    return type;
+                }
+            }
+
+            return null;
+        }
 
         public TreeNode<EntityType> GetAssemblyTileObjectTree()
         {
@@ -57,6 +75,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
         {
             AssemblyEntityType assemblyEntity = new AssemblyEntityType(currentType);
             TreeNode<EntityType> node = new TreeNode<EntityType>(assemblyEntity);
+            _registeredEntityTypes.Add(node.Data);
 
             var derivatives = from assemblyType in _tileObjectDerivatives
                 where assemblyType.BaseType == currentType && assemblyType != currentType
@@ -81,6 +100,23 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
             string yString = y.Name;
 
             return String.CompareOrdinal(xString, yString);
+        }
+
+        public void RegisterCustomTypes(IEnumerable<EntityType> types)
+        {
+            var customCategory = _treeRoot.FirstOrDefault(t => t.Data.Name == "UserTypes");
+            if (customCategory == null)
+            {
+                 DirectoryEntityType userTypes = new DirectoryEntityType("UserTypes");
+                customCategory = new TreeNode<EntityType>(userTypes);
+                _treeRoot.Add(customCategory);
+            }
+
+            foreach (var type in types)
+            {
+                customCategory.Add(new TreeNode<EntityType>(type));
+                _registeredEntityTypes.Add(type);
+            }
         }
     }
 }

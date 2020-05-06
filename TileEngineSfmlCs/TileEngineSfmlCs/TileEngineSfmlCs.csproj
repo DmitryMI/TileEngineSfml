@@ -78,34 +78,90 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameManagement\ClientSide\DialogFormSpirit.cs" />
-    <Compile Include="GameManagement\ClientSide\DialogFormType.cs" />
-    <Compile Include="GameManagement\ClientSide\TileEngineClient.cs" />
-    <Compile Include="GameManagement\ClientSide\TileObjectSpirit.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\CameraUpdatePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\Sound\SoundUpdatePackage.cs" />
+    <Compile Include="GameManagement\ClientControlInput\MovementKey.cs" />
+    <Compile Include="GameManagement\ClientControlInput\InputKeyState.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormClientClosePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormInputPackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\IBinaryEncodable.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormServerClosePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormSpawnPackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\DialogFormUpdatePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\PositionUpdatePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\SceneInformationPackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\TileObjectUpdatePackage.cs" />
+    <Compile Include="GameManagement\BinaryEncoding\ControlInput\ControlInputPackage.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\AssemblyDialogFormType.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormSpirit.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\DialogFormType.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\HtmlDialogFormSpirit.cs" />
+    <Compile Include="GameManagement\ClientSide\ClientNetworkManager.cs" />
+    <Compile Include="GameManagement\ClientSide\DialogForms\LobbyDialogFormSpirit.cs" />
+    <Compile Include="GameManagement\ClientSide\TileObjects\ISpiritRenderer.cs" />
+    <Compile Include="GameManagement\ClientSide\TileObjects\TileObjectSpirit.cs" />
+    <Compile Include="GameManagement\ClientSide\TileObjects\TileSpiritManager.cs" />
+    <Compile Include="GameManagement\IPositionProvider.cs" />
+    <Compile Include="GameManagement\SoundManagement\ClientSoundManager.cs" />
+    <Compile Include="GameManagement\SoundManagement\SoundClipInstance.cs" />
+    <Compile Include="GameManagement\SoundManagement\SoundManager.cs" />
+    <Compile Include="GameManagement\SoundManagement\SoundType.cs" />
+    <Compile Include="Networking\Reliability.cs" />
+    <Compile Include="Networking\Retransmission.cs" />
+    <Compile Include="GameManagement\ServerSide\DialogForms\HtmlDialogForms\HtmlDialogForm.cs" />
+    <Compile Include="GameManagement\ServerSide\DialogForms\HtmlDialogForms\HtmlDialogFormKeys.cs" />
+    <Compile Include="GameManagement\ServerSide\DialogForms\IDialogForm.cs" />
+    <Compile Include="GameManagement\ServerSide\DialogForms\Lobby\LobbyInputKeys.cs" />
+    <Compile Include="Networking\UdpCommand.cs" />
+    <Compile Include="Networking\UdpNetworkClient\INetworkClient.cs" />
+    <Compile Include="Networking\UdpNetworkClient\UdpNetworkClient.cs" />
+    <Compile Include="Networking\UdpNetworkServer\INetworkServer.cs" />
+    <Compile Include="Networking\UdpNetworkServer\UdpNetworkServer.cs" />
+    <Compile Include="Networking\UdpPackage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceManagement\GameResources.cs" />
-    <Compile Include="ResourceManagement\ResourceTypes\ResourceEntry.cs" />
+    <Compile Include="Logging\DebugLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="TileEngine\ResourceManagement\GameResources.cs" />
+    <Compile Include="TileEngine\ResourceManagement\ResourceTypes\BuiltInFileEntry.cs" />
+    <Compile Include="TileEngine\ResourceManagement\ResourceTypes\FakeFileEntry.cs" />
+    <Compile Include="TileEngine\ResourceManagement\ResourceTypes\ResourceEntry.cs" />
+    <Compile Include="TileEngine\Scripting\PythonFieldDescriptor.cs" />
+    <Compile Include="TileEngine\Scripting\ScriptingManager.cs" />
     <Compile Include="GameManagement\ControlInput.cs" />
-    <Compile Include="GameManagement\ServerSide\DialogForms\DialogFormType.cs" />
-    <Compile Include="GameManagement\ServerSide\DialogForms\IDialogForm.cs" />
-    <Compile Include="GameManagement\ClientSide\DialogFormManager.cs" />
+    <Compile Include="GameManagement\DialogFormManager.cs" />
     <Compile Include="GameManagement\ServerSide\DialogForms\Lobby\LobbyDialogForm.cs" />
     <Compile Include="GameManagement\ServerSide\GameManager.cs" />
     <Compile Include="GameManagement\NetworkAction.cs" />
-    <Compile Include="TileEngine\Logging\DebugLogger.cs" />
-    <Compile Include="TileEngine\Logging\ILogger.cs" />
-    <Compile Include="TileEngine\Logging\LogManager.cs" />
-    <Compile Include="GameManagement\ServerSide\Camera.cs" />
+    <Compile Include="GameManagement\Camera.cs" />
     <Compile Include="GameManagement\ServerSide\NetworkManager.cs" />
     <Compile Include="GameManagement\ServerSide\Player.cs" />
+    <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Humanoids\Humanoid.cs" />
+    <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Humanoids\Humans\Human.cs" />
+    <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Mammals\Corgi.cs" />
+    <Compile Include="TileEngine\TileObjects\Mobs\Livings\Living.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Mob.cs" />
     <Compile Include="TileEngine\Scene.cs" />
     <Compile Include="TileEngine\SceneManager.cs" />
     <Compile Include="TileEngine\Scripting\PythonObjects\PythonObject.cs" />
+    <Compile Include="TileEngine\Scripting\PythonEntityType.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Passable\Floors\Floor.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Passable\Floors\MetalFloor.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Passable\PassableTurf.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Walls\MetalWall.cs" />
+    <Compile Include="TileEngine\TileObjects\Turfs\Walls\Wall.cs" />
+    <Compile Include="TileEngine\TypeManagement\EntityTypes\DirectoryEntityType.cs" />
+    <Compile Include="Types\SoundClip.cs" />
+    <Compile Include="Utils\BinaryUtils.cs" />
+    <Compile Include="Utils\RandomGenerators\RandomUtils.cs" />
+    <Compile Include="Utils\RandomGenerators\XorShift64.cs" />
+    <Compile Include="Utils\Serialization\FolderContainer\FolderFileEntry.cs" />
+    <Compile Include="Utils\Serialization\FolderContainer\FolderMapContainer.cs" />
     <Compile Include="TileEngine\TimeManagement\TimeManager.cs" />
-    <Compile Include="TileEngine\TypeManagement\EntityTypes\PythonEntityType.cs" />
     <Compile Include="Utils\Serialization\IFieldSerializer.cs" />
+    <Compile Include="Utils\Serialization\IMapContainer.cs" />
+    <Compile Include="Utils\Serialization\MapContainerManager.cs" />
     <Compile Include="Utils\Serialization\SerializationUtils.cs" />
     <Compile Include="TileEngine\Subsystem.cs" />
     <Compile Include="TileEngine\TileEngineServer.cs" />
@@ -128,7 +184,7 @@
     <Compile Include="Utils\GraphicsUtils.cs" />
     <Compile Include="Types\ColorB.cs" />
     <Compile Include="Types\Icon.cs" />
-    <Compile Include="Types\Layers.cs" />
+    <Compile Include="Types\TileLayer.cs" />
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector2Int.cs" />
     <Compile Include="Utils\CollectionUtils.cs" />
@@ -137,8 +193,9 @@
     <Compile Include="Utils\Graphics\Polygon.cs" />
     <Compile Include="Utils\ParsingUtils.cs" />
     <Compile Include="Utils\Serialization\IFileSystemEntry.cs" />
-    <Compile Include="Utils\Serialization\MapFileEntry.cs" />
-    <Compile Include="Utils\Serialization\TileEngineMap.cs" />
+    <Compile Include="Utils\Serialization\ZipContainer\ZipFileEntry.cs" />
+    <Compile Include="Utils\Serialization\ZipContainer\ZipMapContainer.cs" />
+    <Compile Include="Utils\DelayedAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -152,11 +209,7 @@
     <Content Include="csfml-window.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UdpNetworkInterface\UdpNetworkInterface.csproj">
-      <Project>{4a466a27-81cd-43eb-857a-a5c7aae84bf7}</Project>
-      <Name>UdpNetworkInterface</Name>
-    </ProjectReference>
+    <Folder Include="Resources\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

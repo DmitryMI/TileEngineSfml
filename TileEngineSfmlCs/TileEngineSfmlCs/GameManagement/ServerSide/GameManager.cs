@@ -1,8 +1,13 @@
-﻿using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
+﻿using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
+using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
+using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.Networking;
+using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
-using UdpNetworkInterface.UdpNetworkServer;
+using TileEngineSfmlCs.Types;
+using TileEngineSfmlCs.Utils;
 
 namespace TileEngineSfmlCs.GameManagement.ServerSide
 {
@@ -22,7 +27,6 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         #endregion
 
         private Scene _scene;
-        private ITimeProvider _timeProvider;
         private INetworkServer _networkServer;
 
         public void StartGame(Scene scene, INetworkServer server)
@@ -30,6 +34,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             _scene = scene;
             _networkServer = server;
             NetworkManager.Instance = new NetworkManager(server, _scene);
+            DialogFormManager.Instance = new DialogFormManager();
             TimeManager.Instance.NextFrameEvent += NextFrame;
             NetworkManager.Instance.OnPlayerConnected += OnPlayerConnected;
             LogManager.RuntimeLogger.Log($"Game started");
@@ -38,7 +43,7 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
         private void NextFrame()
         {
             NetworkManager.Instance.OnNextFrame();
-            _scene.OnNextFrame();
+            _scene?.OnNextFrame();
         }
 
         private void OnPlayerConnected(Player player)
@@ -46,7 +51,30 @@ namespace TileEngineSfmlCs.GameManagement.ServerSide
             LogManager.RuntimeLogger.Log($"Player {player.Username}({player.ConnectionId}) connected.");
             LobbyDialogForm lobbyDialog = new LobbyDialogForm();
             lobbyDialog.InteractingPlayer = player;
+            lobbyDialog.PlayerJoinCallback = PlayerJoinCallback;
+            DialogFormManager.Instance.AssignFormIndex(lobbyDialog);
             NetworkManager.Instance.SpawnDialogForm(lobbyDialog);
+        }
+        
+
+        private void PlayerJoinCallback(LobbyDialogForm sender)
+        {
+            Player player = sender.InteractingPlayer;
+            NetworkManager.Instance.KillDialogForm(sender);
+            LogManager.RuntimeLogger.Log($"Player {player.Username}({player.ConnectionId}) joined the game!");
+
+            Corgi corgi = new Corgi();
+            // TODO Get player spawn position!
+            corgi.Position = new Vector2Int(_scene.Width / 2, _scene.Height / 2);
+            corgi.SetDogName(sender.FirstName + " " + sender.LastName);
+
+            _scene.Instantiate(corgi);
+
+            player.ControlledMob = corgi;
+            player.Camera.TrackingTarget = corgi;
+
+            NetworkManager.Instance.UpdateScene(player);
+            NetworkManager.Instance.UpdateCamera(player, Reliability.Reliable);
         }
     }
 }

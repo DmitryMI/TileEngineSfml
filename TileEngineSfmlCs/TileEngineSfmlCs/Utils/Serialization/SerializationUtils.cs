@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 
 namespace TileEngineSfmlCs.Utils.Serialization
 {
@@ -152,6 +152,16 @@ namespace TileEngineSfmlCs.Utils.Serialization
             return int.Parse(value);
         }
 
+        public static string ReadString(string name, XmlElement parentElement, string defaultValue)
+        {
+            string value = GetNodeText(name, parentElement);
+            if (value == null)
+            {
+                return defaultValue;
+            }
+            return value;
+        }
+
         public static float ReadFloat(string name, XmlElement parentElement, float defaultValue)
         {
             string value = GetNodeText(name, parentElement);
@@ -172,7 +182,7 @@ namespace TileEngineSfmlCs.Utils.Serialization
 
             Type type = typeof(T);
             var parser = type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .FirstOrDefault(p => p.GetParameters().Length == 1);
+                .FirstOrDefault(p => p.GetParameters().Length == 1 && p.ReturnType == typeof(T));
             if (parser == null)
             {
                 throw new ArgumentException($"{type.Name} is not parseable");

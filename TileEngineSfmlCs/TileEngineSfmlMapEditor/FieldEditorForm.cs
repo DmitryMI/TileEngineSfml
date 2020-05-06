@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlMapEditor.MapEditing;

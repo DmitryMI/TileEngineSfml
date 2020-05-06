@@ -1,4 +1,8 @@
 ﻿using System.Xml;
+using TileEngineSfmlCs.GameManagement;
+using TileEngineSfmlCs.GameManagement.ServerSide;
+using TileEngineSfmlCs.Networking;
+using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
 using TileEngineSfmlCs.TileEngine.TypeManagement;
 using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
@@ -9,7 +13,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
     /// <summary>
     /// Base class for all in-game objects
     /// </summary>
-    public abstract class TileObject : IFieldSerializer
+    public abstract class TileObject : IFieldSerializer, IPositionProvider
     {
         [FieldEditorReadOnly("Use special replacing tool instead")]
         private Vector2Int _position;
@@ -18,9 +22,36 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
 
         private Scene _scene;
 
+        private Reliability _updateReliability;
 
-        protected int LayerOrderInternal { get; set; }
-        protected float RotationInternal { get; set; }
+        private float _rotation;
+
+        private int _layerOrder;
+
+
+        protected int LayerOrderInternal
+        {
+            get => _layerOrder;
+            set
+            {
+                _layerOrder = value;
+            }
+        }
+
+        protected float RotationInternal
+        {
+            get => _rotation;
+            set
+            {
+                _rotation = value;
+            }
+        }
+
+        protected Reliability UpdateReliability
+        {
+            get => _updateReliability;
+            set => _updateReliability = value;
+        }
 
         [FieldEditorReadOnly("Auto set only")]
         private int _instanceId;
@@ -46,8 +77,13 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         public Vector2 Offset
         {
             get => _offset;
-            set => _offset = value;
+            set
+            {
+                _offset = value;
+            }
         }
+
+        public int InstanceId => GetInstanceId();
 
         /// <summary>
         /// Defines coordinate in cell map
@@ -69,7 +105,11 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         public int LayerOrder
         {
             get => LayerOrderInternal;
-            set => LayerOrderInternal = value;
+            set
+            {
+                LayerOrderInternal = value;
+            }
+
         }
 
         public float Rotation => RotationInternal;
@@ -82,6 +122,18 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         public abstract Icon Icon { get; }
 
         public abstract Icon EditorIcon { get; }
+
+        /// <summary>
+        /// May be invoked by mob, that is trying to go through this tile object. For example, a door can check human's ID Card
+        /// </summary>
+        /// <param name="sender">Object, that is willing to pass</param>
+        public abstract void TryPass(TileObject sender);
+
+        public void NetworkUpdate()
+        {
+            // Simply updates everything. But may be it is good to optimize icon update?
+            NetworkManager.Instance.UpdateTileObject(this, UpdateReliability);
+        }
 
         public abstract TileLayer Layer { get; }
 

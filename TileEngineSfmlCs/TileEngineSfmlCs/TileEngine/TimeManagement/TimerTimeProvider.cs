@@ -7,8 +7,8 @@ namespace TileEngineSfmlCs.TileEngine.TimeManagement
     {
         private readonly Timer _timer;
         public event Action NextFrameEvent;
-        public float DeltaTime { get; private set; }
-        public float TotalTime { get; private set; }
+        public double DeltaTime { get; private set; }
+        public double TotalTime { get; private set; }
 
         private long _prevOsTicks;
 
@@ -40,7 +40,7 @@ namespace TileEngineSfmlCs.TileEngine.TimeManagement
         {
             long osTime = DateTime.Now.Ticks;
             float deltaTicks = osTime - _prevOsTicks;
-            DeltaTime = deltaTicks / TimeSpan.TicksPerMillisecond;
+            DeltaTime = deltaTicks / TimeSpan.TicksPerMillisecond / 1000;
             TotalTime += DeltaTime;
             NextFrameEvent?.Invoke();
         }

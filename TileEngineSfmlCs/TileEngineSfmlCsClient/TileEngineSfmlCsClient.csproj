@@ -33,8 +33,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlRenderer, Version=1.5.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlRenderer.Core.1.5.0.5\lib\net45\HtmlRenderer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer.WinForms, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlRenderer.WinForms.1.5.0.6\lib\net45\HtmlRenderer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.Audio, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Audio.2.5.0\lib\netstandard2.0\SFML.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.Graphics, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Graphics.2.5.0\lib\netstandard2.0\SFML.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.System, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.System.2.5.0\lib\netstandard2.0\SFML.System.dll</HintPath>
+    </Reference>
+    <Reference Include="SFML.Window, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFML.Window.2.5.0\lib\netstandard2.0\SFML.Window.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,11 +63,63 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogFormWrappers\LobbyDialogWrapper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogFormWrappers\LobbyDialogWrapper.Designer.cs">
+      <DependentUpon>LobbyDialogWrapper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\IconSpriteCache.cs" />
+    <Compile Include="Rendering\SfmlRenderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Rendering\SfmlRenderControl.Designer.cs">
+      <DependentUpon>SfmlRenderControl.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DialogFormWrappers\LobbyDialogWrapper.resx">
+      <DependentUpon>LobbyDialogWrapper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TileEngineSfmlCs\TileEngineSfmlCs.csproj">
+      <Project>{0080dc99-6fbf-4773-9794-d5f6abc324be}</Project>
+      <Name>TileEngineSfmlCs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="csfml-audio.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="csfml-graphics.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="csfml-system.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="csfml-window.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="openal32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

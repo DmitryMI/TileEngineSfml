@@ -5,8 +5,8 @@ using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using TileEngineSfmlCs.ResourceManagement;
-using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
+using TileEngineSfmlCs.TileEngine.ResourceManagement;
+using TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Graphics;
 
@@ -27,7 +27,7 @@ namespace HullGeneratorTest
             GameResources.Instance = resources;
             ResourceEntry entry = resources.GetEntry(image);
 
-            Stream fs = resources.GetStream(entry);
+            Stream fs = resources.CopyStream(entry);
 
             Texture texture = new Texture(fs);
             Sprite sprite = new Sprite(texture);

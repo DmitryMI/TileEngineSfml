@@ -14,6 +14,7 @@ namespace TileEngineSfmlMapEditor
         public int ResultWidth { get; private set; }
         public int ResultHeight { get; private set; }
 
+
         private void OkButton_Click(object sender, EventArgs e)
         {
             if (!int.TryParse(WidthBox.Text, out int width))

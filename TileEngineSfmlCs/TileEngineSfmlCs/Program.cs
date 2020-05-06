@@ -4,10 +4,14 @@ using System.Diagnostics;
 using System.Threading;
 using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ServerSide;
+using TileEngineSfmlCs.GameManagement.SoundManagement;
+using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
-using TileEngineSfmlCs.TileEngine.Logging;
+using TileEngineSfmlCs.TileEngine.ResourceManagement;
 using TileEngineSfmlCs.TileEngine.TimeManagement;
-using UdpNetworkInterface.UdpNetworkServer;
+using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs
 {
@@ -16,12 +20,13 @@ namespace TileEngineSfmlCs
         class TimeProvider : ITimeProvider
         {
             public event Action NextFrameEvent;
-            public float DeltaTime { get; set; }
-            public float TotalTime { get; set; }
+            public double DeltaTime { get; set; }
+            public double TotalTime { get; set; }
 
             public void SendTimeSignal()
             {
                 NextFrameEvent?.Invoke();
+                Thread.Sleep(16); // 60 FPS
             }
         }
 
@@ -51,17 +56,21 @@ namespace TileEngineSfmlCs
             LogManager.RuntimeLogger = new ConsoleLogger();
 
             GameManager.Instance = new GameManager();
+            GameResources.Instance = new GameResources("C:\\Users\\Dmitry\\Documents\\GitHub\\TileEngineSfml\\TileEngineSfmlCs\\TileEngineSfmlCs\\Resources");
+            MapContainerManager.Instance = new MapContainerManager();
+            TypeManager.Instance = new TypeManager();
+            SoundManager.Instance = new SoundManager();
+
+            IMapContainer container = MapContainerManager.Instance.GetMapContainer("C:\\Users\\Dmitry\\Downloads\\_DELETE\\MapExample");
+            Scene scene = Scene.CreateFromMap(container, "main.scene");
             
-            Scene scene = new Scene(50, 50);
+            //Scene scene = new Scene(50, 50);
             UdpNetworkServer server = new UdpNetworkServer(25565);
             GameManager.Instance.StartGame(scene, server);
 
             Console.WriteLine("TileEngine server started!");
 
             Stopwatch stopwatch = new Stopwatch();
-
-            float[] deltaTimeStats = new float[10000];
-            int dtStatPos = 0;
 
             while (true)
             {
@@ -71,22 +80,6 @@ namespace TileEngineSfmlCs
                 stopwatch.Stop();
                 timeProvider.DeltaTime = stopwatch.ElapsedMilliseconds / 1000f;
                 timeProvider.TotalTime += timeProvider.DeltaTime;
-                deltaTimeStats[dtStatPos] = timeProvider.DeltaTime;
-
-                dtStatPos++;
-                if (dtStatPos >= deltaTimeStats.Length)
-                {
-                    dtStatPos = 0;
-                    float sumFps = 0;
-                    for (int i = 0; i < deltaTimeStats.Length; i++)
-                    {
-                        sumFps += deltaTimeStats[i];
-                    }
-
-                    sumFps /= deltaTimeStats.Length;
-                    //LogManager.RuntimeLogger.Log($"Average DT: {sumFps}");
-                }
-
             }
         }
     }

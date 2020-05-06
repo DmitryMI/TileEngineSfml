@@ -2,13 +2,15 @@
 using System.Globalization;
 using System.Linq;
 using System.Xml;
+using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.Types
 {
-    public struct Vector2 : IFieldSerializer
+    public struct Vector2 : IFieldSerializer, IBinaryEncodable
     {
         public const float ComparisonTolerance = 0.001f;
+        public static Vector2 Zero { get; } = new Vector2(0, 0);
 
         public float X { get; set; }
         public float Y { get; set; }
@@ -122,6 +124,29 @@ namespace TileEngineSfmlCs.Types
             {
                 throw new FormatException("Splitting failed");
             }
+        }
+
+        public int ByteLength => sizeof(float) + sizeof(float);
+        public int ToByteArray(byte[] package, int index)
+        {
+            int pos = index;
+            byte[] xBytes = BitConverter.GetBytes(X);
+            byte[] yBytes = BitConverter.GetBytes(Y);
+           
+            Array.Copy(xBytes, 0, package, pos, xBytes.Length);
+            pos += sizeof(float);
+            Array.Copy(yBytes, 0, package, pos, yBytes.Length);
+            pos += sizeof(float);
+            return ByteLength;
+        }
+
+        public void FromByteArray(byte[] data, int index)
+        {
+            int pos = index;
+            X = BitConverter.ToSingle(data, pos);
+            pos += sizeof(float);
+            Y = BitConverter.ToSingle(data, pos);
+            pos += sizeof(float);
         }
     }
 }
