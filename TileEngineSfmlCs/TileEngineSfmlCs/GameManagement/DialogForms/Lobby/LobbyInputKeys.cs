@@ -1,4 +1,4 @@
-﻿namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
+﻿namespace TileEngineSfmlCs.GameManagement.DialogForms.Lobby
 {
     public enum LobbyInputKeys
     {

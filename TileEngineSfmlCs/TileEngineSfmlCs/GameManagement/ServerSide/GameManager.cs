@@ -1,5 +1,4 @@
-﻿using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
-using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
+﻿using TileEngineSfmlCs.GameManagement.DialogForms.Lobby;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;

@@ -1,8 +1,8 @@
 ﻿using System;
-using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
+using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Logging;
 
-namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby
+namespace TileEngineSfmlCs.GameManagement.DialogForms.Lobby
 {
     public class LobbyDialogForm : IDialogForm
     {

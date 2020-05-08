@@ -107,21 +107,24 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs
                 return;
             }
 
-            if(!IgnoreObstacles)
+            if (Scene.IsInBounds(nextCell))
             {
-                if (Scene.IsPassable(nextCell))
+                if (!IgnoreObstacles)
                 {
-                    //LogManager.RuntimeLogger.Log("MoveInternal:" + nextCell);
-                    MoveInternal(nextCell);
+                    if (Scene.IsPassable(nextCell))
+                    {
+                        //LogManager.RuntimeLogger.Log("MoveInternal:" + nextCell);
+                        MoveInternal(nextCell);
+                    }
+                    else
+                    {
+                        Scene.SendTryPass(nextCell, this);
+                    }
                 }
                 else
                 {
-                    Scene.SendTryPass(nextCell, this);
+                    MoveInternal(nextCell);
                 }
-            }
-            else
-            {
-                MoveInternal(nextCell);
             }
         }
 

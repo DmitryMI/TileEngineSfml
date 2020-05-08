@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
-using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
+using TileEngineSfmlCs.GameManagement.DialogForms;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
 
@@ -24,7 +23,7 @@ namespace TileEngineSfmlCs.GameManagement
         private TreeNode<DialogFormType> _typeTree;
         private List<DialogFormType> _registeredDialogFormTypes = new List<DialogFormType>();
 
-        private List<ClientSide.DialogForms.DialogFormSpirit> _activeDialogSpirits = new List<DialogFormSpirit>();
+        private List<DialogFormSpirit> _activeDialogSpirits = new List<DialogFormSpirit>();
         private List<IDialogForm> _activeDialogForms = new List<IDialogForm>();
 
         public TreeNode<DialogFormType> DialogFormTypes => _typeTree;

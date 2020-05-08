@@ -7,8 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
-using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
+using TileEngineSfmlCs.GameManagement.DialogForms.Lobby;
 
 namespace TileEngineSfmlCsClient.DialogFormWrappers
 {

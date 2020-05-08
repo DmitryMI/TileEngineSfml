@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
+namespace TileEngineSfmlCs.GameManagement.DialogForms
 {
     public abstract class DialogFormType
     {

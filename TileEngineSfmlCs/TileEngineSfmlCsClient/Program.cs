@@ -7,8 +7,10 @@ using System.Windows.Forms;
 using SFML.Audio;
 using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ClientSide;
-using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
+using TileEngineSfmlCs.GameManagement.DialogForms;
+using TileEngineSfmlCs.GameManagement.DialogForms.Lobby;
+using TileEngineSfmlCs.GameManagement.DialogForms.Main;
 using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking.UdpNetworkClient;
@@ -61,6 +63,10 @@ namespace TileEngineSfmlCsClient
                 LobbyDialogWrapper wrapper = new LobbyDialogWrapper(lobbyDialogFormSpirit);
                 wrapper.Show();
             }
+            else if (spirit is MainDialogFormSpirit mainDialogFormSpirit)
+            {
+                _mainForm.DialogSpirit = mainDialogFormSpirit;
+            }
         }
 
         private static void Initialization(string serverIp, int serverPort, string username, string resourcePath)
@@ -90,7 +96,6 @@ namespace TileEngineSfmlCsClient
         private static void OnConnectionTimeout()
         {
             LogManager.RuntimeLogger.LogError("Connection timeout!");
-            _mainForm.Close();
         }
 
         static void OnMainFormClose(object senser, EventArgs args)
@@ -101,7 +106,7 @@ namespace TileEngineSfmlCsClient
         static void Main(string[] args)
         {
             Stopwatch stopwatch = new Stopwatch();
-            LogManager.RuntimeLogger = new ConsoleLogger();
+            //LogManager.RuntimeLogger = new ConsoleLogger();
             LoopTimeProvider timeProvider = new LoopTimeProvider();
             TimeManager.Instance = new TimeManager(timeProvider);
             double minimalDeltaTime = 0.02;
@@ -109,6 +114,8 @@ namespace TileEngineSfmlCsClient
             _mainForm = new MainForm();
             _mainForm.Closed += OnMainFormClose;
             _mainForm.Show();
+
+            LogManager.RuntimeLogger = _mainForm;
 
             Initialization("192.168.1.9", 25565, "Dmitry", "Resources");
 
@@ -129,7 +136,7 @@ namespace TileEngineSfmlCsClient
                         double auxDelay = minimalDeltaTime - timeProvider.DeltaTime;
                         if (auxDelay > 0)
                         {
-                            //Thread.Sleep((int) (auxDelay * 1000));
+                            Thread.Sleep((int) (auxDelay * 1000));
                         }
                     }
                     stopwatch.Stop();

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.Lobby;
+using TileEngineSfmlCs.GameManagement.ClientSide;
 
-namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
+namespace TileEngineSfmlCs.GameManagement.DialogForms.Lobby
 {
     public class LobbyDialogFormSpirit : DialogFormSpirit
     {

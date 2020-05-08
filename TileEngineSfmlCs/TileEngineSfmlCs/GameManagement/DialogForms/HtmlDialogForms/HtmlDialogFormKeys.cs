@@ -1,4 +1,4 @@
-﻿namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms.HtmlDialogForms
+﻿namespace TileEngineSfmlCs.GameManagement.DialogForms.HtmlDialogForms
 {
     public enum HtmlDialogFormKeys
     {

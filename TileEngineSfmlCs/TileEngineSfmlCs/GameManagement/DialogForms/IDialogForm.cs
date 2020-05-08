@@ -1,6 +1,6 @@
-﻿using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
+﻿using TileEngineSfmlCs.GameManagement.ServerSide;
 
-namespace TileEngineSfmlCs.GameManagement.ServerSide.DialogForms
+namespace TileEngineSfmlCs.GameManagement.DialogForms
 {
     public interface IDialogForm
     {

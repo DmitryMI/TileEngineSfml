@@ -17,7 +17,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals
     public class Corgi : Living
     {
         private string _dogName = "Unnamed doggo";
-        private double _cellsPerSecond = 2;
+        private double _cellsPerSecond = 3;
 
         [FieldEditorReadOnly("This is determined by the Mob during runtime")]
         private bool _isLying = false;
@@ -75,8 +75,11 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals
         protected virtual void OnMoveStartCorgi(Vector2Int nextCell)
         {
             PassableTurf turf = Scene.GetTopMost<PassableTurf>(nextCell);
-            SoundClip clip = CollectionUtils.GetRandomItem(turf.FootstepClips);
-            SoundManager.Instance.PlaySound(null, clip, 1, this);
+            if (turf != null)
+            {
+                SoundClip clip = CollectionUtils.GetRandomItem(turf.FootstepClips);
+                SoundManager.Instance.PlaySound(null, clip, 1, this);
+            }
         }
     }
 }

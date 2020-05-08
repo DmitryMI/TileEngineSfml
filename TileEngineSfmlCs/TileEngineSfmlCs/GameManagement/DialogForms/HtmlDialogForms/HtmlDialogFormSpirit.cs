@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
+namespace TileEngineSfmlCs.GameManagement.DialogForms.HtmlDialogForms
 {
     public class HtmlDialogFormSpirit : DialogFormSpirit
     {

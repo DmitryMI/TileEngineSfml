@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -9,16 +10,34 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheArtOfDev.HtmlRenderer.WinForms;
 using TileEngineSfmlCs.GameManagement.ClientSide.TileObjects;
+using TileEngineSfmlCs.GameManagement.DialogForms.Main;
+using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCsClient.Rendering;
 using Icon = TileEngineSfmlCs.Types.Icon;
 
 namespace TileEngineSfmlCsClient
 {
-    public partial class MainForm : Form, ISpiritRenderer
+    public partial class MainForm : Form, ISpiritRenderer, ILogger
     {
         private SfmlRenderControl _sfmlRenderControl;
         private HtmlPanel _chatPanel;
+        private MainDialogFormSpirit _spirit;
+
+        private StringBuilder _htmlHeadData = new StringBuilder();
+        private StringBuilder _htmlBodyData = new StringBuilder(); 
+
+        public MainDialogFormSpirit DialogSpirit
+        {
+            get => _spirit;
+            set
+            {
+                _spirit = value;
+                _spirit.OnChatAppend += OnChatAppend;
+                _spirit.OnKillEvent += Close;       // TODO Not the best solution
+            }
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -30,6 +49,43 @@ namespace TileEngineSfmlCsClient
             AdjustUi();
         }
 
+        private void OnChatAppend(string appendHtml)
+        {
+            _htmlBodyData.Append(appendHtml);
+            _chatPanel.Text = GetHtmlDocument(_htmlHeadData.ToString(), _htmlBodyData.ToString());
+        }
+
+        private string CreateChatStyles()
+        {
+            string style =
+                @"<style>
+                    h1{
+                        font-family: Geneva, Arial, Helvetica, sans-serif;
+                        padding: 0 5px 0 5px;
+                    }
+                    .welcome{
+                        color: blue;
+                    }                   
+
+                    p{
+                        text-align: justify;
+                        padding: 0 5px 0 5px;
+                        margin: 0px;
+                    }                    
+                    .log_message {                       
+                        font-family: Consolas,monaco,monospace; 
+                        color: black;                  
+                        font-size: 10px;                      
+                    }  
+                    .log_error {
+                        font-family: Consolas,monaco,monospace; 
+                        color: red;
+                        font-size: 10px;                       
+                    }  
+                </style>";
+            return style;
+        }
+
         private void CreateChat()
         {
             _chatPanel = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
@@ -38,33 +94,9 @@ namespace TileEngineSfmlCsClient
             _chatPanel.Size = new Size(UiControlPanel.Size.Width, UiControlPanel.Size.Height / 2);
             _chatPanel.Dock = DockStyle.Bottom;
             _chatPanel.BorderStyle = BorderStyle.Fixed3D;
-            
-            _chatPanel.BaseStylesheet =
-                @"<style>
-                    h1 {
-                        font-family: 'Times New Roman', Times, serif;  /* Гарнитура текста */ 
-                        font-size: 100%;                               /* Размер шрифта в процентах */ 
-                    } 
-                    h2 {
-                        font-family: 'Times New Roman', Times, serif;  /* Гарнитура текста */ 
-                        font-size: 100%;                               /* Размер шрифта в процентах */ 
-                    } 
-                    p {
-                        font-family: Verdana, Arial, Helvetica, sans-serif; 
-                        font-size: 11pt;                               /* Размер шрифта в пунктах */ 
-                    }
-                    body {
-                        background-color: lightgrey;
-                        color: blue;
-                    }
-                </style>";
-            _chatPanel.Text =
-                @"
-                    <body style='background-color = #333'>
-                        <h1>Welcome to TileEngine!</h1>
-                        <h2>Enjoy your stay!</h2>
-                    </body>
-                ";
+
+            _htmlHeadData.Append(CreateChatStyles());
+            _htmlBodyData.Append($@"<h1><span class=""welcome"">Welcome to TileEngine!</span></h1>");
 
             UiControlPanel.Controls.Add(_chatPanel);
         }
@@ -88,6 +120,12 @@ namespace TileEngineSfmlCsClient
             UiControlPanel.Size = new Size(Size.Width / 2, Size.Height);
         }
 
+        private string GetHtmlDocument(string headHtml, string bodyHtml)
+        {
+            string result = $"<html><head>{headHtml}</head><body>{bodyHtml}</body></html>";
+            return result;
+        }
+
         public void PreRendering()
         {
             _sfmlRenderControl.PreRendering();
@@ -106,6 +144,26 @@ namespace TileEngineSfmlCsClient
         public void PostRendering()
         {
             _sfmlRenderControl.PostRendering();
+        }
+
+        public void Log(string message)
+        {
+            string htmlMessage =
+                $@"<p><span class=""log_message"">{message}</span></p>";
+
+            _htmlBodyData.Append(htmlMessage);
+            _chatPanel.Text = GetHtmlDocument(_htmlHeadData.ToString(), _htmlBodyData.ToString());
+        }
+
+        public void LogError(string message)
+        {
+            string htmlMessage =
+                $@"<p><span class=""log_error"">{message}</span></p>";
+
+            _htmlBodyData.Append(htmlMessage);
+            _chatPanel.Text = GetHtmlDocument(_htmlHeadData.ToString(), _htmlBodyData.ToString());
+
+            Debug.WriteLine(_chatPanel.Text);
         }
     }
 }

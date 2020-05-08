@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TileEngineSfmlCs.GameManagement.ClientSide.DialogForms
+namespace TileEngineSfmlCs.GameManagement.DialogForms
 {
     public class AssemblyDialogFormType : DialogFormType
     {

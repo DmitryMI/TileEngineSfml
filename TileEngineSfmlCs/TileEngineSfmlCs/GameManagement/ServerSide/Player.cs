@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TileEngineSfmlCs.GameManagement.ServerSide.DialogForms;
+using TileEngineSfmlCs.GameManagement.DialogForms;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
 
 namespace TileEngineSfmlCs.GameManagement.ServerSide

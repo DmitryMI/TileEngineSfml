@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using TileEngineSfmlCs.GameManagement.ClientSide.DialogForms;
 
 namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
 {
