@@ -138,6 +138,8 @@
     <Compile Include="TileEngine\ChemistryManagement\Substance.cs" />
     <Compile Include="TileEngine\ChemistryManagement\SubstanceId.cs" />
     <Compile Include="TileEngine\ChemistryManagement\SubstanceMixture.cs" />
+    <Compile Include="TileEngine\Interaction\InteractionMode.cs" />
+    <Compile Include="TileEngine\Interaction\InteractionDescriptor.cs" />
     <Compile Include="TileEngine\Scripting\PythonFieldDescriptor.cs" />
     <Compile Include="TileEngine\Scripting\ScriptingManager.cs" />
     <Compile Include="GameManagement\ControlInput.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="GameManagement\Camera.cs" />
     <Compile Include="GameManagement\ServerSide\NetworkManager.cs" />
     <Compile Include="GameManagement\ServerSide\Player.cs" />
+    <Compile Include="TileEngine\Interaction\InteractionResult.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Humanoids\Humanoid.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Humanoids\Humans\Human.cs" />
     <Compile Include="TileEngine\TileObjects\Mobs\Livings\Carbons\Mammals\Corgi.cs" />

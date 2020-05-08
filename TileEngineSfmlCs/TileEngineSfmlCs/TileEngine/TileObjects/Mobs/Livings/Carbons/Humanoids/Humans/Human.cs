@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using TileEngineSfmlCs.GameManagement.SoundManagement;
+using TileEngineSfmlCs.TileEngine.Interaction;
+using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Passable;
 using TileEngineSfmlCs.Types;
@@ -35,6 +37,21 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Humanoids
         protected override void ReadUserFields(XmlElement baseElement)
         {
             
+        }
+
+        public override InteractionResult ApplyItem(Item appliedItem, Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
+        }
+
+        public override InteractionResult DragDrop(TileObject draggedObject, Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
+        }
+
+        public override InteractionResult DragStart(Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
         }
 
         protected override Icon UpFacingIcon { get; }

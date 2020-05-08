@@ -1,5 +1,7 @@
 ﻿using System.Xml;
+using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects;
+using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
 using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
 using TileEngineSfmlCs.TypeManagement;
 using TileEngineSfmlCs.Types;
@@ -34,6 +36,21 @@ namespace TileEngineSfmlMapEditor.MapEditing
         protected override void ReadUserFields(XmlElement baseElement)
         {
             _power = SerializationUtils.ReadFloat(nameof(_power), baseElement, _power);
+        }
+
+        public override InteractionResult ApplyItem(Item appliedItem, Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
+        }
+
+        public override InteractionResult DragDrop(TileObject draggedObject, Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
+        }
+
+        public override InteractionResult DragStart(Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
         }
     }
 }

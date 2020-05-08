@@ -2,7 +2,9 @@
 using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Networking;
+using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
+using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
 using TileEngineSfmlCs.TypeManagement;
 using TileEngineSfmlCs.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
@@ -216,5 +218,39 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         {
 
         }
+
+        #region Interaction
+
+        /// <summary>
+        /// Handles item interaction from a mob
+        /// </summary>
+        /// <param name="appliedItem">Item, that is active during mob interaction attempt. If item is null, than mob is using hands</param>
+        /// <param name="interactionSource">Interacting mob</param>
+        /// <param name="descriptor">Interaction descriptor</param>
+        /// <returns>If interaction chain must be finished, return FinishChain. Else return ContinueChain</returns>
+        public abstract InteractionResult ApplyItem(Item appliedItem, Mob interactionSource,
+            InteractionDescriptor descriptor);
+
+        /// <summary>
+        /// Handles drag-drop when 'this' is drag-receiver
+        /// </summary>
+        /// <param name="draggedObject">Object, that is dragged</param>
+        /// <param name="interactionSource">Interacting mob</param>
+        /// <param name="descriptor">Interaction descriptor</param>
+        /// <returns>If interaction chain must be finished, return FinishChain. Else return ContinueChain</returns>
+        public abstract InteractionResult DragDrop(TileObject draggedObject, Mob interactionSource,
+            InteractionDescriptor descriptor);
+
+        /// <summary>
+        /// Handles drag-drop when 'this' is dragged target
+        /// </summary>
+        /// <param name="interactionSource">Interacting mob</param>
+        /// <param name="descriptor">Interaction descriptor</param>
+        /// <returns>If interaction chain must be finished, return FinishChain. Else return ContinueChain</returns>
+        public abstract InteractionResult DragStart(Mob interactionSource, InteractionDescriptor descriptor);
+
+
+
+        #endregion
     }
 }

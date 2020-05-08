@@ -7,7 +7,10 @@ using System.Xml;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects;
+using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
+using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
 using TileEngineSfmlCs.TypeManagement;
 using TileEngineSfmlCs.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
@@ -128,6 +131,21 @@ namespace TileEngineSfmlCs.TileEngine.Scripting.PythonObjects
                 object value  = SerializationUtils.ReadParseable(variableItem.Key, baseElement, variableItem.Value);
                 _scriptScope.SetVariable(variableItem.Key, value);
             }
+        }
+
+        public override InteractionResult ApplyItem(Item appliedItem, Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override InteractionResult DragDrop(TileObject draggedObject, Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override InteractionResult DragStart(Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            throw new NotImplementedException();
         }
 
         public override EntityType GetEntityType()

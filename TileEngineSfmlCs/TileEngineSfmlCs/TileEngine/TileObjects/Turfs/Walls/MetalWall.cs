@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using TileEngineSfmlCs.TileEngine.Interaction;
+using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
+using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Walls
@@ -30,6 +33,21 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Walls
         protected override void ReadUserFields(XmlElement baseElement)
         {
             
+        }
+
+        public override InteractionResult ApplyItem(Item appliedItem, Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
+        }
+
+        public override InteractionResult DragDrop(TileObject draggedObject, Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
+        }
+
+        public override InteractionResult DragStart(Mob interactionSource, InteractionDescriptor descriptor)
+        {
+            return InteractionResult.ContinueChain;
         }
     }
 }
