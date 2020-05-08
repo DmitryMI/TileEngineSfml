@@ -102,6 +102,19 @@ namespace TileEngineSfmlCs.Utils.Serialization
             SetNodeText(element, value);
             parent.AppendChild(element);
         }
+
+        public static void WriteEnum(Enum enumValue, string name, XmlElement parent)
+        {
+            XmlDocument document = parent.OwnerDocument;
+            if (document == null)
+                return;
+            XmlElement element = document.CreateElement(name);
+
+            string value = enumValue.ToString();
+
+            SetNodeText(element, value.ToString(CultureInfo.InvariantCulture));
+            parent.AppendChild(element);
+        }
         
 
         public static void WriteParseable(object value, string name, XmlElement parent)
@@ -170,6 +183,24 @@ namespace TileEngineSfmlCs.Utils.Serialization
                 return defaultValue;
             }
             return float.Parse(value, CultureInfo.InvariantCulture);
+        }
+
+        public static T ReadEnum<T>(string name, XmlElement parentElement, T defaultValue) where T : struct
+        {
+            string value = GetNodeText(name, parentElement);
+            if (value == null)
+            {
+                return defaultValue;
+            }
+            if(Enum.TryParse(value, out T result))
+            {
+                return result;
+            }
+            else
+            {
+                LogManager.RuntimeLogger.LogError($"Enum parsing failed. ParentElement: {parentElement.Name}, Name: {name}");
+                return defaultValue;
+            }
         }
 
         public static T ReadParseable<T>(string name, XmlElement parentElement, T defaultValue)

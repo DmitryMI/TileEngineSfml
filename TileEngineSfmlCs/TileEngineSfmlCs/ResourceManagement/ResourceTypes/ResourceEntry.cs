@@ -2,7 +2,7 @@
 using System.IO;
 using TileEngineSfmlCs.Utils.Serialization;
 
-namespace TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes
+namespace TileEngineSfmlCs.ResourceManagement.ResourceTypes
 {
     public class ResourceEntry : IDisposable
     {

@@ -8,8 +8,8 @@ using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
-using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
+using TileEngineSfmlCs.TypeManagement;
+using TileEngineSfmlCs.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
 

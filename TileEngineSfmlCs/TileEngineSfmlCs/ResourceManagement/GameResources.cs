@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes;
+using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
-using ResourceEntry = TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes.ResourceEntry;
+using ResourceEntry = TileEngineSfmlCs.ResourceManagement.ResourceTypes.ResourceEntry;
 
-namespace TileEngineSfmlCs.TileEngine.ResourceManagement
+namespace TileEngineSfmlCs.ResourceManagement
 {
     public class GameResources : IDisposable
     {

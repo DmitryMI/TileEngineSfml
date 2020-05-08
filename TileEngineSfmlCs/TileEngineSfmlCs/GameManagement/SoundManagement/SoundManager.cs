@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Networking;
-using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.TimeManagement;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.GameManagement.SoundManagement

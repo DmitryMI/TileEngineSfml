@@ -7,10 +7,10 @@ using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;
+using TileEngineSfmlCs.ResourceManagement;
 using TileEngineSfmlCs.TileEngine;
-using TileEngineSfmlCs.TileEngine.ResourceManagement;
-using TileEngineSfmlCs.TileEngine.TimeManagement;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.TimeManagement;
+using TileEngineSfmlCs.TypeManagement;
 using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.TypeManagement;
 using TileEngineSfmlMapEditor.MapEditing;
 
 namespace TileEngineSfmlMapEditor

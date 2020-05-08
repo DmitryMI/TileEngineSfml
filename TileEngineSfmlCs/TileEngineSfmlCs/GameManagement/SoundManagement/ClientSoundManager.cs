@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Audio;
-using TileEngineSfmlCs.TileEngine.ResourceManagement;
-using TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes;
-using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.ResourceManagement;
+using TileEngineSfmlCs.ResourceManagement.ResourceTypes;
+using TileEngineSfmlCs.TimeManagement;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.GameManagement.SoundManagement

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Microsoft.Scripting.Hosting;
 using TileEngineSfmlCs.TileEngine.Scripting.PythonObjects;
 using TileEngineSfmlCs.TileEngine.TileObjects;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
-using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
+using TileEngineSfmlCs.TypeManagement;
+using TileEngineSfmlCs.TypeManagement.EntityTypes;
 
 namespace TileEngineSfmlCs.TileEngine.Scripting
 {

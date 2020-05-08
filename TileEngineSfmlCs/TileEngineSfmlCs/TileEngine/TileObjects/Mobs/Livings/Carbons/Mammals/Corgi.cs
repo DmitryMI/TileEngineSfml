@@ -7,7 +7,7 @@ using System.Xml;
 using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Passable;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.TypeManagement;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils;
 using TileEngineSfmlCs.Utils.Serialization;

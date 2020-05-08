@@ -1,4 +1,4 @@
-﻿namespace TileEngineSfmlCs.TileEngine.TypeManagement
+﻿namespace TileEngineSfmlCs.TypeManagement
 {
     public enum IgnoranceReason
     {

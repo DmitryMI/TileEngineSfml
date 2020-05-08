@@ -4,8 +4,8 @@ using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using TileEngineSfmlCs.Types;
-using GameResources = TileEngineSfmlCs.TileEngine.ResourceManagement.GameResources;
-using ResourceEntry = TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes.ResourceEntry;
+using GameResources = TileEngineSfmlCs.ResourceManagement.GameResources;
+using ResourceEntry = TileEngineSfmlCs.ResourceManagement.ResourceTypes.ResourceEntry;
 
 namespace TileEngineSfmlCs.Utils.Graphics
 {

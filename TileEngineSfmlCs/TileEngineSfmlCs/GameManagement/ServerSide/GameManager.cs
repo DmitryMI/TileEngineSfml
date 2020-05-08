@@ -4,7 +4,7 @@ using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.Networking.UdpNetworkServer;
 using TileEngineSfmlCs.TileEngine;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals;
-using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.TimeManagement;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils;
 

@@ -4,7 +4,7 @@ using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking;
-using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.TimeManagement;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs

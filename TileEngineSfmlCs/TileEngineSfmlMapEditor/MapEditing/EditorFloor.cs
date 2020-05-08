@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.TypeManagement;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlMapEditor.MapEditing

@@ -1,7 +1,7 @@
 ﻿using System;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 
-namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
+namespace TileEngineSfmlCs.TypeManagement.EntityTypes
 {
     public abstract class EntityType
     {

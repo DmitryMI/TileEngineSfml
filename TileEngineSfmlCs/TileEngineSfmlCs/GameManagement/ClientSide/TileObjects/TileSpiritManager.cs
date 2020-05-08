@@ -7,7 +7,7 @@ using Microsoft.Scripting.Utils;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Logging;
-using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.TimeManagement;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils;
 using TileEngineSfmlCs.Utils.RandomGenerators;

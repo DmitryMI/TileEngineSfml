@@ -3,8 +3,8 @@ using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
-using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
+using TileEngineSfmlCs.TypeManagement;
+using TileEngineSfmlCs.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils.Serialization;
 

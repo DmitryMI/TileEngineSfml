@@ -12,7 +12,7 @@ using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking;
 using TileEngineSfmlCs.Networking.UdpNetworkClient;
-using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.TimeManagement;
 using TileEngineSfmlCs.Types;
 
 namespace TileEngineSfmlCs.GameManagement.ClientSide

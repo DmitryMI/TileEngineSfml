@@ -5,7 +5,7 @@ using System.Reflection;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.Utils;
 
-namespace TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes
+namespace TileEngineSfmlCs.TypeManagement.EntityTypes
 {
     public class AssemblyEntityType : EntityType
     {

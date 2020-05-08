@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Scripting.Hosting;
 using TileEngineSfmlCs.TileEngine.Scripting.PythonObjects;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
+using TileEngineSfmlCs.TypeManagement;
 using TileEngineSfmlCs.Utils;
 
 namespace TileEngineSfmlCs.TileEngine.Scripting

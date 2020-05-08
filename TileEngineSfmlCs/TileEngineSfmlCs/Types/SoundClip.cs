@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using TileEngineSfmlCs.GameManagement.BinaryEncoding;
 using TileEngineSfmlCs.Logging;
-using TileEngineSfmlCs.TileEngine.ResourceManagement;
+using TileEngineSfmlCs.ResourceManagement;
 using TileEngineSfmlCs.Utils.Serialization;
 
 namespace TileEngineSfmlCs.Types

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TileEngineSfmlCs.TileEngine.TimeManagement
+namespace TileEngineSfmlCs.TimeManagement
 {
     public interface ITimeProvider
     {

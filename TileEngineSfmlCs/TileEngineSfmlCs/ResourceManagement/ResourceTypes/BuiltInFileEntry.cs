@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TileEngineSfmlCs.Utils.Serialization;
 
-namespace TileEngineSfmlCs.TileEngine.ResourceManagement.ResourceTypes
+namespace TileEngineSfmlCs.ResourceManagement.ResourceTypes
 {
     public class BuiltInFileEntry : IFileSystemEntry
     {

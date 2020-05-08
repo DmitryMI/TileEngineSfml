@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows.Forms;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
-using TileEngineSfmlCs.TileEngine.TypeManagement;
-using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
+using TileEngineSfmlCs.TypeManagement;
+using TileEngineSfmlCs.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlMapEditor.MapEditing;
 

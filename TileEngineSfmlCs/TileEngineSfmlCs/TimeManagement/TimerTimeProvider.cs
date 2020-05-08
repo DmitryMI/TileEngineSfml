@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Timers;
 
-namespace TileEngineSfmlCs.TileEngine.TimeManagement
+namespace TileEngineSfmlCs.TimeManagement
 {
     public class TimerTimeProvider : ITimeProvider
     {

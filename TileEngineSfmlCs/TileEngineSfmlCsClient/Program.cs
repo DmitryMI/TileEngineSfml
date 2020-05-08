@@ -14,8 +14,8 @@ using TileEngineSfmlCs.GameManagement.DialogForms.Main;
 using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.Networking.UdpNetworkClient;
-using TileEngineSfmlCs.TileEngine.ResourceManagement;
-using TileEngineSfmlCs.TileEngine.TimeManagement;
+using TileEngineSfmlCs.ResourceManagement;
+using TileEngineSfmlCs.TimeManagement;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCsClient.DialogFormWrappers;
 

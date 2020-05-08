@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace TileEngineSfmlCs.TileEngine.TypeManagement
+namespace TileEngineSfmlCs.TypeManagement
 {
     public abstract class FieldDescriptor
     {
@@ -21,7 +21,7 @@ namespace TileEngineSfmlCs.TileEngine.TypeManagement
             bool isValueType = type.IsValueType;
             if (isValueType)
                 return false;
-            bool isTileObject = typeof(TileObjects.TileObject).IsAssignableFrom(type);
+            bool isTileObject = typeof(TileEngine.TileObjects.TileObject).IsAssignableFrom(type);
             return !isTileObject;
         }
 

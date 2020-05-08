@@ -6,7 +6,7 @@ using System.Xml;
 using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Logging;
 using TileEngineSfmlCs.TileEngine.TileObjects;
-using TileEngineSfmlCs.TileEngine.TypeManagement.EntityTypes;
+using TileEngineSfmlCs.TypeManagement.EntityTypes;
 using TileEngineSfmlCs.Types;
 using TileEngineSfmlCs.Utils;
 using TileEngineSfmlCs.Utils.Serialization;

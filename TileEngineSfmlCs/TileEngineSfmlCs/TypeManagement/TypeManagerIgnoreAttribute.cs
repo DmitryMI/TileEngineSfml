@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TileEngineSfmlCs.TileEngine.TypeManagement
+namespace TileEngineSfmlCs.TypeManagement
 {
     [System.AttributeUsage(System.AttributeTargets.Class)] 
     public class TypeManagerIgnoreAttribute : Attribute
