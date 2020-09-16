@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using TileEngineSfmlCs.GameManagement.SoundManagement;
+using TileEngineSfmlCs.TileEngine.Containers;
 using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs;
@@ -81,5 +82,8 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Humanoids
         }
 
         public override bool IsAlive { get; }
+
+        public override IObjectContainer Container { get; set; }
+        public override bool IsActiveOnScene => Container == null;
     }
 }

@@ -15,6 +15,7 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
         private Vector2 _offset;
 
         public int InstanceId { get; private set; }
+        public bool IsActiveOnScene { get; private set; }
 
         public Vector2Int Position
         {
@@ -38,6 +39,7 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
         public TileObjectUpdatePackage(TileObject tileObject)
         {
             InstanceId = tileObject.GetInstanceId();
+            IsActiveOnScene = tileObject.IsActiveOnScene;
             _position = tileObject.Position;
             _offset = tileObject.Offset;
             Layer = tileObject.Layer;
@@ -68,6 +70,9 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
             // InstanceId
             InstanceId = BitConverter.ToInt32(data, pos);
             pos += sizeof(int);
+
+            IsActiveOnScene = data[pos] != 0 ? true : false;
+            pos++;
 
             // _position
             _position = new Vector2Int();
@@ -114,6 +119,7 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
 
             int length =
                 sizeof(int) + // InstanceId
+                sizeof(byte) + // IsActiveOnScene
                 _position.ByteLength + // _position
                 _offset.ByteLength + // _offset
                 sizeof(byte) + // Layer
@@ -137,6 +143,9 @@ namespace TileEngineSfmlCs.GameManagement.BinaryEncoding
             byte[] instanceIdBytes = BitConverter.GetBytes(InstanceId);
             Array.Copy(instanceIdBytes, 0, _buffer, pos, instanceIdBytes.Length);
             pos += instanceIdBytes.Length;
+
+            _buffer[pos] = (byte)(IsActiveOnScene ? 1 : 0);
+            pos++;
 
             // _position
             _position.ToByteArray(_buffer, pos);

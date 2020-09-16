@@ -131,7 +131,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
                 spirit.Position = updatePackage.Position;
                 _spiritsHashTable[instanceId] = spirit;
                 RegisterPosition(spirit);
-                LogManager.RuntimeLogger.Log($"TileObject {updatePackage.VisibleName} spawned on coordinates {spirit.Position.X}, {spirit.Position.Y}");
+                //LogManager.RuntimeLogger.Log($"TileObject {updatePackage.VisibleName} spawned on coordinates {spirit.Position.X}, {spirit.Position.Y}");
             }
             else
             {
@@ -151,6 +151,7 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
             spirit.IsPassable = updatePackage.IsPassable;
             spirit.IsLightTransparent = updatePackage.IsLightTransparent;
             spirit.VisibleName = updatePackage.VisibleName;
+            spirit.IsActiveOnScene = updatePackage.IsActiveOnScene;
         }
 
         public void UpdatePosition(PositionUpdatePackage updatePackage)
@@ -255,8 +256,11 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
                         for (int order = 0; order < _sceneMatrix[x, y, layer].Count; order++)
                         {
                             var spirit = _sceneMatrix[x, y, layer][order];
-                            Vector2 position = spirit.Position + spirit.Offset;
-                            _renderer.Render(position, spirit.Icon, spirit);
+                            if (spirit.IsActiveOnScene)
+                            {
+                                Vector2 position = spirit.Position + spirit.Offset;
+                                _renderer.Render(position, spirit.Icon, spirit);
+                            }
                         }
                     }
                 }

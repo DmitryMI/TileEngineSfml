@@ -39,7 +39,7 @@ namespace TileEngineSfmlCs.GameManagement.DialogForms.Main
 
         public override void Kill()
         {
-            
+            OnKillEvent?.Invoke();
         }
 
         public void AppendHtml(string html)

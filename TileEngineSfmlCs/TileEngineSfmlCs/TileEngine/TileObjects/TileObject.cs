@@ -2,6 +2,7 @@
 using TileEngineSfmlCs.GameManagement;
 using TileEngineSfmlCs.GameManagement.ServerSide;
 using TileEngineSfmlCs.Networking;
+using TileEngineSfmlCs.TileEngine.Containers;
 using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
 using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
@@ -159,6 +160,16 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         /// </summary>
         public abstract bool IsGasTransparent { get;  }
 
+        /// <summary>
+        /// Container that holds this TileObject. If is null, then 'this' is free
+        /// </summary>
+        public abstract IObjectContainer Container { get; set; }
+
+        /// <summary>
+        /// Defines if object is visible, touchable and processable by physics
+        /// </summary>
+        public abstract bool IsActiveOnScene { get; }
+
         #region Serialization
         
         public void AppendFields(XmlElement parentElement)
@@ -185,6 +196,8 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         protected abstract void AppendUserFields(XmlElement baseElement);
         protected abstract void ReadUserFields(XmlElement baseElement);
         #endregion
+
+        #region Updating
 
         /// <summary>
         /// Invoked just after creation in editor
@@ -218,6 +231,7 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects
         {
 
         }
+        #endregion
 
         #region Interaction
 

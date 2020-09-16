@@ -53,10 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapEditing\CellRect.cs" />
-    <Compile Include="MapEditing\EditorItem.cs" />
-    <Compile Include="MapEditing\EditorWall.cs" />
     <Compile Include="MapEditing\IRenderReceiver.cs" />
-    <Compile Include="MapEditing\EditorFloor.cs" />
     <Compile Include="MapEditing\TileEngineEditor.cs" />
     <Compile Include="MapEditing\CannotInstantiateException.cs" />
     <Compile Include="MapViewForm.cs">

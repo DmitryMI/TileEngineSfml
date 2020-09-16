@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using TileEngineSfmlCs.GameManagement.SoundManagement;
 using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.TileEngine.Containers;
 using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
 using TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Passable;
@@ -34,6 +35,9 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Mobs.Livings.Carbons.Mammals
         public override string VisibleName => _dogName;
         public override string ExamineDescription { get; } = "It's a cute doggo! Pet it please :3";
         public override bool IsPassable => !_isLying;
+        public override IObjectContainer Container { get; set; }
+        public override bool IsActiveOnScene => Container == null;
+
         protected override void AppendUserFields(XmlElement baseElement)
         {
             SerializationUtils.Write(_dogName, nameof(_dogName), baseElement);

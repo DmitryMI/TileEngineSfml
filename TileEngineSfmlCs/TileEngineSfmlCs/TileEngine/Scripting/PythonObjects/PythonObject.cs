@@ -7,6 +7,7 @@ using System.Xml;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using TileEngineSfmlCs.Logging;
+using TileEngineSfmlCs.TileEngine.Containers;
 using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
@@ -108,6 +109,8 @@ namespace TileEngineSfmlCs.TileEngine.Scripting.PythonObjects
         public override bool IsPassable => _scriptScope.GetVariable<bool>("is_passable");
         public override bool IsLightTransparent => _scriptScope.GetVariable<bool>("is_light_transparent");
         public override bool IsGasTransparent => _scriptScope.GetVariable<bool>("is_gas_transparent");
+        public override IObjectContainer Container { get; set; }
+        public override bool IsActiveOnScene => Container == null;
 
         protected override void AppendUserFields(XmlElement baseElement)
         {

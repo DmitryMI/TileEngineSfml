@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using TileEngineSfmlCs.TileEngine.Containers;
 using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
 using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
@@ -49,5 +50,8 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Walls
         {
             return InteractionResult.ContinueChain;
         }
+
+        public override IObjectContainer Container { get; set; }
+        public override bool IsActiveOnScene => Container == null;
     }
 }

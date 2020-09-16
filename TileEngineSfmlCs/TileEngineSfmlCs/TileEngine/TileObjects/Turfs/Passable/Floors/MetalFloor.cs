@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using TileEngineSfmlCs.TileEngine.Containers;
 using TileEngineSfmlCs.TileEngine.Interaction;
 using TileEngineSfmlCs.TileEngine.TileObjects.Mobs;
 using TileEngineSfmlCs.TileEngine.TileObjects.Objs.Items;
@@ -52,5 +53,8 @@ namespace TileEngineSfmlCs.TileEngine.TileObjects.Turfs.Passable.Floors
             new SoundClip("Sounds\\Footsteps\\MetalFloor\\floor4.ogg"),
             new SoundClip("Sounds\\Footsteps\\MetalFloor\\floor5.ogg"),
         };
+
+        public override IObjectContainer Container { get; set; }
+        public override bool IsActiveOnScene => Container == null;
     }
 }

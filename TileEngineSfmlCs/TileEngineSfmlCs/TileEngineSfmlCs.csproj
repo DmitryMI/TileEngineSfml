@@ -138,6 +138,7 @@
     <Compile Include="TileEngine\ChemistryManagement\Substance.cs" />
     <Compile Include="TileEngine\ChemistryManagement\SubstanceId.cs" />
     <Compile Include="TileEngine\ChemistryManagement\SubstanceMixture.cs" />
+    <Compile Include="TileEngine\Containers\IObjectContainer.cs" />
     <Compile Include="TileEngine\Interaction\InteractionMode.cs" />
     <Compile Include="TileEngine\Interaction\InteractionDescriptor.cs" />
     <Compile Include="TileEngine\Scripting\PythonFieldDescriptor.cs" />
@@ -160,6 +161,9 @@
     <Compile Include="TileEngine\SceneManager.cs" />
     <Compile Include="TileEngine\Scripting\PythonObjects\PythonObject.cs" />
     <Compile Include="TileEngine\Scripting\PythonEntityType.cs" />
+    <Compile Include="TileEngine\TileObjects\Objs\Items\Tools\Tool.cs" />
+    <Compile Include="TileEngine\TileObjects\Objs\Items\Tools\ToolBehaviour.cs" />
+    <Compile Include="TileEngine\TileObjects\Objs\Items\Tools\Crowbar.cs" />
     <Compile Include="TileEngine\TileObjects\Turfs\Passable\Floors\Floor.cs" />
     <Compile Include="TileEngine\TileObjects\Turfs\Passable\Floors\MetalFloor.cs" />
     <Compile Include="TileEngine\TileObjects\Turfs\Passable\PassableTurf.cs" />

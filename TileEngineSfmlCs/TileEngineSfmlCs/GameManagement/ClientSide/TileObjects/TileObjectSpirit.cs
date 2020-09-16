@@ -17,6 +17,8 @@ namespace TileEngineSfmlCs.GameManagement.ClientSide.TileObjects
 
         public bool LocationDirty { get; set; }
 
+        public bool IsActiveOnScene { get; set; }
+
         public Vector2Int Position
         {
             get => _position;
